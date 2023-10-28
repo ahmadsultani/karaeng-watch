@@ -20,8 +20,9 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/parser": "^6.9.0",
     "autoprefixer": "^10",
-    "eslint": "^8",
+    "eslint": "^8.52.0",
     "eslint-config-next": "14.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
@@ -35,9 +36,7 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,css,scss}": [
-      "pnpm format",
-      "pnpm lint"
-    ]
+    "*.{js,ts,jsx,tsx,css,scss,md,svg}": "pnpm format",
+    "*.{js,ts,jsx,tsx}": "pnpm lint"
   }
 }
