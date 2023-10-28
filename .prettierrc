@@ -1,5 +1,4 @@
 {
   "endOfLine": "lf",
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
   "plugins": ["tailwindcss"]
 }
