@@ -1,4 +1,4 @@
 {
   "endOfLine": "lf",
-  "plugins": ["tailwindcss"]
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
