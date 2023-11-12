@@ -3,7 +3,8 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
     "sourceType": "module",
@@ -11,5 +12,9 @@
       "jsx": true
     }
   },
-  "plugins": ["tailwindcss"]
+  "plugins": ["tailwindcss"],
+  "rules": {
+    "no-console": "error",
+    "no-debugger": "error"
+  }
 }
