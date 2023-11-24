@@ -1,5 +1,3 @@
-"use client";
-
 import { OrderContainer } from "./styles";
 import Tabs from "./Tabs";
 

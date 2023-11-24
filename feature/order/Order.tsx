@@ -1,5 +1,3 @@
-"use client";
-
 import { OrderLayout } from "./OrderLayout";
 
 export const Order = () => {
