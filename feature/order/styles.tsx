@@ -1,4 +1,5 @@
 import { COLORS } from "@/constants/colors";
+import { theme } from "@/constants/theme";
 import { Box, Tab, styled } from "@mui/material";
 
 export const OrderWrapper = styled(Box)({
@@ -17,6 +18,7 @@ export const OrderWrapper = styled(Box)({
     gap: "8px",
   },
 });
+import { COLORS } from "@/constants/colors";
 
 export const OrderContainer = styled(Box)({
   display: "flex",
