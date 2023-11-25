@@ -1,9 +1,10 @@
-import { OrderLayout } from "./OrderLayout";
+import BasicTabs from "./Tabs/BasicTabs";
+import { OrderContainer } from "./styles";
 
 export const Order = () => {
   return (
-    <div>
-      <OrderLayout />
-    </div>
+    <OrderContainer>
+      <BasicTabs />
+    </OrderContainer>
   );
 };

@@ -1,6 +1,7 @@
 import { theme } from "@/constants/theme";
 import { Box, styled } from "@mui/material";
 import { COLORS } from "@/constants/colors";
+import Tab, { TabProps } from "@mui/material/Tab";
 
 export const OrderContainer = styled(Box)({
   display: "flex",
@@ -215,3 +216,20 @@ export const CartButtonOrder = styled(Box)({
     cursor: "pointer",
   },
 });
+
+interface CustomTabProps extends TabProps {
+  customProp?: string;
+}
+
+export const CustomTab = styled(Tab)<CustomTabProps>(
+  ({ theme, customProp }) => ({
+    fontSize: 20,
+    fontWeight: "bold",
+    textTransform: "none",
+    color: "black",
+    ...(customProp === "special" && {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+    }),
+  }),
+);
