@@ -3,27 +3,25 @@
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 
 import { AuthLayout } from "./AuthLayout";
 import { ImageContainer } from "@/components/ImageContainer";
-import {
-  AuthButtonGroup,
-  AuthForm,
-  AuthInputGroup,
-  DividerLine,
-} from "./styles";
+import { AuthForm, AuthInputGroup } from "./styles";
 
 import { TLoginForm } from "./types";
 import { useAuth } from "./useAuth";
 
-export const Login = () => {
-  const { control, handleSubmit } = useForm<TLoginForm>();
-
-  const { login, handleSigninWithGoogle } = useAuth();
+export const LoginAdmin = () => {
+  const { control, handleSubmit } = useForm<TLoginForm>({
+    defaultValues: {
+      role: "admin",
+    },
+  });
+  const { login } = useAuth();
 
   return (
-    <AuthLayout>
+    <AuthLayout formOnly>
       <AuthForm
         onSubmit={handleSubmit((values) => login.mutateAsync(values))}
         noValidate
@@ -34,10 +32,10 @@ export const Login = () => {
 
         <div>
           <Typography fontSize="22px" color="secondary" textAlign="center">
-            Sign In To Your Account
+            Login As Admin
           </Typography>
           <Typography fontSize="12px" color="grey" textAlign="center">
-            Welcome Back! Choose your login method
+            Welcome To Admin Panel
           </Typography>
         </div>
 
@@ -49,6 +47,7 @@ export const Login = () => {
               <TextField
                 label="Email"
                 placeholder="Enter your email"
+                defaultValue=""
                 type="email"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
@@ -87,73 +86,11 @@ export const Login = () => {
               required: "Please input your password",
             }}
           />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            gap="12px"
-          >
-            <Box display="flex" alignItems="center" gap="8px">
-              <input type="checkbox" />
-              <Typography fontSize="12px" color="grey">
-                Remember me
-              </Typography>
-            </Box>
-            <Link
-              underline="hover"
-              fontSize="12px"
-              color="info.main"
-              href="/forgot-password"
-            >
-              Forgot password?
-            </Link>
-          </Box>
         </AuthInputGroup>
 
-        <AuthButtonGroup>
-          <Button
-            variant="contained"
-            color="secondary"
-            type="submit"
-            disabled={login.isLoading}
-            fullWidth
-          >
-            Sign In
-          </Button>
-
-          <Box display="flex" alignItems="center" width="100%" gap="8px">
-            <DividerLine />
-            <Typography fontSize="12px" color="grey">
-              or enter with
-            </Typography>
-            <DividerLine />
-          </Box>
-
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={
-              <Image
-                src="/icons/google.svg"
-                alt="google"
-                width={14}
-                height={14}
-              />
-            }
-            type="button"
-            onClick={handleSigninWithGoogle}
-            fullWidth
-          >
-            Google
-          </Button>
-        </AuthButtonGroup>
-
-        <Typography fontSize="12px" color="secondary" textAlign="center">
-          Don&apos;t have an account?{" "}
-          <Link underline="hover" color="info.main" href="/signup">
-            Sign Up
-          </Link>
-        </Typography>
+        <Button variant="contained" color="secondary" type="submit" fullWidth>
+          Sign In
+        </Button>
       </AuthForm>
     </AuthLayout>
   );
