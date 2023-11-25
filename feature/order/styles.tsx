@@ -1,6 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { theme } from "@/constants/theme";
 import { Box, Tab, styled } from "@mui/material";
+import Tab, { TabProps } from "@mui/material/Tab";
 
 export const OrderWrapper = styled(Box)({
   display: "flex",
@@ -52,4 +53,21 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
     fontSize: "12px",
     width: "60px",
   },
-}));
+});
+
+interface CustomTabProps extends TabProps {
+  customProp?: string;
+}
+
+export const CustomTab = styled(Tab)<CustomTabProps>(
+  ({ theme, customProp }) => ({
+    fontSize: 20,
+    fontWeight: "bold",
+    textTransform: "none",
+    color: "black",
+    ...(customProp === "special" && {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+    }),
+  }),
+);
