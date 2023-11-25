@@ -11,6 +11,14 @@ export const Item = styled(Box)({
   padding: "24px",
   boxShadow: "0px 0px 1px 0px rgba(100, 100, 100, 0.5)",
   gap: "16px",
+  ["@media (max-width: 840px)"]: {
+    padding: "24px",
+    gap: "8px",
+  },
+  ["@media (max-width: 480px)"]: {
+    padding: "12px",
+    gap: "4px",
+  },
 });
 
 export const ItemHeader = styled(Box)({
@@ -29,6 +37,10 @@ export const ItemHeaderLogo = styled(Box)({
   width: "100%",
   "& p": {
     marginLeft: "16px",
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+      marginLeft: "8px",
+    },
   },
 });
 
@@ -37,13 +49,17 @@ export const ItemHeaderStatus = styled(Box)({
   flexDirection: "row",
   alignItems: "center",
   color: theme.palette.primary.main,
+  "& .status": {
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
+  },
 });
 
 export const Content = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-
   width: "100%",
 });
 
@@ -80,10 +96,16 @@ export const ContentProductDetails = styled(Box)({
   "& .productName": {
     color: theme.palette.secondary.main,
     fontWeight: 600,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
   },
   "& .productBrand": {
     color: theme.palette.secondary.main,
     fontWeight: 400,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
   },
 });
 
@@ -98,6 +120,12 @@ export const ContentProductMore = styled(Box)({
   "& .productMore": {
     color: COLORS.grey,
     fontWeight: 400,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
+    ["@media (max-width: 480px)"]: {
+      fontSize: "10px",
+    },
   },
 });
 
@@ -110,6 +138,9 @@ export const ContentProductPrice = styled(Box)({
   "& p": {
     color: theme.palette.secondary.main,
     fontWeight: 600,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
   },
 });
 
@@ -128,13 +159,19 @@ export const Total = styled(Box)({
   justifyContent: "flex-start",
   width: "100%",
   gap: "8px",
-  "& p": {
-    color: COLORS.grey,
+  "& .total": {
+    color: theme.palette.secondary.main,
     fontWeight: 400,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
   },
-  "& h3": {
+  "& .totalPrice": {
     color: theme.palette.secondary.main,
     fontWeight: 600,
+    ["@media (max-width: 840px)"]: {
+      fontSize: "12px",
+    },
   },
 });
 
@@ -153,7 +190,12 @@ export const ButtonDetail = styled(Button)({
   justifyContent: "center",
   width: "fit-content",
   padding: "8px 0",
+  color: "black",
   border: "2px solid transparent",
+  ["@media (max-width: 840px)"]: {
+    fontSize: "12px",
+    padding: "4px 0",
+  },
 });
 
 export const ButtonReview = styled(Button)({
@@ -163,6 +205,9 @@ export const ButtonReview = styled(Button)({
   width: "fit-content",
   padding: "8px 16px",
   color: "white",
+  ["@media (max-width: 840px)"]: {
+    display: "none",
+  },
 });
 
 export const ButtonOrder = styled(Button)({
@@ -173,4 +218,7 @@ export const ButtonOrder = styled(Button)({
   padding: "8px 16px",
   backgroundColor: "white",
   color: theme.palette.primary.main,
+  ["@media (max-width: 840px)"]: {
+    display: "none",
+  },
 });

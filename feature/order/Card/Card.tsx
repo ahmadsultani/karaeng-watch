@@ -57,10 +57,10 @@ export const Card: React.FC<CardProps> = ({
       <OrderCard.ItemHeader>
         <OrderCard.ItemHeaderLogo>
           <ShoppingBasketIcon />
-          <Typography>Belanja</Typography>
+          <Typography className="logo">Belanja</Typography>
         </OrderCard.ItemHeaderLogo>
         <OrderCard.ItemHeaderStatus>
-          <Typography>{status}</Typography>
+          <Typography className="status">{status}</Typography>
         </OrderCard.ItemHeaderStatus>
       </OrderCard.ItemHeader>
 
@@ -93,8 +93,8 @@ export const Card: React.FC<CardProps> = ({
 
       <OrderCard.Details>
         <OrderCard.Total>
-          <Typography>Total:</Typography>
-          <Typography>{formatPrice(total)}</Typography>
+          <Typography className="total">Total:</Typography>
+          <Typography className="totalPrice">{formatPrice(total)}</Typography>
         </OrderCard.Total>
 
         <OrderCard.ButtonGroup>
