@@ -51,21 +51,4 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
     fontSize: "12px",
     width: "60px",
   },
-});
-
-interface CustomTabProps extends TabProps {
-  customProp?: string;
-}
-
-export const CustomTab = styled(Tab)<CustomTabProps>(
-  ({ theme, customProp }) => ({
-    fontSize: 20,
-    fontWeight: "bold",
-    textTransform: "none",
-    color: "black",
-    ...(customProp === "special" && {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-    }),
-  }),
-);
+}));
