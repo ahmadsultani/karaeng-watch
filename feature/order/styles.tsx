@@ -110,7 +110,7 @@ export const CartContentProductDetails = styled(Box)({
   },
 });
 
-export const CartContentProductQty = styled(Box)({
+export const CartContentProductMore = styled(Box)({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -118,7 +118,7 @@ export const CartContentProductQty = styled(Box)({
   width: "100%",
   gap: "16px",
   marginTop: "16px",
-  "& .productQty": {
+  "& .productMore": {
     color: COLORS.grey,
     fontWeight: 400,
   },
@@ -171,6 +171,18 @@ export const CartButton = styled(Box)({
   "& p": {
     color: theme.palette.secondary.main,
     fontWeight: 600,
+  },
+});
+
+export const CartButtonDetails = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "fit-content",
+  padding: "8px 0",
+  border: "2px solid transparent",
+  "&:hover": {
+    cursor: "pointer",
   },
 });
 
