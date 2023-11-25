@@ -9,7 +9,6 @@ const merriweatherSans = Merriweather_Sans({
   display: "swap",
   weight: ["300", "400", "500", "600", "700", "800"],
   style: ["italic", "normal"],
-  fallback: ["Helvetica Neue", "sans-serif"],
   subsets: ["latin-ext", "latin"],
 });
 

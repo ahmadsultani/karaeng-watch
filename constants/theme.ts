@@ -48,5 +48,11 @@ export const theme = createTheme({
         },
       },
     },
+
+    MuiLink: {
+      defaultProps: {
+        underline: "hover",
+      },
+    },
   },
 });
