@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/colors";
 import { theme } from "@/constants/theme";
-import { styled, Box } from "@mui/material";
+import { styled, Box, Button } from "@mui/material";
 
 export const Item = styled(Box)({
   display: "flex",
@@ -138,57 +138,39 @@ export const Total = styled(Box)({
   },
 });
 
-export const Button = styled(Box)({
+export const ButtonGroup = styled(Box)({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "flex-end",
   gap: "16px",
   width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    fontWeight: 600,
-  },
 });
 
-export const ButtonDetails = styled(Box)({
+export const ButtonDetail = styled(Button)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   width: "fit-content",
   padding: "8px 0",
   border: "2px solid transparent",
-  "&:hover": {
-    cursor: "pointer",
-  },
 });
 
-export const ButtonReview = styled(Box)({
+export const ButtonReview = styled(Button)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   width: "fit-content",
   padding: "8px 16px",
-  backgroundColor: theme.palette.primary.main,
   color: "white",
-  borderRadius: "4px",
-  "&:hover": {
-    cursor: "pointer",
-  },
 });
 
-export const ButtonOrder = styled(Box)({
+export const ButtonOrder = styled(Button)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   width: "fit-content",
   padding: "8px 16px",
   backgroundColor: "white",
-  border: "2px solid",
-
   color: theme.palette.primary.main,
-  borderRadius: "4px",
-  "&:hover": {
-    cursor: "pointer",
-  },
 });

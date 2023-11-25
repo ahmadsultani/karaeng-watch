@@ -97,21 +97,27 @@ export const Card: React.FC<CardProps> = ({
           <Typography>{formatPrice(total)}</Typography>
         </OrderCard.Total>
 
-        <OrderCard.Button>
-          <OrderCard.ButtonDetails onClick={handleViewDetailsClick}>
+        <OrderCard.ButtonGroup>
+          <OrderCard.ButtonDetail
+            variant="text"
+            onClick={handleViewDetailsClick}
+          >
             View Details
-          </OrderCard.ButtonDetails>
+          </OrderCard.ButtonDetail>
           {review && (
             <OrderCard.ButtonReview onClick={handleReviewClick}>
               Review
             </OrderCard.ButtonReview>
           )}
           {order && (
-            <OrderCard.ButtonOrder onClick={handleOrderAgainClick}>
+            <OrderCard.ButtonOrder
+              variant="outlined"
+              onClick={handleOrderAgainClick}
+            >
               Order Again
             </OrderCard.ButtonOrder>
           )}
-        </OrderCard.Button>
+        </OrderCard.ButtonGroup>
       </OrderCard.Details>
     </OrderCard.Item>
   );

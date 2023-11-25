@@ -24,14 +24,14 @@ export const OrderContainer = styled(Box)({
 });
 
 export const StyledTab = styled(Tab)(({ theme }) => ({
-  fontSize: 20,
+  fontSize: "16px",
   fontWeight: "bold",
   textTransform: "none",
   color: theme.palette.secondary.main,
   borderBottom: `1px solid ${COLORS.lightGrey}`,
-  width: "160px",
+  width: "120px",
   ["@media (max-width: 768px)"]: {
-    fontSize: 16,
-    width: "120px",
+    fontSize: "12px",
+    width: "80px",
   },
 }));
