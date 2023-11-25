@@ -1,13 +1,20 @@
 "use client";
 
-import { Link } from "@mui/material";
-import { usePathname } from "next/navigation";
+import { IconButton, Link } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 import { navLinks } from "@/constants/navLinks";
 import { Wrappper, Menu } from "./styles";
 import { useEffect, useState } from "react";
+import {
+  FavoriteBorder,
+  PersonOutline,
+  Search,
+  ShoppingBasket,
+} from "@mui/icons-material";
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [notOnHero, setNotOnHero] = useState(true);
 
@@ -54,16 +61,18 @@ export const Navbar: React.FC = () => {
         KARAENG WATCH
       </Link>
       <Menu>
-        {navLinks.map(({ href, name }) => (
-          <Link
-            key={href}
-            fontSize="14px"
-            color={pathname === href ? "primary.main" : "white"}
-            href={href}
-          >
-            {name}
-          </Link>
-        ))}
+        <IconButton onClick={() => {}}>
+          <Search htmlColor="white" />
+        </IconButton>
+        <IconButton onClick={() => router.push("/cart")}>
+          <ShoppingBasket htmlColor="white" />
+        </IconButton>
+        <IconButton onClick={() => router.push("/favorite")}>
+          <FavoriteBorder htmlColor="white" />
+        </IconButton>
+        <IconButton onClick={() => router.push("/setting")}>
+          <PersonOutline htmlColor="white" />
+        </IconButton>
       </Menu>
     </Wrappper>
   );

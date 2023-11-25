@@ -12,7 +12,6 @@ export const Header = styled(Box)({
 
 export const Main = styled(Box)({
   display: "flex",
-  alignItems: "center",
   justifyContent: "space-between",
   gap: "64px",
   padding: "32px 64px",

@@ -14,6 +14,7 @@ export const Wrappper = styled(Box)<{ notOnHero: boolean }>(
       ? theme.palette.secondary.main
       : "linear-gradient(180deg, rgba(0, 0, 0, 0.35) 54.69%, rgba(0, 0, 0, 0.00) 100%)",
     backdropFilter: "blur(2px)",
+    zIndex: 10,
   }),
 );
 

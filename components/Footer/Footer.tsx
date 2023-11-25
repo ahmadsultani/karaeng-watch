@@ -11,6 +11,7 @@ import {
   StyledTextField,
 } from "./styles";
 import { Button, Link, Typography } from "@mui/material";
+import { Facebook, Instagram, LinkedIn } from "@mui/icons-material";
 
 export const Footer = () => {
   return (
@@ -21,6 +22,7 @@ export const Footer = () => {
             variant="outlined"
             color="primary"
             placeholder="Email Address"
+            autoComplete="off"
           />
           <Button variant="text">
             <Typography component="span" fontSize="14px" color="white">
@@ -28,7 +30,11 @@ export const Footer = () => {
             </Typography>
           </Button>
         </HeaderContainer>
-        <HeaderContainer></HeaderContainer>
+        <HeaderContainer>
+          <Instagram fontSize="large" />
+          <Facebook fontSize="large" />
+          <LinkedIn fontSize="large" />
+        </HeaderContainer>
       </Header>
       <Main>
         <MainSection>
