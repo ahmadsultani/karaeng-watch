@@ -1,29 +1,56 @@
 import React from "react";
-import { Cart } from "./Cart";
+import { Cart } from "./Cart/Cart";
 import { CartContainer } from "./styles";
 
 export const Delivered = () => {
-  const productCartList = [
+  const CartList = [
     {
-      name: "PSR Digital Quartz",
-      brand: "Hamilton",
-      qty: 1,
-      price: 43460000,
+      id: 1,
       status: "Delivered",
+      review: false,
+      order: false,
+      product: [
+        {
+          name: "Cart 1 First Item",
+          brand: "Hamilton",
+          price: 43460000,
+        },
+        {
+          name: "Second Item",
+          brand: "Hamilton",
+          price: 43460000,
+        },
+        {
+          name: "Third Item",
+          brand: "Hamilton",
+          price: 43460000,
+        },
+      ],
     },
     {
-      name: "PSR Digital Quartz",
-      brand: "Hamilton",
-      qty: 2,
-      price: 15210000,
+      id: 2,
       status: "Delivered",
+      review: false,
+      order: false,
+      product: [
+        {
+          name: "Cart 2 First Item",
+          brand: "Hamilton",
+          price: 43460000,
+        },
+        {
+          name: "Second Item",
+          brand: "Hamilton",
+          price: 43460000,
+        },
+      ],
     },
   ];
 
   return (
     <CartContainer>
-      {productCartList.map((product, index) => (
-        <Cart key={index} product={product} />
+      {CartList.map((cart, index) => (
+        <Cart key={index} cart={cart} />
       ))}
     </CartContainer>
   );
