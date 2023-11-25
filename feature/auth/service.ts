@@ -87,18 +87,3 @@ export const signinWithGoogle = async () => {
 
   return docSnap.data() as IUser;
 };
-
-export const getCurrentUser = async () => {
-  const user = auth.currentUser;
-
-  if (!user) throw new Error("User not found!");
-
-  const docRef = doc(db, "user", user.uid);
-  const docSnap = await getDoc(docRef);
-
-  if (!docSnap.exists()) {
-    throw new Error(USER_NOT_FOUND);
-  }
-
-  return docSnap.data() as IUser;
-};
