@@ -1,5 +1,3 @@
-// BasicTabs.tsx
-
 import React from "react";
 import Box from "@mui/material/Box";
 import TabsNavigation from "./TabsNavigation";
