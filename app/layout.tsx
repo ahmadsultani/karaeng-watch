@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Merriweather_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const merriweatherSans = Merriweather_Sans({
   display: "swap",
@@ -24,7 +26,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={merriweatherSans.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster
+            toastOptions={{
+              duration: 2000,
+            }}
+          />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Providers>
       </body>
     </html>
   );
