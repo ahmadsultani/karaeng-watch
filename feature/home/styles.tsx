@@ -76,7 +76,7 @@ export const HeroContentText = styled(Box)({
 export const HeroImage = styled(Box)({
   position: "relative",
   width: "754px",
-  height: "100%",
+  height: "min(100%, 660px)",
   aspectRatio: "auto",
   objectFit: "cover",
 });

@@ -22,7 +22,7 @@ export const Wrappper = styled(Box)<{ notonhero: boolean }>(
       gridTemplateColumns: "1fr 1fr",
     },
     ["@media (max-width: 768px)"]: {
-      paddingInline: "24px",
+      paddingInline: "16px",
     },
   }),
 );
