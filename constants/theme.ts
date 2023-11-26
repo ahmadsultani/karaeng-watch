@@ -45,10 +45,11 @@ export const theme = createTheme({
           borderRadius: 0,
           padding: "12px",
           textTransform: "none",
+          boxShadow: "none",
         },
       },
     },
-
+    
     MuiLink: {
       defaultProps: {
         underline: "hover",
