@@ -45,7 +45,17 @@ export const theme = createTheme({
           borderRadius: 0,
           padding: "12px",
           textTransform: "none",
+          boxShadow: "none",
         },
+        text: {
+          paddingInline: 0,
+        },
+      },
+    },
+
+    MuiLink: {
+      defaultProps: {
+        underline: "hover",
       },
     },
   },

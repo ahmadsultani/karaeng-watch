@@ -3,7 +3,14 @@
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputBase,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import { AuthLayout } from "./AuthLayout";
 import { ImageContainer } from "@/components/ImageContainer";
@@ -15,13 +22,19 @@ import {
 } from "./styles";
 
 import { TLoginForm } from "./types";
+import { useAuth } from "./useAuth";
 
 export const Login = () => {
-  const { control } = useForm<TLoginForm>();
+  const { control, handleSubmit } = useForm<TLoginForm>();
+
+  const { login, handleSigninWithGoogle } = useAuth();
 
   return (
     <AuthLayout>
-      <AuthForm noValidate>
+      <AuthForm
+        onSubmit={handleSubmit((values) => login.mutateAsync(values))}
+        noValidate
+      >
         <ImageContainer size="80px">
           <Image src="/logos/logo-primary.svg" alt="logo" fill />
         </ImageContainer>
@@ -43,12 +56,11 @@ export const Login = () => {
               <TextField
                 label="Email"
                 placeholder="Enter your email"
-                defaultValue=""
                 type="email"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
                 onChange={onChange}
-                value={value}
+                value={value || ""}
                 fullWidth
                 required
               />
@@ -73,7 +85,7 @@ export const Login = () => {
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
                 onChange={onChange}
-                value={value}
+                value={value || ""}
                 required
                 fullWidth
               />
@@ -89,7 +101,7 @@ export const Login = () => {
             gap="12px"
           >
             <Box display="flex" alignItems="center" gap="8px">
-              <input type="checkbox" />
+              <InputBase type="checkbox" />
               <Typography fontSize="12px" color="grey">
                 Remember me
               </Typography>
@@ -106,7 +118,13 @@ export const Login = () => {
         </AuthInputGroup>
 
         <AuthButtonGroup>
-          <Button variant="contained" color="secondary" type="submit" fullWidth>
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+            disabled={login.isLoading}
+            fullWidth
+          >
             Sign In
           </Button>
 
@@ -129,6 +147,8 @@ export const Login = () => {
                 height={14}
               />
             }
+            type="button"
+            onClick={handleSigninWithGoogle}
             fullWidth
           >
             Google
