@@ -65,9 +65,11 @@ export const Navbar: React.FC = () => {
   return (
     <Wrappper notonhero={notOnHero}>
       {isMobile ? (
-        <IconButton onClick={() => setIsOpenDrawer(true)}>
-          <MenuIcon htmlColor="white" />
-        </IconButton>
+        <div>
+          <IconButton onClick={() => setIsOpenDrawer(true)}>
+            <MenuIcon htmlColor="white" />
+          </IconButton>
+        </div>
       ) : (
         <Menu>
           {navLinks.map(({ href, name }) => (
@@ -94,7 +96,7 @@ export const Navbar: React.FC = () => {
           </Typography>
         </Link>
       )}
-      <Box display="flex">
+      <Box display="flex" justifyContent="flex-end">
         <IconButton onClick={() => router.push("/order")}>
           <ArticleOutlined
             htmlColor={`

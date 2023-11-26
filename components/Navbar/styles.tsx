@@ -6,9 +6,10 @@ export const Wrappper = styled(Box)<{ notonhero: boolean }>(
     top: 0,
     right: 0,
     left: 0,
-    display: "flex",
+    width: "100vw",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
     padding: "12px 64px",
-    justifyContent: "space-between",
     alignItems: "center",
     background: notonhero
       ? theme.palette.secondary.main
@@ -18,6 +19,7 @@ export const Wrappper = styled(Box)<{ notonhero: boolean }>(
     transition: "all 0.5s ease",
     ["@media (max-width: 1024px)"]: {
       paddingInline: "32px",
+      gridTemplateColumns: "1fr 1fr",
     },
     ["@media (max-width: 768px)"]: {
       paddingInline: "24px",
@@ -28,6 +30,7 @@ export const Wrappper = styled(Box)<{ notonhero: boolean }>(
 export const Menu = styled(Box)({
   display: "flex",
   alignItems: "center",
+  justifyContent: "flex-start",
   gap: "16px",
 });
 
