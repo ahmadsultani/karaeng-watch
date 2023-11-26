@@ -21,8 +21,8 @@ export const ProductCard: React.FC<IProduct> = ({
   const small = useMediaQuery("(max-width:768px)");
 
   const handleFavoriteClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
     e.preventDefault();
+    e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
 

@@ -83,13 +83,12 @@ export const Navbar: React.FC = () => {
         </Menu>
       )}
       {!isTablet && (
-        <Link href="/" shallow>
+        <Link href="/" shallow style={{ flex: 1 }}>
           <Typography
             fontWeight="bold"
             fontSize="28px"
             color="white"
             textAlign="center"
-            sx={{ flex: 1 }}
           >
             KARAENG WATCH
           </Typography>

@@ -1,5 +1,5 @@
-import { Product } from "@/feature/product";
+import { Favorite } from "@/feature/favorite";
 
 export default function FavoritePage() {
-  return <Product />;
+  return <Favorite />;
 }

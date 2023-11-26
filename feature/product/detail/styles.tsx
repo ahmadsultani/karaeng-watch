@@ -5,12 +5,13 @@ export const ProductOverviewsWrapper = styled(Box)({
   padding: "64px",
   display: "flex",
   gap: "64px",
-  width: "100%",
+  width: "100vw",
   height: "100%",
   flexDirection: "row",
   ["@media (max-width: 1024px)"]: {
     flexDirection: "column-reverse",
     alignItems: "center",
+    padding: "16px",
   },
   ["@media (max-width: 768px)"]: {
     flexDirection: "column-reverse",
@@ -33,6 +34,21 @@ export const ProductOverviews = styled(Box)({
   flexDirection: "column",
   gap: "64px",
   width: "100%",
+  ["@media (max-width: 1024px)"]: {
+    padding: "0",
+  },
+  ["@media (max-width: 768px)"]: {},
+});
+
+export const GalleryContainer = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "24px",
+  width: "max-content",
+  ["@media (max-width: 1024px)"]: {
+    width: "100%",
+  },
+  ["@media (max-width: 768px)"]: {},
 });
 
 export const Gallery = styled(Box)({
@@ -55,11 +71,18 @@ export const Gallery = styled(Box)({
   },
 });
 
-export const GalleryContainer = styled(Box)({
+export const MiniGalleryContainer = styled(Box)({
+  width: "520px",
   display: "flex",
-  flexDirection: "column",
-  width: "min-content",
   gap: "24px",
+  alignSelf: "center",
+  ["@media (max-width: 1024px)"]: {
+    justifyContent: "center",
+    width: "100%",
+  },
+  ["@media (max-width: 768px)"]: {
+    display: "none",
+  },
 });
 
 export const MiniGallery = styled(Box)({
@@ -77,13 +100,6 @@ export const MiniGallery = styled(Box)({
   "&:hover": {
     boxShadow: "0px 0px 3px 0px rgba(100, 100, 100, 0.5)",
   },
-});
-
-export const MiniGalleryContainer = styled(Box)({
-  width: "520px",
-  display: "flex",
-  gap: "24px",
-  alignSelf: "center",
 });
 
 export const ImgCont = styled(Box)({
@@ -113,8 +129,12 @@ export const RatingContainer = styled(Box)({
 
 export const ProductButtonGroup = styled(Box)({
   display: "flex",
-  width: "100%",
   gap: "36px",
+  ["@media (max-width: 1024px)"]: {},
+  ["@media (max-width: 768px)"]: {
+    flexDirection: "column",
+    gap: "8px",
+  },
 });
 
 export const ProductButtons = styled(Button)({
@@ -124,6 +144,12 @@ export const ProductButtons = styled(Button)({
   fontWeight: "300",
   display: "flex",
   gap: "12px",
+  ["@media (max-width: 1024px)"]: {
+    maxWidth: "none",
+  },
+  ["@media (max-width: 768px)"]: {
+    padding: "8px",
+  },
 });
 
 //ProductSpecs
@@ -132,6 +158,12 @@ export const ProductSpecsWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
   backgroundColor: "black",
+  ["@media (max-width: 1024px)"]: {
+    padding: "16px 32px",
+  },
+  ["@media (max-width: 768px)"]: {
+    padding: "8px 16px",
+  },
 });
 
 export const DividerLine = styled(Box)({
@@ -143,6 +175,13 @@ export const SpecsGrid = styled(Box)({
   display: "grid",
   gridTemplateColumns: "repeat(3,1fr)",
   color: "white",
+  rowGap: "32px",
+  ["@media (max-width: 1024px)"]: {
+    gridTemplateColumns: "repeat(2,1fr)",
+  },
+  ["@media (max-width: 768px)"]: {
+    gridTemplateColumns: "repeat(1,1fr)",
+  },
 });
 
 export const SpecsSection = styled(Box)({
@@ -158,11 +197,19 @@ export const SpecsDetail = styled(Box)({
   fontWeight: "300",
 });
 
+// reviews
+
 export const ReviewsWrapper = styled(Box)({
   padding: "32px 64px",
   gap: "24px",
   display: "flex",
   flexDirection: "column",
+  ["@media (max-width: 1024px)"]: {
+    padding: "16px 32px",
+  },
+  ["@media (max-width: 768px)"]: {
+    padding: "8px 16px",
+  },
 });
 
 export const UsersReviewsWrapper = styled(Box)({
@@ -171,6 +218,13 @@ export const UsersReviewsWrapper = styled(Box)({
   flexDirection: "column",
   alignItems: "flex-start",
   gap: "24px",
+  ["@media (max-width: 1024px)"]: {
+    padding: "6px",
+    gap: "12px",
+  },
+  ["@media (max-width: 768px)"]: {
+    gap: "6px",
+  },
 });
 
 export const UserReviewInputLabel = styled(Box)({
@@ -178,17 +232,31 @@ export const UserReviewInputLabel = styled(Box)({
   flexDirection: "column",
   gap: "24px",
   width: "100%",
+  ["@media (max-width: 1024px)"]: {
+    gap: "12px",
+  },
 });
 
 export const OtherReviewGroup = styled(Box)({
   display: "flex",
   gap: "24px",
+  ["@media (max-width: 1024px)"]: {
+    gap: "12px",
+  },
 });
 
 //reviewCard
 export const ReviewCardWrapper = styled(Box)({
   padding: "12px",
   gap: "24px",
+  width: "100%",
   display: "flex",
   flexDirection: "column",
+  ["@media (max-width: 1024px)"]: {
+    gap: "12px",
+    padding: "8px",
+  },
+  ["@media (max-width: 768px)"]: {
+    gap: "4px",
+  },
 });

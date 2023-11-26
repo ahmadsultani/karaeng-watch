@@ -16,12 +16,14 @@ import {
   FormControlLabel,
   FormGroup,
   IconButton,
+  InputAdornment,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
 
 interface ProductProps {}
@@ -39,6 +41,24 @@ export const Product: React.FC<ProductProps> = () => {
     FilterText = 18;
   }
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [openSearch, setOpenSearch] = useState(false);
+
+  const handleFocus = () => {
+    setOpenSearch(true);
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
+  };
+
+  useEffect(() => {
+    if (!medium) {
+      setOpenSearch(false);
+    }
+  }, [medium]);
+
   return (
     <>
       <ProductPageWrapper>
@@ -54,12 +74,51 @@ export const Product: React.FC<ProductProps> = () => {
             Get Your Own KaraengWatch Now!
           </Typography>
         </TitleBox>
-        <Box>
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <IconButton onClick={() => setOpen(true)}>
             <TuneIcon />
           </IconButton>
+          {medium ? (
+            <IconButton onClick={handleFocus}>
+              <SearchIcon />
+            </IconButton>
+          ) : (
+            <TextField
+              placeholder="Search"
+              type="search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+            />
+          )}
         </Box>
         <ProductWrapper>
+          <ProductCard
+            name="Centrix Automatic Diamonds"
+            price={43460000}
+            gender="Male"
+            typesId="Automatic"
+            braceletMaterial=""
+            caseMaterial=""
+            caseThickness={12}
+            movementReference=""
+            width={39.5}
+            height={39.5}
+            stock={234}
+            thumbnail=""
+            category={{ id: "123", name: "this is ctegory" }}
+            imgGallery={["asdad"]}
+            brand={{ id: "123", name: "this is brand" }}
+          />{" "}
           <ProductCard
             name="Centrix Automatic Diamonds"
             price={43460000}
@@ -204,6 +263,26 @@ export const Product: React.FC<ProductProps> = () => {
             </Box>
           </Box>
         </DrawerContent>
+      </Drawer>
+      {/* Search Drawer */}
+      <Drawer
+        open={openSearch && medium}
+        anchor="top"
+        onClose={() => setOpenSearch(false)}
+      >
+        <TextField
+          placeholder="Search"
+          type="search"
+          inputRef={inputRef}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+        />
       </Drawer>
     </>
   );
