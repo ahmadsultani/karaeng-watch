@@ -3,22 +3,28 @@
 import Image from "next/image";
 
 import { HeroContent, HeroContentText, HeroImage, HeroWrapper } from "./styles";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useMediaQuery } from "@mui/material";
 
 import { ArrowForward } from "@mui/icons-material";
 
 export const Hero: React.FC = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <HeroWrapper id="hero">
       <HeroContent>
         <HeroContentText>
-          <Typography fontSize="64px" color="white">
+          <Typography variant="h1" color="white">
             Your Time, Your Style,{" "}
-            <Typography component="span" fontSize="64px" color="primary.main">
+            <Typography
+              component="span"
+              fontSize="inherit"
+              color="primary.main"
+            >
               Our Watches
             </Typography>
           </Typography>
-          <Typography fontSize="20" color="white">
+          <Typography color="white">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
             voluptatibus, voluptas, voluptatem, quae quos quia quibusdam
             voluptatum eum quas fugit consequatur? Quisquam voluptatibus,
@@ -27,13 +33,21 @@ export const Hero: React.FC = () => {
           </Typography>
         </HeroContentText>
 
-        <Button variant="text" endIcon={<ArrowForward />}>
-          <Typography fontSize="18px">See Products</Typography>
+        <Button
+          href="/product"
+          variant="text"
+          endIcon={<ArrowForward fontSize="large" />}
+          sx={{ fontSize: "1.2em" }}
+        >
+          See Products
         </Button>
       </HeroContent>
-      <HeroImage>
-        <Image src="/images/hero.png" alt="hero" fill priority />
-      </HeroImage>
+
+      {!isMobile && (
+        <HeroImage>
+          <Image src="/images/hero.png" alt="hero" fill priority />
+        </HeroImage>
+      )}
     </HeroWrapper>
   );
 };

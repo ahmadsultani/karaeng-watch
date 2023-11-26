@@ -3,7 +3,14 @@
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputBase,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import { AuthLayout } from "./AuthLayout";
 import { ImageContainer } from "@/components/ImageContainer";
@@ -94,7 +101,7 @@ export const Login = () => {
             gap="12px"
           >
             <Box display="flex" alignItems="center" gap="8px">
-              <input type="checkbox" />
+              <InputBase type="checkbox" />
               <Typography fontSize="12px" color="grey">
                 Remember me
               </Typography>

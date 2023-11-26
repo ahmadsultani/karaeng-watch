@@ -8,6 +8,11 @@ export const Header = styled(Box)({
   padding: "16px 64px",
   backgroundColor: "black",
   color: "white",
+  ["@media (max-width: 768px)"]: {
+    flexDirection: "column",
+    gap: "16px",
+    paddingInline: "32px",
+  },
 });
 
 export const Main = styled(Box)({
@@ -18,6 +23,9 @@ export const Main = styled(Box)({
   paddingBottom: "64px",
   flexWrap: "wrap",
   backgroundColor: "black",
+  ["@media (max-width: 768px)"]: {
+    paddingInline: "32px",
+  },
 });
 
 export const MainSection = styled(Box)({
