@@ -1,5 +1,5 @@
 import { Product } from "@/feature/product";
 
-export default function ProductPage() {
+export default function FavoritePage() {
   return <Product />;
 }
