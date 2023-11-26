@@ -1,10 +1,6 @@
-"use client";
-
-import { ProductDetail } from "@/feature/productdetail/ProductDetail";
+import { ProductDetail } from "@/feature/product";
 import React from "react";
 
-const page = () => {
+export default function ProductDetailPage() {
   return <ProductDetail />;
-};
-
-export default page;
+}

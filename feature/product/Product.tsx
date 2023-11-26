@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductBox } from "@/components/ProductBox/ProductBox";
+import { ProductWrapper } from "@/components/ProductWrapper/ProductWrapper";
 import {
   DrawerContent,
   FilterCheckboxes,
@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useState } from "react";
+import { ProductCard } from "@/components/ProductCard/ProductCard";
 
 interface ProductProps {}
 
@@ -58,7 +59,25 @@ export const Product: React.FC<ProductProps> = () => {
             <TuneIcon />
           </IconButton>
         </Box>
-        <ProductBox />
+        <ProductWrapper>
+          <ProductCard
+            name="Centrix Automatic Diamonds"
+            price={43460000}
+            gender="Male"
+            typesId="Automatic"
+            braceletMaterial=""
+            caseMaterial=""
+            caseThickness={12}
+            movementReference=""
+            width={39.5}
+            height={39.5}
+            stock={234}
+            thumbnail=""
+            category={{ id: "123", name: "this is ctegory" }}
+            imgGallery={["asdad"]}
+            brand={{ id: "123", name: "this is brand" }}
+          />
+        </ProductWrapper>
       </ProductPageWrapper>
 
       <Drawer
@@ -93,7 +112,7 @@ export const Product: React.FC<ProductProps> = () => {
                 />
               </FormGroup>
             </FilterCheckboxes>
-          </FilterSection>{" "}
+          </FilterSection>
           <FilterSection>
             <FilterLabel>Based By Type</FilterLabel>
             <FilterCheckboxes>

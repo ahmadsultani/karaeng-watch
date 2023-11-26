@@ -1,27 +1,8 @@
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  ArrowButton,
-  DividerLine,
-  Gallery,
-  GalleryContainer,
-  ImgCont,
-  MiniGallery,
-  MiniGalleryContainer,
-  ProductButtonGroup,
-  ProductButtons,
-  ProductName,
-  ProductOverviews,
-  ProductOverviewsWrapper,
-  ProductSpecsWrapper,
-  RatingContainer,
-  ReviewsWrapper,
-  SpecsDetail,
-  SpecsGrid,
-  SpecsSection,
-  UserReviewInputLabel,
-  UsersReviewsWrapper,
-} from "./styles";
+import * as Styles from "./styles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { ShoppingCartOutlined } from "@mui/icons-material";
 import { Box, Rating, Typography, TextField, Button } from "@mui/material";
@@ -54,10 +35,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
 
   return (
     <>
-      <ProductOverviewsWrapper>
-        <GalleryContainer>
-          <Gallery>
-            <ArrowButton
+      <Styles.ProductOverviewsWrapper>
+        <Styles.GalleryContainer>
+          <Styles.Gallery>
+            <Styles.ArrowButton
               disabled={carrousel === 0}
               title="Previous"
               onClick={handlePrevButton}
@@ -65,11 +46,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
               <ArrowForwardIosIcon
                 style={{ transform: "rotate(180deg)" }}
               ></ArrowForwardIosIcon>
-            </ArrowButton>
+            </Styles.ArrowButton>
             {carrouselList.map(
               (map, index) =>
                 index === carrousel && (
-                  <ImgCont key={index} title={map.title}>
+                  <Styles.ImgCont key={index} title={map.title}>
                     <Image
                       draggable={false}
                       src={map.source}
@@ -78,27 +59,27 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                       priority
                       objectFit="contain"
                     />
-                  </ImgCont>
+                  </Styles.ImgCont>
                 ),
             )}
-            <ArrowButton
+            <Styles.ArrowButton
               disabled={carrousel === carrouselList.length - 1}
               title="Next"
               onClick={handleNextButton}
             >
               <ArrowForwardIosIcon></ArrowForwardIosIcon>
-            </ArrowButton>
-          </Gallery>
-          <MiniGalleryContainer>
+            </Styles.ArrowButton>
+          </Styles.Gallery>
+          <Styles.MiniGalleryContainer>
             {carrouselList.map(
               (map, index) =>
                 index !== carrousel && (
-                  <MiniGallery
+                  <Styles.MiniGallery
                     onClick={() => setCarrousel(index)}
                     key={index}
                     title={map.title}
                   >
-                    <ImgCont>
+                    <Styles.ImgCont>
                       <Image
                         src={map.source}
                         alt="product-images"
@@ -106,61 +87,61 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                         priority
                         objectFit="contain"
                       />
-                    </ImgCont>
-                  </MiniGallery>
+                    </Styles.ImgCont>
+                  </Styles.MiniGallery>
                 ),
             )}
-          </MiniGalleryContainer>
-        </GalleryContainer>
-        <ProductOverviews>
+          </Styles.MiniGalleryContainer>
+        </Styles.GalleryContainer>
+        <Styles.ProductOverviews>
           <Box display="flex" flexDirection={"column"} gap="16px">
-            <ProductName fontSize={"44px"} color={"black"}>
+            <Styles.ProductName fontSize={"44px"} color={"black"}>
               Centrix Automatic Diamonds
-            </ProductName>
+            </Styles.ProductName>
             <Typography fontSize={"32px"} color={"black"}>
               IDR 43,460,000.00
             </Typography>
-            <RatingContainer>
-              <RatingContainer>
+            <Styles.RatingContainer>
+              <Styles.RatingContainer>
                 <Rating name="Rating" readOnly value={userRating} />
-              </RatingContainer>
+              </Styles.RatingContainer>
               <Typography color={"primary"} fontSize={"18px"}>
                 {userRating}
               </Typography>
               <Typography color={"primary"} fontSize={"18px"}>
                 (4582)
               </Typography>
-            </RatingContainer>
+            </Styles.RatingContainer>
             <Typography color={"gray"} fontSize={"18px"}>
               {testStock === 0 ? "Out Of Stock" : `Stock : ${testStock}`}
             </Typography>
           </Box>
-          <ProductButtonGroup>
-            <ProductButtons color="secondary">
+          <Styles.ProductButtonGroup>
+            <Styles.ProductButtons color="secondary">
               <Typography fontSize={"18px"}>Add To Cart</Typography>
               <ShoppingCartOutlined />
-            </ProductButtons>
-            <ProductButtons
+            </Styles.ProductButtons>
+            <Styles.ProductButtons
               onClick={() => setIsPurchased(!isPurchased)}
               color="primary"
             >
               <Typography fontSize={"18px"}>Buy Now</Typography>
-            </ProductButtons>
-          </ProductButtonGroup>
-        </ProductOverviews>
-      </ProductOverviewsWrapper>
-      <ProductSpecsWrapper>
+            </Styles.ProductButtons>
+          </Styles.ProductButtonGroup>
+        </Styles.ProductOverviews>
+      </Styles.ProductOverviewsWrapper>
+      <Styles.ProductSpecsWrapper>
         <Box display="flex" alignItems="center" width="100%" gap="8px">
-          <DividerLine bgcolor={"white"} />
+          <Styles.DividerLine bgcolor={"white"} />
           <Typography fontSize="14px" color="white">
             Spesification
           </Typography>
-          <DividerLine bgcolor={"white"} />
+          <Styles.DividerLine bgcolor={"white"} />
         </Box>
-        <SpecsGrid>
-          <SpecsSection>
+        <Styles.SpecsGrid>
+          <Styles.SpecsSection>
             <Typography fontWeight={"700"}>General</Typography>
-            <SpecsDetail>
+            <Styles.SpecsDetail>
               <Typography fontSize={"16px"} fontWeight={"300"}>
                 <strong>Product Name</strong>: Centrix Automatic Diamonds
               </Typography>
@@ -177,11 +158,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                 <strong>Stock</strong>:{" "}
                 {testStock <= 0 ? "Out Of Stock" : testStock}
               </Typography>
-            </SpecsDetail>
-          </SpecsSection>
-          <SpecsSection>
+            </Styles.SpecsDetail>
+          </Styles.SpecsSection>
+          <Styles.SpecsSection>
             <Typography>Movement</Typography>
-            <SpecsDetail>
+            <Styles.SpecsDetail>
               <Typography fontSize={"16px"} fontWeight={"300"}>
                 <strong>Type</strong>: Automatic
               </Typography>
@@ -192,11 +173,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
               <Typography fontSize={"16px"} fontWeight={"300"}>
                 <strong>Movement Reference</strong>: 03.763.242
               </Typography>
-            </SpecsDetail>
-          </SpecsSection>
-          <SpecsSection>
+            </Styles.SpecsDetail>
+          </Styles.SpecsSection>
+          <Styles.SpecsSection>
             <Typography>Case</Typography>
-            <SpecsDetail>
+            <Styles.SpecsDetail>
               <Typography fontSize={"16px"} fontWeight={"300"}>
                 <strong>Case Material</strong>: Stainless Steel,Stainless Steel
                 / PVD
@@ -214,13 +195,13 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
               <Typography fontSize={"16px"} fontWeight={"300"}>
                 <strong>Case Dimension</strong>: 39.5 mm
               </Typography>
-            </SpecsDetail>
-          </SpecsSection>
-        </SpecsGrid>
-      </ProductSpecsWrapper>
-      <ReviewsWrapper>
+            </Styles.SpecsDetail>
+          </Styles.SpecsSection>
+        </Styles.SpecsGrid>
+      </Styles.ProductSpecsWrapper>
+      <Styles.ReviewsWrapper>
         <Box display="flex" alignItems="center" width="100%" gap="8px">
-          <DividerLine bgcolor={"secondary.main"} />
+          <Styles.DividerLine bgcolor={"secondary.main"} />
           <Typography
             minWidth={"max-content"}
             fontSize="14px"
@@ -228,14 +209,14 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
           >
             Your Review
           </Typography>
-          <DividerLine bgcolor={"secondary.main"} />
+          <Styles.DividerLine bgcolor={"secondary.main"} />
         </Box>
         {/* Current User Review */}
         {isPurchased ? (
-          <UsersReviewsWrapper>
+          <Styles.UsersReviewsWrapper>
             {isReviewing ? (
               <>
-                <UserReviewInputLabel>
+                <Styles.UserReviewInputLabel>
                   <Typography fontSize={"18px"}>Rating :</Typography>
                   <Box display={"flex"} gap={"8px"} alignItems={"center"}>
                     <Box display={"flex"} flexDirection={"row"}>
@@ -254,8 +235,8 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                       {userRating ? `${userRating}.00` : "0.00"}
                     </Typography>
                   </Box>
-                </UserReviewInputLabel>
-                <UserReviewInputLabel>
+                </Styles.UserReviewInputLabel>
+                <Styles.UserReviewInputLabel>
                   <Typography fontSize={"18px"}>Comments :</Typography>
                   <TextField
                     fullWidth
@@ -267,7 +248,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                     defaultValue={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
                   />
-                </UserReviewInputLabel>
+                </Styles.UserReviewInputLabel>
               </>
             ) : (
               <ReviewCard
@@ -281,7 +262,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                 {isReviewing ? "Submit" : "Edit Your Review"}
               </Typography>
             </Button>
-          </UsersReviewsWrapper>
+          </Styles.UsersReviewsWrapper>
         ) : (
           <Box
             width={"100%"}
@@ -296,7 +277,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
         )}
 
         <Box display="flex" alignItems="center" width="100%" gap="8px">
-          <DividerLine bgcolor={"secondary.main"} />
+          <Styles.DividerLine bgcolor={"secondary.main"} />
           <Typography
             minWidth={"max-content"}
             fontSize="14px"
@@ -304,16 +285,16 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
           >
             Other Review
           </Typography>
-          <DividerLine bgcolor={"secondary.main"} />
+          <Styles.DividerLine bgcolor={"secondary.main"} />
         </Box>
-        <UsersReviewsWrapper>
+        <Styles.UsersReviewsWrapper>
           <ReviewCard
             avatar="/images/auth-bg.webp"
             rating={4}
             comment="adukasdjaksd asdnasd"
           />
-        </UsersReviewsWrapper>
-      </ReviewsWrapper>
+        </Styles.UsersReviewsWrapper>
+      </Styles.ReviewsWrapper>
     </>
   );
 };
