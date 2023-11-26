@@ -5,13 +5,22 @@ import Image from "next/image";
 import * as Styles from "./styles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { ShoppingCartOutlined } from "@mui/icons-material";
-import { Box, Rating, Typography, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Rating,
+  Typography,
+  TextField,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
 import { ReviewCard } from "./ReviewCard";
 
 interface ProductDetailProps {}
 
 export const ProductDetail: React.FC<ProductDetailProps> = () => {
   const testStock: number = 0;
+
+  const small = useMediaQuery("(max-width:768px)");
 
   const [carrousel, setCarrousel] = useState(0);
   const [userRating, setUserRating] = React.useState<number | null>(0);
@@ -95,10 +104,13 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
         </Styles.GalleryContainer>
         <Styles.ProductOverviews>
           <Box display="flex" flexDirection={"column"} gap="16px">
-            <Styles.ProductName fontSize={"44px"} color={"black"}>
+            <Styles.ProductName
+              fontSize={small ? "36px" : "44px"}
+              color={"black"}
+            >
               Centrix Automatic Diamonds
             </Styles.ProductName>
-            <Typography fontSize={"32px"} color={"black"}>
+            <Typography fontSize={small ? "24px" : "32px"} color={"black"}>
               IDR 43,460,000.00
             </Typography>
             <Styles.RatingContainer>
@@ -244,7 +256,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
                     label="Leave Your Review Here (Optional)"
                     multiline
                     rows={4}
-                    variant="filled"
+                    variant={small ? "outlined" : "filled"}
                     defaultValue={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
                   />
@@ -270,7 +282,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
             justifyContent={"center"}
             padding={"12px"}
           >
-            <Typography color={"gray"} fontWeight={"300"} fontSize={"18px"}>
+            <Typography
+              textAlign={"center"}
+              color={"gray"}
+              fontWeight={"300"}
+              fontSize={"18px"}
+            >
               Purchase the product to make a review
             </Typography>
           </Box>
@@ -288,6 +305,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = () => {
           <Styles.DividerLine bgcolor={"secondary.main"} />
         </Box>
         <Styles.UsersReviewsWrapper>
+          <ReviewCard
+            avatar="/images/auth-bg.webp"
+            rating={4}
+            comment="adukasdjaksd asdnasd"
+          />
           <ReviewCard
             avatar="/images/auth-bg.webp"
             rating={4}
