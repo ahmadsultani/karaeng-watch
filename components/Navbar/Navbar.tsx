@@ -34,6 +34,7 @@ export const Navbar: React.FC = () => {
   const isTablet = useMediaQuery("(max-width: 1024px)");
 
   const [notOnHero, setNotOnHero] = useState(true);
+  const onHome = pathname === "/";
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
@@ -63,7 +64,10 @@ export const Navbar: React.FC = () => {
   }, [isMobile]);
 
   return (
-    <Wrappper notonhero={notOnHero}>
+    <Wrappper
+      notonhero={JSON.stringify(notOnHero)}
+      onhome={JSON.stringify(onHome)}
+    >
       {isMobile ? (
         <div>
           <IconButton onClick={() => setIsOpenDrawer(true)}>
