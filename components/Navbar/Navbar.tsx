@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Wrappper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
+import { Wrapper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
 
 import {
   ArticleOutlined,
@@ -64,7 +64,7 @@ export const Navbar: React.FC = () => {
   }, [isMobile]);
 
   return (
-    <Wrappper
+    <Wrapper
       notonhero={JSON.stringify(notOnHero)}
       onhome={JSON.stringify(onHome)}
     >
@@ -157,6 +157,6 @@ export const Navbar: React.FC = () => {
           </DrawerContainer>
         </Drawer>
       )}
-    </Wrappper>
+    </Wrapper>
   );
 };
