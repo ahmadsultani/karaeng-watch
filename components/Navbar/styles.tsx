@@ -1,8 +1,8 @@
 import { Box, Link, styled } from "@mui/material";
 
-export const Wrappper = styled(Box)<{ notonhero: string; onhome: string }>(
+export const Wrappper = styled(Box)<{ notonhero?: string; onhome?: string }>(
   ({ notonhero, onhome, theme }) => ({
-    position: JSON.parse(onhome) ? "fixed" : "sticky",
+    position: onhome && JSON.parse(onhome) ? "fixed" : "sticky",
     top: 0,
     right: 0,
     left: 0,
@@ -11,9 +11,10 @@ export const Wrappper = styled(Box)<{ notonhero: string; onhome: string }>(
     gridTemplateColumns: "1fr 1fr 1fr",
     padding: "12px 64px",
     alignItems: "center",
-    background: JSON.parse(notonhero)
-      ? theme.palette.secondary.main
-      : "linear-gradient(180deg, rgba(0, 0, 0, 0.35) 54.69%, rgba(0, 0, 0, 0.00) 100%)",
+    background:
+      notonhero && JSON.parse(notonhero)
+        ? theme.palette.secondary.main
+        : "linear-gradient(180deg, rgba(0, 0, 0, 0.35) 54.69%, rgba(0, 0, 0, 0.00) 100%)",
     backdropFilter: "blur(2px)",
     zIndex: 10,
     transition: "all 0.5s ease",
