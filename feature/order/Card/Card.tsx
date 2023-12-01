@@ -1,7 +1,9 @@
-import { Typography } from "@mui/material";
 import * as OrderCard from "./styles";
+import { Typography } from "@mui/material";
 
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+
+import { formatPrice } from "@/utils/formatter";
 
 interface CardProps {
   id: number;
@@ -15,21 +17,12 @@ interface CardProps {
   }[];
 }
 
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(price);
-};
-
 export const Card: React.FC<CardProps> = ({
   product,
   status,
   order,
   review,
 }) => {
-  // const [isPopupVisible, setPopupVisible] = useState(false);
-
   const firstProduct = product[0];
 
   const products = product;
