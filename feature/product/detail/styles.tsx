@@ -130,7 +130,11 @@ export const RatingContainer = styled(Box)({
 export const ProductButtonGroup = styled(Box)({
   display: "flex",
   gap: "36px",
-  ["@media (max-width: 1024px)"]: {},
+  minWidth: "200px",
+  flexWrap: "wrap",
+  ["@media (max-width: 1024px)"]: {
+    flexWrap: "nowrap",
+  },
   ["@media (max-width: 768px)"]: {
     flexDirection: "column",
     gap: "8px",

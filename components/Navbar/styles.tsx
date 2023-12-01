@@ -1,4 +1,4 @@
-import { Box, Link, styled } from "@mui/material";
+import { Box, IconButton, Link, Typography, styled } from "@mui/material";
 
 export const Wrapper = styled(Box)<{ notonhero?: string; onhome?: string }>(
   ({ notonhero, onhome, theme }) => ({
@@ -59,4 +59,33 @@ export const DrawerCloseButton = styled(Box)({
   "& svg": {
     fontSize: "32px",
   },
+});
+
+export const CSNavbarWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  backgroundColor: theme.palette.secondary.main,
+  position: "sticky",
+  top: 0,
+  display: "flex",
+  alignItems: "center",
+  padding: "16px 24px",
+  gap: "16px",
+}));
+
+export const CSHeader = styled(Typography)({
+  fontSize: "20px",
+  userSelect: "none",
+  width: "100%",
+  textAlign: "center",
+  flexGrow: 1,
+});
+
+export const BackButton = styled(IconButton)({
+  padding: "8px",
+  fontSize: "28px",
+  display: "flex",
+  color: "white",
+  position: "absolute",
+  left: "0",
+  justifyContent: "center",
 });
