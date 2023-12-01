@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Wrappper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
+import { Wrapper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
 
 import {
   ArticleOutlined,
@@ -34,6 +34,7 @@ export const Navbar: React.FC = () => {
   const isTablet = useMediaQuery("(max-width: 1024px)");
 
   const [notOnHero, setNotOnHero] = useState(true);
+  const onHome = pathname === "/";
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
@@ -63,7 +64,10 @@ export const Navbar: React.FC = () => {
   }, [isMobile]);
 
   return (
-    <Wrappper notonhero={notOnHero}>
+    <Wrapper
+      notonhero={JSON.stringify(notOnHero)}
+      onhome={JSON.stringify(onHome)}
+    >
       {isMobile ? (
         <div>
           <IconButton onClick={() => setIsOpenDrawer(true)}>
@@ -153,6 +157,6 @@ export const Navbar: React.FC = () => {
           </DrawerContainer>
         </Drawer>
       )}
-    </Wrappper>
+    </Wrapper>
   );
 };
