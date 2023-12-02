@@ -1,6 +1,7 @@
 import { Box, styled, Button } from "@mui/material";
 import { theme } from "@/constants/theme";
 import { COLORS } from "@/constants/colors";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 export const Container = styled(Box)({
   display: "flex",
@@ -111,4 +112,21 @@ export const AddProductButton = styled(Button)({
   ["@media (max-width: 600px)"]: {
     fontSize: "16px",
   },
+});
+
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    borderBottom: "1px solid",
+    borderColor: theme.palette.secondary.main,
+    color: COLORS.grey,
+    fontWeight: "bold",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    borderBottom: "1px solid grey",
+    fontSize: 14,
+  },
+}));
+
+export const TableBorderNone = styled(TableCell)({
+  borderBottom: "none",
 });

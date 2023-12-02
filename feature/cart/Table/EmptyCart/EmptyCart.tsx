@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import NoProduct from "@/public/icons/emptycart.svg";
 import Image from "next/image";
-import { AddProductButton } from "../../styles";
+import { AddProductButton } from "../Card/styles";
 import { COLORS } from "@/constants/colors";
 
 export const EmptyCart = () => {
