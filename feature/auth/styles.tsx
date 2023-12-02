@@ -26,6 +26,16 @@ export const AuthContainer = styled(Box)({
   },
 });
 
+export const AuthContainerSingle = styled(Box)({
+  display: "flex",
+  height: "100%",
+  width: "min(100%, 640px)",
+  backgroundColor: "white",
+  ["@media (max-width: 1024px)"]: {
+    width: "min(100%, 480px)",
+  },
+});
+
 export const AuthForm = styled("form")({
   display: "flex",
   flexDirection: "column",

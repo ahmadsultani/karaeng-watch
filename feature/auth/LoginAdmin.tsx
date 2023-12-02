@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
 import { Button, TextField, Typography } from "@mui/material";
+import { AuthLayoutSingle } from "./AuthLayoutSingle";
 
-import { AuthLayout } from "./AuthLayout";
 import { ImageContainer } from "@/components/ImageContainer";
 import { AuthForm, AuthInputGroup } from "./styles";
 
@@ -21,7 +21,7 @@ export const LoginAdmin = () => {
   const { login } = useAuth();
 
   return (
-    <AuthLayout formOnly>
+    <AuthLayoutSingle>
       <AuthForm
         onSubmit={handleSubmit((values) => login.mutateAsync(values))}
         noValidate
@@ -92,6 +92,6 @@ export const LoginAdmin = () => {
           Sign In
         </Button>
       </AuthForm>
-    </AuthLayout>
+    </AuthLayoutSingle>
   );
 };
