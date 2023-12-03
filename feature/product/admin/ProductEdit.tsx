@@ -45,12 +45,16 @@ export const ProductEdit = () => {
     mutationKey: ["product"],
     mutationFn: updateProduct,
     onSuccess: () => {
+      toast.dismiss();
       queryClient.invalidateQueries({ queryKey: ["product"] });
       toast.success("Product edited");
       router.push("/admin/product");
     },
     onError: (error) => {
       toast.error(error?.message || "Unknown Error");
+    },
+    onMutate: () => {
+      toast.loading("Saving changes...");
     },
   });
 

@@ -16,19 +16,6 @@ export const ProductPageWrapper = styled(Box)({
   },
 });
 
-export const TitleBox = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  gap: "16px",
-  alignItems: "center",
-  ["@media (max-width: 1024px)"]: {
-    gap: "8px",
-  },
-  ["@media (max-width: 768px)"]: {
-    gap: "0px",
-  },
-});
-
 export const ProductBoxWrapper = styled(Box)({
   display: "flex",
   flexWrap: "wrap",

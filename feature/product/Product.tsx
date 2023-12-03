@@ -1,11 +1,13 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { ProductPageWrapper, TitleBox } from "./styles";
+import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import { ProductCard } from "@/components/Card/ProductCard";
 import { EmptyWrapper, ProductWrapper } from "@/components/Wrapper/styles";
+import { TitleSection } from "@/components/Section/styles";
+
 import {
   Box,
   CircularProgress,
@@ -15,7 +17,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import toast from "react-hot-toast";
 
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -23,6 +24,7 @@ import TuneIcon from "@mui/icons-material/Tune";
 import { getAllProduct } from "./service";
 
 import { FilterDrawer, SearchDrawer } from "./components/Drawer";
+import { ProductPageWrapper } from "./styles";
 
 export const Product: React.FC = () => {
   const {
@@ -66,7 +68,7 @@ export const Product: React.FC = () => {
 
   return (
     <ProductPageWrapper>
-      <TitleBox>
+      <TitleSection>
         <Typography
           textAlign={"center"}
           fontSize={small ? "18px" : "32px"}
@@ -77,7 +79,7 @@ export const Product: React.FC = () => {
         <Typography textAlign={"center"} fontSize={small ? "14px" : "24px"}>
           Get Your Own KaraengWatch Now!
         </Typography>
-      </TitleBox>
+      </TitleSection>
 
       <Box
         display={"flex"}

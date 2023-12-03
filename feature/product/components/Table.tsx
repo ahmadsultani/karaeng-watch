@@ -7,7 +7,7 @@ import {
 
 import { IProduct } from "@/interfaces/product";
 
-import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { formatDate, formatPrice, formatToHour } from "@/utils/formatter";
 
@@ -43,13 +43,13 @@ export const Table: React.FC<TableProps> = ({ data, toggleDeleteOpen }) => {
           color="primary"
           onClick={() => router.push(`/admin/product/edit/${row.original.id}`)}
         >
-          <EditOutlined />
+          <Edit />
         </IconButton>
         <IconButton
           color="error"
           onClick={() => toggleDeleteOpen(row.original)}
         >
-          <DeleteOutline />
+          <Delete />
         </IconButton>
       </Box>
     ),

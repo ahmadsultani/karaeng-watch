@@ -34,7 +34,7 @@ export const ModalBody = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
   gap: "16px",
-  minHeight: "120px",
+  minHeight: "160px",
   maxHeight: "calc(100vh - 64px - 120px - 64px)",
 });
 

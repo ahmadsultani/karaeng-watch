@@ -1,8 +1,7 @@
 "use client";
 
-import { ProductCard } from "@/components/Card/ProductCard";
-import { ProductWrapper } from "@/components/ProductWrapper/ProductWrapper";
-import SearchIcon from "@mui/icons-material/Search";
+import { useEffect, useRef, useState } from "react";
+
 import {
   Box,
   Drawer,
@@ -12,8 +11,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { ProductPageWrapper, TitleBox } from "./styles";
+
+import { ProductCard } from "@/components/Card/ProductCard";
+import { ProductWrapper } from "@/components/Wrapper/styles";
+import { TitleSection } from "@/components/Section/styles";
+
+import { ProductPageWrapper } from "./styles";
+
+import SearchIcon from "@mui/icons-material/Search";
 
 interface FavoriteProps {}
 
@@ -41,7 +46,7 @@ export const Favorite: React.FC<FavoriteProps> = () => {
   return (
     <>
       <ProductPageWrapper>
-        <TitleBox>
+        <TitleSection>
           <Typography
             textAlign={"center"}
             fontSize={small ? "18px" : "32px"}
@@ -52,7 +57,7 @@ export const Favorite: React.FC<FavoriteProps> = () => {
           <Typography textAlign={"center"} fontSize={small ? "14px" : "24px"}>
             Explore Your Exquisite Choice
           </Typography>
-        </TitleBox>
+        </TitleSection>
         <Box width={"100%"} display={"flex"} justifyContent={"flex-end"}>
           {medium ? (
             <IconButton onClick={handleFocus}>
