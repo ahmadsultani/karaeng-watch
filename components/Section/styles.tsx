@@ -30,3 +30,16 @@ export const FormSectionRow = styled(Box)({
     userSelect: "none",
   },
 });
+
+export const TitleSection = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+  alignItems: "center",
+  ["@media (max-width: 1024px)"]: {
+    gap: "8px",
+  },
+  ["@media (max-width: 768px)"]: {
+    gap: "0px",
+  },
+});
