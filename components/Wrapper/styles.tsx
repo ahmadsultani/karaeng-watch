@@ -6,6 +6,7 @@ export const EmptyWrapper = styled(Box)({
   width: "100%",
   justifyContent: "center",
   alignItems: "center",
+  minHeight: "300px",
 });
 
 export const AdminWrapper = styled(Box)({

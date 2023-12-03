@@ -8,15 +8,17 @@ import { useState } from "react";
 import { MouseEvent } from "react";
 import Link from "next/link";
 import { IProduct } from "@/interfaces/product";
+import { formatPrice } from "@/utils/formatter";
 
 export const ProductCard: React.FC<Partial<IProduct>> = ({
+  brand,
+  id,
   name,
   price,
   gender,
   types,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const id = "justrandomId";
 
   const small = useMediaQuery("(max-width:768px)");
 
@@ -43,16 +45,22 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
             objectFit="contain"
           />
         </Box>
-        <ProductCardText fontWeight={700}>Rado</ProductCardText>
+        <ProductCardText fontWeight={700}>{brand?.name}</ProductCardText>
         <ProductCardText fontWeight={700}>{name}</ProductCardText>
-        <ProductCardText fontWeight={400}>IDR {price}</ProductCardText>
+        <ProductCardText fontWeight={400}>
+          {formatPrice(price || 0)}
+        </ProductCardText>
         <Box
           display={"flex"}
           alignItems={"center"}
           width={"100%"}
           justifyContent={"space-between"}
         >
-          <Typography fontSize={small ? "10px" : "16px"} fontWeight={400}>
+          <Typography
+            fontSize={small ? "10px" : "16px"}
+            fontWeight={400}
+            textTransform="capitalize"
+          >
             {gender}, {types}
           </Typography>
           <FavIcon title="Favorite" onClick={handleFavoriteClick}>
