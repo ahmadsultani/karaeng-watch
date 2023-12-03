@@ -6,7 +6,15 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 
 import { auth, db } from "@/config/firebase";
 
@@ -14,6 +22,7 @@ import { TLoginForm, TSignupForm } from "./types";
 import { IUser, TRole } from "@/interfaces/user";
 
 import { USER_NOT_FOUND } from "@/constants/errors";
+import { FirebaseError } from "firebase/app";
 
 export const signup = async (values: TSignupForm) => {
   const userCredentials = await createUserWithEmailAndPassword(
@@ -50,10 +59,16 @@ export const login = async (values: TLoginForm, role: TRole = "user") => {
 
   if (!docSnap.exists()) {
     signOut(auth);
-    throw new Error(USER_NOT_FOUND);
+    throw new FirebaseError("auth/user-not-found", USER_NOT_FOUND);
   }
 
-  if (docSnap.data()?.role !== role) throw new Error(USER_NOT_FOUND);
+  if (docSnap.data()?.role !== role) {
+    signOut(auth);
+    throw new FirebaseError(
+      "auth/operation-not-allowed",
+      "Operation not allowed",
+    );
+  }
 
   return docSnap.data() as IUser;
 };
@@ -86,4 +101,12 @@ export const signinWithGoogle = async () => {
   }
 
   return docSnap.data() as IUser;
+};
+
+export const checkAccountExists = async (email: string) => {
+  const user = query(collection(db, "user"), where("email", "==", email));
+
+  const querySnapshot = await getDocs(user);
+
+  return querySnapshot.docs.length > 0;
 };

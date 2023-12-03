@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import { ImageContainer } from "@/components/ImageContainer";
 
-import { AuthContainer, AuthImageContainer, AuthWrapper } from "./styles";
 import { Box } from "@mui/material";
+import { AuthContainer, AuthImageContainer, AuthWrapper } from "./styles";
 
 interface AuthLayoutProps {
   children: React.ReactNode;

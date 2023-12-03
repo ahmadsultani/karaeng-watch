@@ -6,20 +6,16 @@ import { Controller, useForm } from "react-hook-form";
 import {
   Box,
   Button,
+  Divider,
   InputBase,
   Link,
   TextField,
   Typography,
 } from "@mui/material";
 
-import { AuthLayout } from "./AuthLayout";
 import { ImageContainer } from "@/components/ImageContainer";
-import {
-  AuthButtonGroup,
-  AuthForm,
-  AuthInputGroup,
-  DividerLine,
-} from "./styles";
+import { AuthLayout } from "./layout";
+import { AuthButtonGroup, AuthForm, AuthInputGroup } from "./styles";
 
 import { TLoginForm } from "./types";
 import { useAuth } from "./useAuth";
@@ -128,13 +124,11 @@ export const Login = () => {
             Sign In
           </Button>
 
-          <Box display="flex" alignItems="center" width="100%" gap="8px">
-            <DividerLine />
+          <Divider>
             <Typography fontSize="12px" color="grey">
               or enter with
             </Typography>
-            <DividerLine />
-          </Box>
+          </Divider>
 
           <Button
             variant="outlined"

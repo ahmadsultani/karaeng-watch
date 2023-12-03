@@ -43,16 +43,28 @@ export const theme = createTheme({
     MuiButton: {
       defaultProps: {
         variant: "contained",
+        size: "medium",
       },
       styleOverrides: {
         root: {
           borderRadius: 0,
-          padding: "12px",
           textTransform: "none",
           boxShadow: "none",
         },
         text: {
           paddingInline: 0,
+        },
+        sizeLarge: {
+          padding: "16px 24px",
+          fontSize: "16px",
+        },
+        sizeMedium: {
+          padding: "12px 20px",
+          fontSize: "14px",
+        },
+        sizeSmall: {
+          padding: "8px 16px",
+          fontSize: "12px",
         },
       },
     },

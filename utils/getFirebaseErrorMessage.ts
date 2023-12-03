@@ -10,6 +10,8 @@ export const getFirebaseErrorMessage = (code: string) => {
       return ERROR_MESSAGES.INTERNAL_ERROR;
     case "auth/invalid-login-credentials":
       return ERROR_MESSAGES.INVALID_CREDENTIAL;
+    case "auth/operation-not-allowed":
+      return ERROR_MESSAGES.OPERATION_NOT_ALLOWED;
     default:
       return ERROR_MESSAGES.DEFAULT_ERROR;
   }

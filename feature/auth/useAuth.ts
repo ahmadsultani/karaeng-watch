@@ -25,7 +25,7 @@ export const useAuth = () => {
     FirebaseError,
     TLoginForm
   >({
-    mutationFn: login,
+    mutationFn: (data) => login(data, data.role),
     retry: 0,
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data);

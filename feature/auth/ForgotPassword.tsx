@@ -1,41 +1,64 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+
+import { sendPasswordResetEmail } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 import { Controller, useForm } from "react-hook-form";
 
 import { Button, TextField, Typography } from "@mui/material";
-import { AuthLayoutSingle } from "./layout";
+import toast from "react-hot-toast";
 
+import { auth } from "@/config/firebase";
+import { getFirebaseErrorMessage } from "@/utils/getFirebaseErrorMessage";
 import { ImageContainer } from "@/components/ImageContainer";
+
+import { checkAccountExists } from "./service";
+
+import { TForgotPasswordForm } from "./types";
+
+import { AuthLayoutSingle } from "./layout";
 import { AuthForm, AuthInputGroup } from "./styles";
 
-import { TLoginForm } from "./types";
-import { useAuth } from "./useAuth";
+export const ForgotPassword = () => {
+  const { control, handleSubmit } = useForm<TForgotPasswordForm>();
+  const router = useRouter();
 
-export const LoginAdmin = () => {
-  const { control, handleSubmit } = useForm<TLoginForm>({
-    defaultValues: {
-      role: "admin",
-    },
-  });
-  const { login } = useAuth();
+  const handleSendResetPassword = async ({ email }: TForgotPasswordForm) => {
+    const isEmailExist = await checkAccountExists(email);
+
+    if (!isEmailExist) {
+      toast.error("Sorry, we couldn't find your account");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Password reset email sent, thank you!");
+      router.push("/login");
+    } catch (error) {
+      toast.error(
+        error instanceof FirebaseError
+          ? getFirebaseErrorMessage(error.code)
+          : "Unkonwn Error",
+      );
+    }
+  };
 
   return (
     <AuthLayoutSingle>
-      <AuthForm
-        onSubmit={handleSubmit((values) => login.mutateAsync(values))}
-        noValidate
-      >
+      <AuthForm noValidate onSubmit={handleSubmit(handleSendResetPassword)}>
         <ImageContainer size="80px">
           <Image src="/logos/logo-primary.svg" alt="logo" fill />
         </ImageContainer>
 
         <div>
           <Typography fontSize="22px" color="secondary" textAlign="center">
-            Login As Admin
+            Reset Password
           </Typography>
           <Typography fontSize="12px" color="grey" textAlign="center">
-            Welcome To Admin Panel
+            Enter your email to reset your password
           </Typography>
         </div>
 
@@ -54,6 +77,7 @@ export const LoginAdmin = () => {
                 onChange={onChange}
                 value={value || ""}
                 fullWidth
+                focused
                 required
               />
             )}
@@ -65,31 +89,10 @@ export const LoginAdmin = () => {
               },
             }}
           />
-          <Controller
-            name="password"
-            control={control}
-            render={({ field: { value, onChange }, fieldState }) => (
-              <TextField
-                label="Password"
-                placeholder="Enter your password"
-                variant="standard"
-                type="password"
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-                onChange={onChange}
-                value={value || ""}
-                required
-                fullWidth
-              />
-            )}
-            rules={{
-              required: "Please input your password",
-            }}
-          />
         </AuthInputGroup>
 
         <Button variant="contained" color="secondary" type="submit" fullWidth>
-          Sign In
+          Send Reset Password Link
         </Button>
       </AuthForm>
     </AuthLayoutSingle>

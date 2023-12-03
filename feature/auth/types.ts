@@ -13,3 +13,7 @@ export type TSignupForm = {
   firstName: string;
   lastName: string;
 };
+
+export type TForgotPasswordForm = {
+  email: string;
+};

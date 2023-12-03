@@ -3,18 +3,20 @@
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import { ImageContainer } from "@/components/ImageContainer";
 
-import { AuthLayout } from "./AuthLayout";
+import { AuthLayout } from "./layout";
 
-import {
-  AuthButtonGroup,
-  AuthForm,
-  AuthInputGroup,
-  DividerLine,
-} from "./styles";
+import { AuthButtonGroup, AuthForm, AuthInputGroup } from "./styles";
 
 import { TSignupForm } from "./types";
 import { useAuth } from "./useAuth";
@@ -114,7 +116,7 @@ export const Signup = () => {
             control={control}
             render={({ field: { value, onChange }, fieldState }) => (
               <TextField
-                label="Confirm Password"
+                label="Password"
                 placeholder="Enter your password"
                 variant="standard"
                 type="password"
@@ -135,8 +137,8 @@ export const Signup = () => {
             control={control}
             render={({ field: { value, onChange }, fieldState }) => (
               <TextField
-                label="Password"
-                placeholder="Enter your password"
+                label="Confirm Password"
+                placeholder="Enter your password again"
                 variant="standard"
                 type="password"
                 error={!!fieldState.error}
@@ -164,13 +166,11 @@ export const Signup = () => {
             Sign Up
           </Button>
 
-          <Box display="flex" alignItems="center" width="100%" gap="8px">
-            <DividerLine />
+          <Divider>
             <Typography fontSize="12px" color="grey">
               or create account with
             </Typography>
-            <DividerLine />
-          </Box>
+          </Divider>
 
           <Button
             variant="outlined"
