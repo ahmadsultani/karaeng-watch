@@ -5,6 +5,7 @@ export const OrderWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
   width: "100%",
+  flex: "1 1 auto",
   padding: "64px",
   gap: "24px",
   backgroundColor: "white",

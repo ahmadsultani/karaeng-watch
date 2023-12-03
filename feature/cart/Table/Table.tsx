@@ -12,17 +12,10 @@ import { EmptyCart } from "./EmptyCart/EmptyCart";
 import { CartItem } from "./Card/CardItem";
 import { CartTotal } from "./Card/CardTotal";
 import { cart } from "../fakeCartData";
-
-interface Product {
-  image: string;
-  name: string;
-  brand: string;
-  price: number;
-  quantity: number;
-}
+import { IProduct } from "@/interfaces/product";
 
 interface CartProps {
-  setCartProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setCartProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export const CartTable: React.FC<CartProps> = () => {
