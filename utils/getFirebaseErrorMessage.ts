@@ -13,6 +13,6 @@ export const getFirebaseErrorMessage = (code: string) => {
     case "auth/operation-not-allowed":
       return ERROR_MESSAGES.OPERATION_NOT_ALLOWED;
     default:
-      return ERROR_MESSAGES.DEFAULT_ERROR;
+      return code;
   }
 };

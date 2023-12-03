@@ -31,9 +31,7 @@ export const useAuth = () => {
       queryClient.setQueryData(["user"], data);
       toast.dismiss();
       toast.success("Logged in successfully");
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      router.push("/");
     },
     onError: (error) => {
       toast.dismiss();
@@ -59,9 +57,7 @@ export const useAuth = () => {
       queryClient.setQueryData(["user"], data);
       toast.dismiss();
       toast.success("Account created successfully");
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      router.push("/");
     },
     onError: (error) => {
       toast.dismiss();
