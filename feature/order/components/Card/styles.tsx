@@ -72,11 +72,13 @@ export const Product = styled(Box)({
   },
 });
 
-export const ContentIcon = styled(Box)({
+export const ContentImage = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  flexShrink: 0,
   width: "100px",
+  height: "100px",
   backgroundColor: theme.palette.primary.main,
 });
 

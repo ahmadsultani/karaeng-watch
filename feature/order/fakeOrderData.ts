@@ -1,166 +1,145 @@
-export const order = [
+import { IOrder } from "@/interfaces/order";
+import { IProduct } from "@/interfaces/product";
+
+export const order: IOrder[] = [
   {
-    id: 1,
-    status: "Delivered",
-    review: false,
-    order: false,
-    product: [
+    id: "randomId",
+    status: "done",
+    isReviewed: true,
+    products: [
       {
         name: "Cart 1 First Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Second Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Third Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
-    ],
+    ] as IProduct[],
   },
   {
-    id: 2,
-    status: "Delivered",
-    review: false,
-    order: false,
-    product: [
-      {
-        name: "Cart 2 First Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-      {
-        name: "Second Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-    ],
-  },
-  {
-    id: 1,
-    status: "Waiting",
-    review: false,
-    order: false,
-    product: [
+    id: "randomId",
+    status: "delivered",
+    isReviewed: false,
+    products: [
       {
         name: "Cart 1 First Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Second Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Third Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
-    ],
+    ] as IProduct[],
   },
   {
-    id: 2,
-    status: "Waiting",
-    review: false,
-    order: false,
-    product: [
-      {
-        name: "Cart 2 First Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-      {
-        name: "Second Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-    ],
-  },
-  {
-    id: 1,
-    status: "Canceled",
-    review: false,
-    order: false,
-    product: [
+    id: "randomId",
+    status: "waiting",
+    isReviewed: false,
+    products: [
       {
         name: "Cart 1 First Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Second Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Third Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
-    ],
+    ] as IProduct[],
   },
   {
-    id: 2,
-    status: "Canceled",
-    review: false,
-    order: false,
-    product: [
-      {
-        name: "Cart 2 First Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-      {
-        name: "Second Item",
-        brand: "Hamilton",
-        price: 43460000,
-      },
-    ],
-  },
-  {
-    id: 1,
-    status: "Done",
-    review: true,
-    order: true,
-    product: [
+    id: "randomId",
+    status: "canceled",
+    isReviewed: false,
+    products: [
       {
         name: "Cart 1 First Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Second Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Third Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
-    ],
+    ] as IProduct[],
   },
   {
-    id: 2,
-    status: "Done",
-    review: true,
-    order: true,
-    product: [
+    id: "randomId",
+    status: "delivered",
+    isReviewed: false,
+    products: [
       {
-        name: "Cart 2 First Item",
-        brand: "Hamilton",
+        name: "Cart 1 First Item",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
       {
         name: "Second Item",
-        brand: "Hamilton",
+        brand: {
+          name: "Hamilton",
+        },
         price: 43460000,
       },
-    ],
+      {
+        name: "Third Item",
+        brand: {
+          name: "Hamilton",
+        },
+        price: 43460000,
+      },
+    ] as IProduct[],
   },
 ];
