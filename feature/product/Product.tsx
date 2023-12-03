@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { ProductCard } from "@/components/Card/ProductCard";
+import { ProductCard } from "@/components/Card";
 import { EmptyWrapper, ProductWrapper } from "@/components/Wrapper/styles";
 import { TitleSection } from "@/components/Section/styles";
 

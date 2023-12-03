@@ -51,10 +51,12 @@ export const Modal = ({
   };
 
   return (
-    <StyledModal open={isOpen} onClose={handleClose}>
-      <ModalContainer width="428px">
+    <StyledModal open={isOpen} onClose={handleClose} disableAutoFocus>
+      <ModalContainer>
         <ModalHeader>
-          <Typography fontWeight={600}>{title}</Typography>
+          <Typography fontSize="inherit" fontWeight={700}>
+            {title}
+          </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon htmlColor="#000000" />
           </IconButton>
@@ -64,7 +66,6 @@ export const Modal = ({
 
         <ModalButtonGroup>
           <Button
-            size="small"
             variant="text"
             color="secondary"
             onClick={handleClose}
@@ -73,7 +74,6 @@ export const Modal = ({
             Cancel
           </Button>
           <Button
-            size="small"
             variant="contained"
             startIcon={
               isLoading ? (
