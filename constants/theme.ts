@@ -32,6 +32,10 @@ export const theme = createTheme({
             marginLeft: "8px",
             marginTop: "8px",
           },
+
+          "& .MuiSelect-select": {
+            padding: "12px 0px",
+          },
         },
       },
     },
