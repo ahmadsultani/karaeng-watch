@@ -9,11 +9,11 @@ import { MouseEvent } from "react";
 import Link from "next/link";
 import { IProduct } from "@/interfaces/product";
 
-export const ProductCard: React.FC<IProduct> = ({
+export const ProductCard: React.FC<Partial<IProduct>> = ({
   name,
   price,
   gender,
-  typesId,
+  types,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const id = "justrandomId";
@@ -53,7 +53,7 @@ export const ProductCard: React.FC<IProduct> = ({
           justifyContent={"space-between"}
         >
           <Typography fontSize={small ? "10px" : "16px"} fontWeight={400}>
-            {gender}, {typesId}
+            {gender}, {types}
           </Typography>
           <FavIcon title="Favorite" onClick={handleFavoriteClick}>
             {isFavorite ? (
