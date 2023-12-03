@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal } from "@/components/Modal";
-import { AdminWrapper } from "@/components/Wrapper/styles";
+import { AdminWrapper, EmptyWrapper } from "@/components/Wrapper/styles";
 import { IProduct } from "@/interfaces/product";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -49,17 +49,17 @@ export const ProductAdmin: React.FC = () => {
     switch (status) {
       case EProductStatus.LOADING:
         return (
-          <div className="empty-container">
+          <EmptyWrapper>
             <CircularProgress />
-          </div>
+          </EmptyWrapper>
         );
       case EProductStatus.ERROR:
         toast.error(error?.name || "Unknown Error");
 
         return (
-          <div className="empty-container">
+          <EmptyWrapper>
             <p>{error?.message || "Error Occurred, try to refresh the page"}</p>
-          </div>
+          </EmptyWrapper>
         );
       case EProductStatus.SUCCESS:
         return (

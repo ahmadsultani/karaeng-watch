@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -20,7 +20,7 @@ export const Table: React.FC<TableProps> = ({ data, toggleDeleteOpen }) => {
 
   const table = useMaterialReactTable({
     columns,
-    data: data || [],
+    data,
     enableEditing: true,
     enableRowActions: true,
     enableRowSelection: false,
@@ -28,18 +28,15 @@ export const Table: React.FC<TableProps> = ({ data, toggleDeleteOpen }) => {
     muiTablePaperProps: {
       elevation: 0,
     },
-    enableColumnResizing: false,
     enableFullScreenToggle: false,
     enableStickyFooter: true,
     renderRowActions: ({ row }) => (
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          alignItems: "center",
-          gap: "12px",
-          flexShrink: 0,
-        }}
+      <Box
+        display="flex"
+        flexWrap="nowrap"
+        alignItems="center"
+        gap="12px"
+        flexShrink={0}
       >
         <IconButton
           color="primary"
@@ -53,7 +50,7 @@ export const Table: React.FC<TableProps> = ({ data, toggleDeleteOpen }) => {
         >
           <DeleteOutline />
         </IconButton>
-      </div>
+      </Box>
     ),
   });
 
