@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { TProductForm, createProduct } from "..";
-import { Form } from "./Form";
+import { Form } from "../components/Form";
 
 export const ProductCreate = () => {
   const queryClient = useQueryClient();

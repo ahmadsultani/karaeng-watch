@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { deleteProduct, getAllProduct } from "..";
-import { Table } from "./Table";
+import { Table } from "../components/Table";
 
 enum EProductStatus {
   LOADING,

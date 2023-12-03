@@ -22,7 +22,7 @@ interface ModalProps {
   isOpen: boolean;
   title: string;
   children: React.ReactNode;
-  type: "delete" | "edit";
+  type: "delete" | "edit" | "ok";
   onClose: () => void;
   onComplete: () => void;
 }
@@ -79,7 +79,13 @@ export const Modal = ({
             onClick={handleSave}
             disabled={isLoading}
           >
-            Delete
+            {
+              {
+                delete: "Delete",
+                edit: "Save",
+                ok: "Ok",
+              }[type]
+            }
           </Button>
         </ModalButtonGroup>
       </ModalContainer>

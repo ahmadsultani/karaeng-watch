@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import * as Styles from "./styles";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { ShoppingCartOutlined } from "@mui/icons-material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
   Box,
-  Rating,
-  Typography,
-  TextField,
   Button,
+  Rating,
+  TextField,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ReviewCard } from "./ReviewCard";
+import Image from "next/image";
+import React, { useState } from "react";
+import { ReviewCard } from "../components/Card/ReviewCard";
+import * as Styles from "./styles";
 
 interface ProductDetailProps {}
 
