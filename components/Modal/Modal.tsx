@@ -37,18 +37,25 @@ export const Modal = ({
 }: ModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSave = () => {
+  const handleClose = (e: Event | React.MouseEvent) => {
+    e.stopPropagation();
+    setIsLoading(false);
+    onClose();
+  };
+
+  const handleSave = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsLoading(true);
     onComplete();
     setIsLoading(false);
   };
 
   return (
-    <StyledModal open={isOpen} onClose={onClose}>
+    <StyledModal open={isOpen} onClose={handleClose}>
       <ModalContainer width="428px">
         <ModalHeader>
-          <Typography>{title}</Typography>
-          <IconButton onClick={onClose}>
+          <Typography fontWeight={600}>{title}</Typography>
+          <IconButton onClick={handleClose}>
             <CloseIcon htmlColor="#000000" />
           </IconButton>
         </ModalHeader>
@@ -60,7 +67,7 @@ export const Modal = ({
             size="small"
             variant="text"
             color="secondary"
-            onClick={onClose}
+            onClick={handleClose}
             disabled={isLoading}
           >
             Cancel
