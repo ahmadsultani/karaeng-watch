@@ -1,19 +1,19 @@
 "use client";
 
+import { ProductCard } from "@/components/Card/ProductCard";
 import { ProductWrapper } from "@/components/ProductWrapper/ProductWrapper";
-import { ProductPageWrapper, TitleBox } from "./styles";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
-  IconButton,
   Drawer,
+  IconButton,
   InputAdornment,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ProductCard } from "@/components/ProductCard/ProductCard";
-import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useRef, useState } from "react";
+import { ProductPageWrapper, TitleBox } from "./styles";
 
 interface FavoriteProps {}
 

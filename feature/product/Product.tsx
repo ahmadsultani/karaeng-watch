@@ -1,9 +1,11 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { ProductPageWrapper, TitleBox } from "./styles";
-import { useQuery } from "@tanstack/react-query";
 
+import { ProductCard } from "@/components/Card/ProductCard";
+import { EmptyWrapper, ProductWrapper } from "@/components/Wrapper/styles";
 import {
   Box,
   CircularProgress,
@@ -13,9 +15,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ProductWrapper } from "@/components/ProductWrapper/ProductWrapper";
-import { ProductCard } from "@/components/ProductCard/ProductCard";
-import { EmptyWrapper } from "@/components/Wrapper/styles";
 import toast from "react-hot-toast";
 
 import SearchIcon from "@mui/icons-material/Search";

@@ -1,14 +1,11 @@
-"use-client";
-
-import { FavIcon, ProductCardText, ProductCardsWrapper } from "./styles";
-import { Box, Typography, useMediaQuery } from "@mui/material";
-import Image from "next/image";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { useState } from "react";
-import { MouseEvent } from "react";
-import Link from "next/link";
 import { IProduct } from "@/interfaces/product";
 import { formatPrice } from "@/utils/formatter";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
+import { MouseEvent, useState } from "react";
+import { FavIcon, ProductCardText, ProductCardsWrapper } from "./styles";
 
 export const ProductCard: React.FC<Partial<IProduct>> = ({
   brand,

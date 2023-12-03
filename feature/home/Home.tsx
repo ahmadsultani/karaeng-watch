@@ -4,8 +4,8 @@ import { Button, Typography, useMediaQuery } from "@mui/material";
 
 import { Hero } from "./Hero";
 
-import { ProductCard } from "@/components/ProductCard";
-import { ProductWrapper } from "@/components/ProductWrapper";
+import { ProductCard } from "@/components/Card";
+import { ProductWrapper } from "@/components/Wrapper/styles";
 
 import { TitleBox } from "@/feature/product/styles";
 import { HighlightWrapper } from "./styles";
