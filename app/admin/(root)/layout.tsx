@@ -33,13 +33,14 @@ export default function MainLayout({
       >
         <AdminSidebar ignoreMedia />
       </Drawer>
-      <Box display={"flex"}>
+      <Box display={"flex"} width="100vw">
         <AdminSidebar />
         <Box
           display={"flex"}
-          flex={1}
           position={"relative"}
           flexDirection={"column"}
+          width="100%"
+          overflow="hidden"
         >
           <AppBar
             position="sticky"
@@ -78,7 +79,8 @@ export default function MainLayout({
           <Box
             padding={small ? "16px" : medium ? "24px" : "32px"}
             sx={{
-              overflowX: "auto",
+              flex: 1,
+              overflow: "auto",
               wordBreak: "break-word",
               wordWrap: "break-word",
             }}
