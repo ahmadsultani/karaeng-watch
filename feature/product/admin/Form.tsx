@@ -14,6 +14,7 @@ import {
 import { AdminWrapper } from "@/components/Wrapper/styles";
 
 import { TProductForm } from "..";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
   control: Control<TProductForm>;
@@ -25,6 +26,8 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
     queryKey: ["brand"],
     queryFn: getAllBrand,
   });
+
+  const router = useRouter();
 
   return (
     <AdminWrapper>
@@ -394,7 +397,11 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
             {type === "create" ? "Create" : "Save"}
           </Typography>
         </Button>
-        <Button variant="contained" color="secondary" href="/admin/product">
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => router.back()}
+        >
           <Typography color="white" mx={4}>
             Cancel
           </Typography>
