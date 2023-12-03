@@ -32,7 +32,10 @@ export default function RootLayout({
               duration: 2000,
             }}
           />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools
+            initialIsOpen={false}
+            buttonPosition="bottom-left"
+          />
         </Providers>
       </body>
     </html>
