@@ -9,6 +9,7 @@ import { IProduct } from "@/interfaces/product";
 
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { formatDate, formatPrice, formatToHour } from "@/utils/formatter";
 
 interface TableProps {
   data: IProduct[];
@@ -69,6 +70,7 @@ const columns: MRT_ColumnDef<IProduct>[] = [
   {
     accessorKey: "price",
     header: "Price",
+    accessorFn: (row) => formatPrice(row.price),
   },
   {
     accessorKey: "sold",
@@ -85,9 +87,13 @@ const columns: MRT_ColumnDef<IProduct>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
+    accessorFn: (row) =>
+      `${formatToHour(row.createdAt)}, ${formatDate(row.createdAt, "short")}`,
   },
   {
     accessorKey: "updatedAt",
     header: "Updated At",
+    accessorFn: (row) =>
+      `${formatToHour(row.updatedAt)}, ${formatDate(row.updatedAt, "short")}`,
   },
 ];

@@ -25,8 +25,8 @@ export const getAllProduct = async () => {
     const brandSnap = await getDoc(brandRef);
     const brandData = brandSnap.data() as IBrand;
 
-    data.createdAt = data.createdAt.toDate().toDateString();
-    data.updatedAt = data.updatedAt.toDate().toDateString();
+    data.createdAt = data.createdAt.toDate();
+    data.updatedAt = data.updatedAt.toDate();
 
     const brand = {
       ...brandData,
@@ -52,8 +52,8 @@ export const getOneProduct = async (id: string) => {
 
   const data = docSnap.data();
 
-  data.createdAt = data.createdAt.toDate().toDateString();
-  data.updatedAt = data.updatedAt.toDate().toDateString();
+  data.createdAt = data.createdAt.toDate();
+  data.updatedAt = data.updatedAt.toDate();
 
   const brandRef = data.brand as DocumentReference;
   const brandSnap = await getDoc(brandRef);

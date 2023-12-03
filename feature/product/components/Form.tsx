@@ -253,8 +253,8 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                 <TextField
                   color="secondary"
                   sx={{ flex: 1 }}
-                  label="Power Reserve"
-                  placeholder="100 hours"
+                  label="Reference"
+                  placeholder="1327831.982391731"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}
@@ -330,9 +330,9 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                 <TextField
                   color="secondary"
                   sx={{ flex: 1 }}
-                  label="Power Reserve"
+                  label="Height"
                   type="number"
-                  placeholder="100 hours"
+                  placeholder="5 cm"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}

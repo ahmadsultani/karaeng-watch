@@ -23,6 +23,6 @@ export interface IProduct {
   thumbnail: string;
   imgGallery: string[];
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
