@@ -7,14 +7,10 @@ import { Box, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import GridViewIcon from "@mui/icons-material/GridView";
 import { SideBarItem } from "./SideBarItem";
-import {
-  Checklist,
-  Inventory,
-  ManageAccounts,
-  Person,
-  Sell,
-} from "@mui/icons-material";
+import { Checklist, Inventory, Person, Sell } from "@mui/icons-material";
 import { usePathname, useSearchParams } from "next/navigation";
+import { IUser } from "@/interfaces/user";
+import Cookies from "js-cookie";
 
 interface AdminSidebarProps {
   ignoreMedia?: boolean;
@@ -23,6 +19,7 @@ interface AdminSidebarProps {
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   ignoreMedia = false,
 }) => {
+  const user = JSON.parse(Cookies.get("user") || "{}") as IUser;
   const pathname = usePathname();
   const params = useSearchParams();
 
@@ -34,12 +31,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       icon: <GridViewIcon />,
       href: "/admin",
       active: pathname === "/admin",
-    },
-    {
-      name: "Admins",
-      icon: <ManageAccounts />,
-      href: "/admin/admins",
-      active: pathname.startsWith("/admin/admins"),
     },
     {
       name: "User",
@@ -129,18 +120,23 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           overflowY: "auto",
         }}
       >
-        {SideBarMenuList.map((menus, index) => (
-          <SideBarItem
-            navigate={menus.href}
-            nested={menus.nested ? true : false}
-            icon={menus.icon}
-            key={index}
-            option={menus.option}
-            isActive={menus.active}
-          >
-            {menus.name}
-          </SideBarItem>
-        ))}
+        {SideBarMenuList.map((menus, index) => {
+          if (user.role !== "super-admin" && menus.name === "User") {
+            return null;
+          }
+          return (
+            <SideBarItem
+              navigate={menus.href}
+              nested={menus.nested ? true : false}
+              icon={menus.icon}
+              key={index}
+              option={menus.option}
+              isActive={menus.active}
+            >
+              {menus.name}
+            </SideBarItem>
+          );
+        })}
       </Styles.SidebarMenus>
     </Styles.SidebarContainer>
   );
