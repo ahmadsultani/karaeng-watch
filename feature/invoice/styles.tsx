@@ -1,30 +1,32 @@
-import { Box, styled } from "@mui/material";
+import { Box, TableCell, styled, tableCellClasses } from "@mui/material";
 import { theme } from "@/constants/theme";
 import { COLORS } from "@/constants/colors";
 
 export const Container = styled(Box)({
+  padding: "64px",
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "100%",
-  height: "100%",
-  gap: "48px",
-  padding: "64px",
-});
-
-export const Details = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
+  gap: "24px",
+  ["@media (max-width: 768px)"]: {
+    padding: "24px",
+  },
+  ["@media (max-width: 480px)"]: {
+    padding: "12px",
+  },
 });
 
 export const DetailsUser = styled(Box)({
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
-  gap: "24px",
+  height: "100%",
+  justifyContent: "space-between",
+});
+
+export const DetailsUserWrapper = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+  height: "100%",
 });
 
 export const DetailsUserTitle = styled(Box)({
@@ -45,45 +47,6 @@ export const DetailsUserContent = styled(Box)({
   },
 });
 
-export const DetailsCartWrapper = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  gap: "36px",
-});
-
-export const DetailsCart = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  //space between
-  justifyContent: "space-between",
-  gap: "24px",
-});
-
-export const DetailsCartTitle = styled(Box)({
-  display: "flex",
-  "& p": {
-    color: COLORS.grey,
-    fontWeight: "bold",
-  },
-});
-
-export const DetailsCartContent = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  gap: "8px",
-  "& p": {
-    color: theme.palette.secondary.main,
-    fontWeight: "bold",
-  },
-});
-
-export const Product = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  gap: "12px",
-  width: "100%",
-});
-
 export const ProductTitle = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
@@ -98,66 +61,10 @@ export const ProductTitle = styled(Box)({
   },
 });
 
-export const ProductContent = styled(Box)({
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "24px",
-  width: "100%",
-  paddingBottom: "8px",
-  borderBottom: "1px solid",
-  borderColor: COLORS.grey,
-});
-
-export const ProductName = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  gap: "8px",
-  width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    alignSelf: "left",
-  },
-});
-
 export const ProductNameContent = styled(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
-  width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    alignSelf: "left",
-  },
-});
-
-export const ProductPrice = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    alignSelf: "center",
-  },
-});
-
-export const ProductQty = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-start",
-  width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    alignSelf: "center",
-  },
-});
-
-export const ProductTotal = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "100%",
-  "& p": {
-    color: theme.palette.secondary.main,
-    alignSelf: "center",
-  },
 });
 
 export const Total = styled(Box)({
@@ -179,6 +86,9 @@ export const TotalContent = styled(Box)({
   gap: "24px",
   width: "50%",
   paddingBottom: "8px",
+  ["@media (max-width: 768px)"]: {
+    width: "100%",
+  },
 });
 
 export const TotalContentTitle = styled(Box)({
@@ -191,4 +101,28 @@ export const TotalContentValue = styled(Box)({
   display: "flex",
   justifyContent: "flex-end",
   width: "100%",
+});
+
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    borderBottom: "1px solid",
+    borderColor: theme.palette.secondary.main,
+    color: COLORS.grey,
+    fontWeight: "bold",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    borderBottom: "1px solid grey",
+    fontSize: 14,
+  },
+}));
+
+export const TableBorderNone = styled(TableCell)({
+  borderBottom: "none",
+});
+
+export const ProductContent = styled(Box)({
+  "& p": {
+    color: theme.palette.secondary.main,
+    alignSelf: "center",
+  },
 });
