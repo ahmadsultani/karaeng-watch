@@ -39,8 +39,7 @@ export default function MainLayout({
           display={"flex"}
           position={"relative"}
           flexDirection={"column"}
-          width="100%"
-          overflow="hidden"
+          width={medium ? "100%" : "calc(100% - 248px)"}
         >
           <AppBar
             position="sticky"
@@ -77,7 +76,9 @@ export default function MainLayout({
             </Toolbar>
           </AppBar>
           <Box
+            width={"100%"}
             padding={small ? "16px" : medium ? "24px" : "32px"}
+            overflow={"hidden"}
             sx={{
               flex: 1,
               overflow: "auto",
