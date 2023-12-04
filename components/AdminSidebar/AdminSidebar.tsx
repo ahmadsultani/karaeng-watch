@@ -7,7 +7,13 @@ import { Box, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import GridViewIcon from "@mui/icons-material/GridView";
 import { SideBarItem } from "./SideBarItem";
-import { Inventory, Person, Sell } from "@mui/icons-material";
+import {
+  Checklist,
+  Inventory,
+  ManageAccounts,
+  Person,
+  Sell,
+} from "@mui/icons-material";
 import { usePathname, useSearchParams } from "next/navigation";
 
 interface AdminSidebarProps {
@@ -30,20 +36,32 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       active: pathname === "/admin",
     },
     {
-      name: "Product",
-      icon: <Inventory />,
-      href: "/admin/product",
-      active: pathname === "/admin/product",
+      name: "Admins",
+      icon: <ManageAccounts />,
+      href: "/admin/admins",
+      active: pathname.startsWith("/admin/admins"),
     },
     {
       name: "User",
       icon: <Person />,
       href: "/admin/user",
-      active: pathname === "/admin/user",
+      active: pathname.startsWith("/admin/user"),
+    },
+    {
+      name: "Brand",
+      icon: <Sell />,
+      href: "/admin/brand",
+      active: pathname.startsWith("/admin/brand"),
+    },
+    {
+      name: "Product",
+      icon: <Inventory />,
+      href: "/admin/product",
+      active: pathname.startsWith("/admin/product"),
     },
     {
       name: "Order",
-      icon: <Sell />,
+      icon: <Checklist />,
       nested: true,
       option: [
         {
@@ -97,9 +115,14 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             objectFit="contain"
           />
         </Box>
-        <Typography fontSize={"24px"} color={"white"} fontWeight={"300"}>
-          KARAENGWATCH
-        </Typography>
+        <Box display={"flex"}>
+          <Typography fontSize={"20px"} color={"white"} fontWeight={"300"}>
+            KARAENG
+          </Typography>
+          <Typography fontSize={"20px"} color={"primary"} fontWeight={"300"}>
+            WATCH
+          </Typography>
+        </Box>
       </Styles.SidebarHead>
       <Styles.SidebarMenus
         sx={{
