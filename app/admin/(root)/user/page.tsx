@@ -1,4 +1,4 @@
-import { getAllBrand } from "@/feature/brand";
+import { getAllUser } from "@/feature/user";
 import {
   HydrationBoundary,
   QueryClient,
@@ -6,19 +6,19 @@ import {
 } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 
-const BrandAdmin = dynamic(() => import("@/feature/brand/BrandAdmin"));
+const UserAdmin = dynamic(() => import("@/feature/user/UserAdmin"));
 
 export default async function AdminProductPage() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["brand"],
-    queryFn: getAllBrand,
+    queryKey: ["user"],
+    queryFn: getAllUser,
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <BrandAdmin />
+      <UserAdmin />
     </HydrationBoundary>
   );
 }
