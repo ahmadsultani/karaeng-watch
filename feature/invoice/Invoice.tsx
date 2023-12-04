@@ -1,93 +1,153 @@
 "use client";
 
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  Typography,
+  Grid,
+} from "@mui/material";
+
 import * as InvoiceCard from "./styles";
+import { formatPrice } from "@/utils/formatter";
 
 export const Invoice = () => {
   const products = [
-    { name: "Product 1", brand: "Product Brand 1", price: 100, quantity: 2 },
-    { name: "Product 1", brand: "Product Brand 1", price: 100, quantity: 2 },
+    {
+      name: "ProGCGTKUVJ GCTKUKG VJGTULCYGHduct 1",
+      brand: "Product Brand 1",
+      price: 1000000000,
+      quantity: 2,
+    },
+    {
+      name: "Product 1",
+      brand: "Product Brand 1",
+      price: 1000000000,
+      quantity: 2,
+    },
   ];
 
-  const taxRate = 0.35; // 35%
-  const shipmentCost = 0; // Assuming no shipment cost
+  const user = {
+    name: "Andi Farhan Sappewali",
+    address1: "Lamandau Street",
+    address2: "Makassar, South Sulawesi",
+    address3: "Indonesia",
+    postCode: 90234,
+  };
 
-  // Calculate the total sum of all products
+  const cart = {
+    id: "INV-000001",
+    date: "29/09/2023",
+  };
+
+  const taxRate = 0.35;
+  const shipmentCost = 0;
+
   const subtotal = products.reduce(
     (acc, product) => acc + product.price * product.quantity,
     0,
   );
 
-  // Calculate tax and total including tax
   const tax = subtotal * taxRate;
   const total = subtotal + tax + shipmentCost;
 
   return (
     <InvoiceCard.Container>
-      <InvoiceCard.Details>
-        <InvoiceCard.DetailsUser>
-          <InvoiceCard.DetailsUserTitle>
-            <p>Billed To</p>
-          </InvoiceCard.DetailsUserTitle>
-          <InvoiceCard.DetailsUserContent>
-            <p>Sappe</p>
-            <p>Lamandau Street</p>
-            <p>Makassar, South Sulawesi</p>
-            <p>Indonesia</p>
-            <p>90234</p>
-          </InvoiceCard.DetailsUserContent>
-        </InvoiceCard.DetailsUser>
-        <InvoiceCard.DetailsCartWrapper>
-          <InvoiceCard.DetailsCart>
-            <InvoiceCard.DetailsCartTitle>
-              <p>Invoice Number</p>
-            </InvoiceCard.DetailsCartTitle>
-            <InvoiceCard.DetailsCartContent>
-              <p>INV/723187/KRW/8349284783</p>
-            </InvoiceCard.DetailsCartContent>
-          </InvoiceCard.DetailsCart>
-          <InvoiceCard.DetailsCart>
-            <InvoiceCard.DetailsCartTitle>
-              <p>Date of Issue</p>
-            </InvoiceCard.DetailsCartTitle>
-            <InvoiceCard.DetailsCartContent>
-              <p>11/08/2023</p>
-            </InvoiceCard.DetailsCartContent>
-          </InvoiceCard.DetailsCart>
-        </InvoiceCard.DetailsCartWrapper>
-      </InvoiceCard.Details>
-      <InvoiceCard.Product>
-        <InvoiceCard.ProductTitle>
-          <InvoiceCard.ProductName>
-            <p>Product</p>
-          </InvoiceCard.ProductName>
-          <InvoiceCard.ProductPrice>
-            <p>Price</p>
-          </InvoiceCard.ProductPrice>
-          <InvoiceCard.ProductQty>
-            <p>Quantity</p>
-          </InvoiceCard.ProductQty>
-          <InvoiceCard.ProductTotal>
-            <p>Total</p>
-          </InvoiceCard.ProductTotal>
-        </InvoiceCard.ProductTitle>
-        {products.map((product, index) => (
-          <InvoiceCard.ProductContent key={index}>
-            <InvoiceCard.ProductNameContent>
-              <p>{product.name}</p>
-              <p>{product.brand}</p>
-            </InvoiceCard.ProductNameContent>
-            <InvoiceCard.ProductPrice>
-              <p>${product.price}</p>
-            </InvoiceCard.ProductPrice>
-            <InvoiceCard.ProductQty>
-              <p>{product.quantity}</p>
-            </InvoiceCard.ProductQty>
-            <InvoiceCard.ProductTotal>
-              <p>${product.price * product.quantity}</p>
-            </InvoiceCard.ProductTotal>
-          </InvoiceCard.ProductContent>
-        ))}
-      </InvoiceCard.Product>
+      <Grid container justifyContent="space-between">
+        <Grid>
+          <InvoiceCard.DetailsUser>
+            <InvoiceCard.DetailsUserTitle>
+              <Typography>Billed To</Typography>
+            </InvoiceCard.DetailsUserTitle>
+            <InvoiceCard.DetailsUserContent>
+              <Typography>{user.name}</Typography>
+              <Typography>{user.address1}</Typography>
+              <Typography>{user.address2}</Typography>
+              <Typography>{user.address3}</Typography>
+              <Typography>{user.postCode}</Typography>
+            </InvoiceCard.DetailsUserContent>
+          </InvoiceCard.DetailsUser>
+        </Grid>
+        <Grid>
+          <InvoiceCard.DetailsUser>
+            <InvoiceCard.DetailsUserWrapper>
+              <InvoiceCard.DetailsUserTitle>
+                <Typography>Invoice Number</Typography>
+              </InvoiceCard.DetailsUserTitle>
+              <InvoiceCard.DetailsUserContent>
+                <Typography>{cart.id}</Typography>
+              </InvoiceCard.DetailsUserContent>
+            </InvoiceCard.DetailsUserWrapper>
+            <InvoiceCard.DetailsUserWrapper>
+              <InvoiceCard.DetailsUserTitle>
+                <Typography>Date of Issue</Typography>
+              </InvoiceCard.DetailsUserTitle>
+              <InvoiceCard.DetailsUserContent>
+                <Typography>{cart.date}</Typography>
+              </InvoiceCard.DetailsUserContent>
+            </InvoiceCard.DetailsUserWrapper>
+          </InvoiceCard.DetailsUser>
+        </Grid>
+      </Grid>
+
+      <Box
+        component={Paper}
+        boxShadow="none"
+        width="100%"
+        sx={{ overflowX: "auto" }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
+              <InvoiceCard.StyledTableCell>
+                <InvoiceCard.ProductContent>Product</InvoiceCard.ProductContent>
+              </InvoiceCard.StyledTableCell>
+              <InvoiceCard.StyledTableCell align="right">
+                <InvoiceCard.ProductContent>Price</InvoiceCard.ProductContent>
+              </InvoiceCard.StyledTableCell>
+              <InvoiceCard.StyledTableCell>
+                <InvoiceCard.ProductContent>
+                  Quantity
+                </InvoiceCard.ProductContent>
+              </InvoiceCard.StyledTableCell>
+              <InvoiceCard.StyledTableCell align="right">
+                <InvoiceCard.ProductContent>Total</InvoiceCard.ProductContent>
+              </InvoiceCard.StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products.map((product, index) => (
+              <TableRow key={index}>
+                <InvoiceCard.StyledTableCell>
+                  <InvoiceCard.ProductNameContent>
+                    <Typography>{product.name}</Typography>
+                    <Typography>{product.brand}</Typography>
+                  </InvoiceCard.ProductNameContent>
+                </InvoiceCard.StyledTableCell>
+                <InvoiceCard.StyledTableCell align="right">
+                  <InvoiceCard.ProductContent>
+                    {formatPrice(product.price)}
+                  </InvoiceCard.ProductContent>
+                </InvoiceCard.StyledTableCell>
+                <InvoiceCard.StyledTableCell>
+                  <InvoiceCard.ProductContent>
+                    {product.quantity}
+                  </InvoiceCard.ProductContent>
+                </InvoiceCard.StyledTableCell>
+                <InvoiceCard.StyledTableCell align="right">
+                  <InvoiceCard.ProductContent>
+                    {formatPrice(product.price * product.quantity)}
+                  </InvoiceCard.ProductContent>
+                </InvoiceCard.StyledTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+
       <InvoiceCard.Total>
         {[
           { title: "Subtotal", value: subtotal },
@@ -97,10 +157,10 @@ export const Invoice = () => {
         ].map((item, index) => (
           <InvoiceCard.TotalContent key={index}>
             <InvoiceCard.TotalContentTitle>
-              <p>{item.title}</p>
+              <Typography>{item.title}</Typography>
             </InvoiceCard.TotalContentTitle>
             <InvoiceCard.TotalContentValue>
-              <p>${item.value}</p>
+              <Typography>{formatPrice(item.value)}</Typography>
             </InvoiceCard.TotalContentValue>
           </InvoiceCard.TotalContent>
         ))}
