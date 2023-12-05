@@ -1,5 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
 import {
   List,
   ListItemText,
@@ -11,31 +15,54 @@ import {
   Avatar,
   Typography,
   useMediaQuery,
+  Skeleton,
 } from "@mui/material";
 import { Logout, Person, SupportAgent } from "@mui/icons-material";
+
 import {
   SettingLabel,
   SettingProfile,
   SettingList,
   SettingWrapper,
 } from "./styles";
-interface SettingProps {}
 
-export const Setting: React.FC<SettingProps> = () => {
+import { IUser } from "@/interfaces/user";
+import toast from "react-hot-toast";
+
+export const Setting: React.FC = () => {
+  const [user, setUser] = useState<IUser>();
+  const router = useRouter();
+
   const small = useMediaQuery("(max-width:768px)");
   const medium = useMediaQuery("(max-width:1024px)");
+
+  useEffect(() => {
+    const userCookies = Cookies.get("user");
+    userCookies && setUser(JSON.parse(userCookies) as IUser);
+  }, []);
 
   return (
     <SettingWrapper>
       <SettingProfile>
-        <Avatar sx={{ width: 94, height: 94 }} />
+        {user ? (
+          <Avatar sx={{ width: 94, height: 94 }}>
+            {user.firstName[0]}
+            {user.lastName[0]}
+          </Avatar>
+        ) : (
+          <Skeleton variant="circular" width={94} height={94} />
+        )}
         <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
           <Typography
             textAlign={"center"}
             fontSize={"18px"}
             color={"secondary.main"}
           >
-            andi m. fadhilul asyam hafid{" "}
+            {user ? (
+              `${user.firstName} ${user.lastName}`
+            ) : (
+              <Skeleton variant="text" width={100} />
+            )}
           </Typography>
           <Typography
             textAlign={"center"}
@@ -45,7 +72,7 @@ export const Setting: React.FC<SettingProps> = () => {
             fontSize={"14px"}
             color={"gray"}
           >
-            JohnDoe@gmail.comhvsdjhhjsghojofhtdyguhijokp[l]
+            {user ? user.email : <Skeleton variant="text" width={80} />}
           </Typography>
         </Box>
       </SettingProfile>
@@ -71,6 +98,11 @@ export const Setting: React.FC<SettingProps> = () => {
           </>
         ))}
         <ListItemButton
+          onClick={() => {
+            Cookies.remove("user");
+            toast.success("Logout succeed, see you!");
+            router.push("/login");
+          }}
           sx={{
             padding: small ? "0" : medium ? "4px 8px" : "",
           }}
