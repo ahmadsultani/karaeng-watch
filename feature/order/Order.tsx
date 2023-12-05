@@ -7,7 +7,8 @@ import { OrderWrapper, OrderContainer, StyledTab } from "./styles";
 import { Card } from "./components/Card";
 
 import { order } from "./fakeOrderData";
-import { Tabs } from "@mui/material";
+import { Tabs, Typography } from "@mui/material";
+import { EmptyWrapper } from "@/components/Wrapper/styles";
 
 enum OrderStatus {
   WAITING = "waiting",
@@ -46,15 +47,23 @@ export const Order = () => {
       </Tabs>
 
       <OrderContainer>
-        {orderFiltered.map((item) => (
-          <Card
-            key={item.id}
-            id={item.id}
-            status={item.status}
-            isReviewed={item.isReviewed}
-            products={item.products}
-          />
-        ))}
+        {orderFiltered.length > 0 ? (
+          orderFiltered.map((item) => (
+            <Card
+              key={item.id}
+              id={item.id}
+              status={item.status}
+              isReviewed={item.isReviewed}
+              products={item.products}
+            />
+          ))
+        ) : (
+          <EmptyWrapper>
+            <Typography variant="h4" color="secondary">
+              No order found
+            </Typography>
+          </EmptyWrapper>
+        )}
       </OrderContainer>
     </OrderWrapper>
   );
