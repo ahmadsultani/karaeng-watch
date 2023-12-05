@@ -1,11 +1,5 @@
-import { CSNavbar } from "@/components/Navbar";
-import { CustomerService } from "@/feature/setting";
+import { CustomerService } from "@/feature/customer-service";
 
 export default function CSPage() {
-  return (
-    <>
-      <CSNavbar />
-      <CustomerService />
-    </>
-  );
+  return <CustomerService />;
 }

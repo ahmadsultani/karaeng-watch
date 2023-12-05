@@ -1,5 +1,6 @@
 "use client";
 
+import { formatToHour } from "@/utils/formatter";
 import { Box } from "@mui/material";
 import {
   AdminBalloon,
@@ -7,33 +8,26 @@ import {
   ChatText,
   DateText,
   UserBalloon,
-} from "./styles";
+} from "../styles";
 
 interface ChatBalloonProps {
   children: React.ReactNode;
   variant: "User" | "Admin";
-  Date: Date;
+  date: string;
 }
 
 export const ChatBalloon: React.FC<ChatBalloonProps> = ({
   children,
   variant = "User",
-  Date,
+  date,
 }) => {
-  const hour = Date.getHours();
-  const minute = Date.getMinutes();
-
   if (variant === "Admin") {
     return (
       <BalloonContainer>
         <AdminBalloon bgcolor={"primary.main"}>
           <ChatText color={"black"}>{children}</ChatText>
           <Box display={"flex"} width="100%" justifyContent={"flex-end"}>
-            <DateText color={"black"}>
-              {hour < 10 ? "0" + hour : hour}:
-              {minute < 10 ? "0" + minute : minute}
-              {/* {second < 10 ? "0" + second : second} */}
-            </DateText>
+            <DateText color={"black"}>{formatToHour(date)}</DateText>
           </Box>
         </AdminBalloon>
       </BalloonContainer>
@@ -45,8 +39,7 @@ export const ChatBalloon: React.FC<ChatBalloonProps> = ({
           <ChatText color={"white"}>{children}</ChatText>
           <Box display={"flex"} width="100%" justifyContent={"flex-end"}>
             <DateText color={"white"}>
-              {hour < 10 ? "0" + hour : hour}:
-              {minute < 10 ? "0" + minute : minute}
+              {formatToHour(date)}
               {/* {second < 10 ? "0" + second : second} */}
             </DateText>
           </Box>

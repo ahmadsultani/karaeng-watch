@@ -5,7 +5,8 @@ export const ChatWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
   position: "relative",
-  minHeight: "calc(100vh - 134px)", // Set min-height to cover the full viewport
+  height: "100vh",
+  overflow: "hidden",
 });
 
 export const EmptyChatIcon = styled(Box)({
@@ -20,6 +21,7 @@ export const ChatContainer = styled(Box)({
   flexDirection: "column",
   padding: "16px",
   gap: "16px",
+  overflowY: "auto",
 });
 
 export const ChatHeader = styled(Box)({
@@ -28,7 +30,7 @@ export const ChatHeader = styled(Box)({
   justifyContent: "center",
 });
 
-export const ChatInput = styled(Box)(({ theme }) => ({
+export const ChatInputWrapper = styled(Box)(({ theme }) => ({
   position: "sticky",
   bottom: "0",
   gap: "16px",
