@@ -3,7 +3,14 @@ import { Control, Controller } from "react-hook-form";
 
 import { getAllBrand } from "@/service/brand";
 
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 import {
   FormSection,
@@ -28,6 +35,8 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
   });
 
   const router = useRouter();
+
+  const isMobile = useMediaQuery("(max-width: 768px");
 
   return (
     <AdminWrapper>
@@ -391,8 +400,19 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
         </FormSectionBody>
       </FormSection>
 
-      <Box display="flex" justifyContent="end" width="100%" gap="16px">
-        <Button type="submit" variant="contained" color="primary">
+      <Box
+        display="flex"
+        justifyContent="end"
+        width="100%"
+        gap="16px"
+        flexWrap="wrap"
+      >
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth={isMobile}
+        >
           <Typography color="white" mx={4}>
             {type === "create" ? "Create" : "Save"}
           </Typography>
@@ -400,7 +420,8 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => router.back()}
+          onClick={() => router.push("/admin/brand")}
+          fullWidth={isMobile}
         >
           <Typography color="white" mx={4}>
             Cancel

@@ -18,8 +18,9 @@ export const BrandEdit = () => {
     queryFn: () => getOneBrand(id),
     enabled: !!id,
   });
+
   const { control, handleSubmit } = useForm<TBrandForm>({
-    values: {
+    defaultValues: {
       imageURL: data?.imageURL || "",
       name: data?.name || "",
     },

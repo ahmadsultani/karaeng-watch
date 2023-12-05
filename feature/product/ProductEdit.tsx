@@ -19,7 +19,7 @@ export const ProductEdit = () => {
   });
 
   const { control, handleSubmit } = useForm<TProductForm>({
-    values: {
+    defaultValues: {
       name: data?.name || "",
       price: data?.price || 0,
       description: data?.description || "",

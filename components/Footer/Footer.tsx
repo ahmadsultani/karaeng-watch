@@ -23,6 +23,7 @@ export const Footer = () => {
             color="primary"
             placeholder="Email Address"
             autoComplete="off"
+            type="email"
           />
           <Button variant="text">
             <Typography component="span" fontSize="14px" color="white">

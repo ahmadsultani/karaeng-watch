@@ -40,6 +40,9 @@ export const HeaderContainer = styled(Box)({
   display: "flex",
   alignItems: "center",
   gap: "16px",
+  ["@media (max-width: 768px)"]: {
+    flexDirection: "column",
+  },
 });
 
 export const Bottom = styled(Box)(({ theme }) => ({

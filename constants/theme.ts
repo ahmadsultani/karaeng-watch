@@ -51,9 +51,6 @@ export const theme = createTheme({
           textTransform: "none",
           boxShadow: "none",
         },
-        text: {
-          paddingInline: 0,
-        },
         sizeLarge: {
           padding: "16px 24px",
           fontSize: "16px",
@@ -66,12 +63,21 @@ export const theme = createTheme({
           padding: "8px 16px",
           fontSize: "12px",
         },
+        text: {
+          paddingInline: "0 !important",
+        },
       },
     },
 
     MuiLink: {
       defaultProps: {
         underline: "hover",
+      },
+    },
+
+    MuiTypography: {
+      defaultProps: {
+        fontSize: "inherit",
       },
     },
   },
