@@ -7,10 +7,10 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <main className="main-root">
       <Navbar />
       {children}
       <Footer />
-    </>
+    </main>
   );
 }
