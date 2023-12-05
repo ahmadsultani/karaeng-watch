@@ -7,6 +7,8 @@ export interface IUser {
   email: string;
   photoURL: string | null;
   role: TRole;
+  address?: string;
+  birthDate?: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -45,7 +45,7 @@ export const Setting: React.FC = () => {
     <SettingWrapper>
       <SettingProfile>
         {user ? (
-          <Avatar sx={{ width: 94, height: 94 }}>
+          <Avatar sx={{ width: 94, height: 94 }} src={user.photoURL || ""}>
             {user.firstName[0]}
             {user.lastName[0]}
           </Avatar>

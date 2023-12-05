@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 import { auth, db } from "@/config/firebase";
 
@@ -18,4 +18,19 @@ export const getCurrentUser = async () => {
   }
 
   return docSnap.data() as IUser;
+};
+
+export const updateUser = async (data: Partial<IUser>) => {
+  const user = auth.currentUser;
+
+  if (!user) throw new Error("User not found!");
+
+  const docRef = doc(db, "user", user.uid);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists()) {
+    throw new Error(USER_NOT_FOUND);
+  }
+
+  await updateDoc(docRef, data);
 };

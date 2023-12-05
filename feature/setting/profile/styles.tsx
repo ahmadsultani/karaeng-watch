@@ -1,23 +1,26 @@
-import { Box, Button, Input, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonBase,
+  Input,
+  Typography,
+  styled,
+} from "@mui/material";
 
 export const ProfileWrapper = styled(Box)({
   padding: "32px 64px",
   display: "flex",
   flexDirection: "column",
-  gap: "24px",
-
+  gap: "48px",
   ["@media (max-width: 1024px)"]: {
-    padding: "16px 32px",
-    gap: "12px",
+    paddingInline: "32px",
   },
   ["@media (max-width: 768px)"]: {
-    padding: "8px 16px",
-    gap: "6px",
+    paddingInline: "16px",
   },
 });
 
 export const ProfileItemContainer = styled(Box)({
-  padding: "0 16px",
   gap: "16px",
   display: "flex",
   flexDirection: "column",
@@ -39,8 +42,17 @@ export const ProfileItems = styled(Box)({
     gap: "8px",
   },
   ["@media (max-width: 768px)"]: {
-    gap: "0px",
+    gap: "4px",
+    alignItems: "flex-start",
+    flexDirection: "column",
   },
+});
+
+export const ProfileFormSection = styled("form")({
+  display: "flex",
+  flexDirection: "column",
+  gap: "24px",
+  width: "100%",
 });
 
 export const ProfileLabel = styled(Typography)({
@@ -57,9 +69,9 @@ export const ProfileLabel = styled(Typography)({
   },
 });
 
-export const ProfileContent = styled(Input)({
+export const ProfileContent = styled(Input)(({ theme }) => ({
   fontSize: "20px",
-  color: "gray",
+  color: theme.palette.grey[600],
   width: "100%",
   fontWeight: "300",
   ["@media (max-width: 1024px)"]: {
@@ -68,17 +80,19 @@ export const ProfileContent = styled(Input)({
   ["@media (max-width: 768px)"]: {
     fontSize: "16px",
   },
+}));
+
+export const DropArea = styled(ButtonBase)({
+  border: `1px solid grey`,
+  width: "100%",
+  borderRadius: "4px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "32px 12px",
 });
 
-export const SaveButton = styled(Button)({
-  padding: "8px 32px",
-  ["@media (max-width: 1024px)"]: {},
-  ["@media (max-width: 768px)"]: {
-    width: "100%",
-  },
-});
-
-export const CustomerService = styled(Button)({
+export const ProfileButton = styled(Button)({
   padding: "8px 32px",
   ["@media (max-width: 1024px)"]: {},
   ["@media (max-width: 768px)"]: {
