@@ -75,6 +75,7 @@ export const ControlButton = styled(Button)({
 export const Total = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
+  gap: "16px",
 });
 
 export const TotalContent = styled(Box)({
