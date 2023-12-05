@@ -23,7 +23,6 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
     defaultValues: {
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email,
       uid: user.uid,
       birthDate: user.birthDate,
       address: user.address,
@@ -86,19 +85,6 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
           {user ? (
             <Controller
               name="lastName"
-              control={control}
-              render={({ field }) => <ProfileContent {...field} />}
-            />
-          ) : (
-            <Skeleton variant="text" width="100%" height={30} />
-          )}
-        </ProfileItems>
-
-        <ProfileItems>
-          <ProfileLabel color="secondary">Email</ProfileLabel>
-          {user ? (
-            <Controller
-              name="email"
               control={control}
               render={({ field }) => <ProfileContent {...field} />}
             />

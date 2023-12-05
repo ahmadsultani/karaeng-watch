@@ -37,6 +37,7 @@ export const signup = async (values: TSignupForm) => {
     lastName: values.lastName,
     email: values.email,
     photoURL: userCredentials.user.photoURL,
+    emailVerified: userCredentials.user.emailVerified,
     role: "user",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -70,7 +71,10 @@ export const login = async (values: TLoginForm, role: TRole = "user") => {
     );
   }
 
-  return docSnap.data() as IUser;
+  const user = docSnap.data() as IUser;
+  user.emailVerified = userCredentials.user.emailVerified;
+
+  return user;
 };
 
 export const logout = async () => {
@@ -90,6 +94,7 @@ export const signinWithGoogle = async () => {
       lastName: userCredentials.user.displayName?.split(" ")[1] || "",
       email: userCredentials.user.email || "",
       photoURL: userCredentials.user.photoURL || "",
+      emailVerified: userCredentials.user.emailVerified,
       role: "user",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

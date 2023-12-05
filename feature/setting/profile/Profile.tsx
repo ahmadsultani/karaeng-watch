@@ -9,6 +9,7 @@ import { UserInformation } from "./UserInformation";
 import { useMemo } from "react";
 import { Divider } from "@mui/material";
 import { ProfilePicture } from "./ProfilePicture";
+import { EmailInformation } from "./EmailInformation";
 
 export interface ProfileSectionProps {
   user: IUser;
@@ -23,6 +24,8 @@ export const Profile: React.FC = () => {
   return (
     <ProfileWrapper>
       <ProfilePicture user={user} />
+      <Divider />
+      <EmailInformation user={user} />
       <Divider />
       <UserInformation user={user} />
     </ProfileWrapper>

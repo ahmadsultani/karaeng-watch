@@ -28,6 +28,7 @@ import {
 
 import { IUser } from "@/interfaces/user";
 import toast from "react-hot-toast";
+import { auth } from "@/config/firebase";
 
 export const Setting: React.FC = () => {
   const [user, setUser] = useState<IUser>();
@@ -98,7 +99,8 @@ export const Setting: React.FC = () => {
           </>
         ))}
         <ListItemButton
-          onClick={() => {
+          onClick={async () => {
+            await auth.signOut();
             Cookies.remove("user");
             toast.success("Logout succeed, see you!");
             router.push("/login");

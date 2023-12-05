@@ -71,7 +71,10 @@ export const ProfileLabel = styled(Typography)({
 
 export const ProfileContent = styled(Input)(({ theme }) => ({
   fontSize: "20px",
-  color: theme.palette.grey[600],
+  color: theme.palette.secondary.main,
+  "&::placeholder": {
+    color: theme.palette.grey[500],
+  },
   width: "100%",
   fontWeight: "300",
   ["@media (max-width: 1024px)"]: {
