@@ -66,7 +66,7 @@ export const Navbar: React.FC = () => {
   return (
     <Wrapper
       notonhero={JSON.stringify(notOnHero)}
-      onhome={JSON.stringify(onHome)}
+      position={onHome ? "fixed" : "sticky"}
     >
       {isMobile ? (
         <div>
@@ -104,14 +104,14 @@ export const Navbar: React.FC = () => {
         <IconButton onClick={() => router.push("/order")}>
           <ArticleOutlined
             htmlColor={`
-          ${pathname === "/order" ? COLORS.primary : "white"}
+          ${pathname.startsWith("/order") ? COLORS.primary : "white"}
           `}
           />
         </IconButton>
         <IconButton onClick={() => router.push("/cart")}>
           <ShoppingBasket
             htmlColor={`
-          ${pathname === "/cart" ? COLORS.primary : "white"}
+          ${pathname.startsWith("/cart") ? COLORS.primary : "white"}
           `}
           />
         </IconButton>
@@ -125,7 +125,7 @@ export const Navbar: React.FC = () => {
         <IconButton onClick={() => router.push("/setting")}>
           <PersonOutline
             htmlColor={`
-          ${pathname === "/setting" ? COLORS.primary : "white"}
+          ${pathname.startsWith("/setting") ? COLORS.primary : "white"}
           `}
           />
         </IconButton>

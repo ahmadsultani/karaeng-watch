@@ -1,8 +1,7 @@
 import { Box, IconButton, Link, Typography, styled } from "@mui/material";
 
-export const Wrapper = styled(Box)<{ notonhero?: string; onhome?: string }>(
-  ({ notonhero, onhome, theme }) => ({
-    position: JSON.parse(onhome || "false") ? "fixed" : "sticky",
+export const Wrapper = styled(Box)<{ notonhero?: string }>(
+  ({ notonhero, theme }) => ({
     top: 0,
     right: 0,
     left: 0,

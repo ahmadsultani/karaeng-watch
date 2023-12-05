@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { FirebaseError } from "firebase/app";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import { login, signinWithGoogle, signup } from "./service";
 import { getFirebaseErrorMessage } from "@/utils/getFirebaseErrorMessage";
@@ -10,7 +12,6 @@ import { getFirebaseErrorMessage } from "@/utils/getFirebaseErrorMessage";
 import { IUser } from "@/interfaces/user";
 import { TLoginForm, TSignupForm } from "./types";
 
-import toast from "react-hot-toast";
 import { DEFAULT_ERROR } from "@/constants/errors";
 
 export const useAuth = () => {
@@ -28,7 +29,8 @@ export const useAuth = () => {
     mutationFn: (data) => login(data, data.role),
     retry: 0,
     onSuccess: (data) => {
-      queryClient.setQueryData(["user"], data);
+      queryClient.setQueryData(["user", data.uid], data);
+      Cookies.set("user", JSON.stringify(data));
       toast.dismiss();
       toast.success("Logged in successfully");
       router.push("/");
@@ -54,7 +56,8 @@ export const useAuth = () => {
     mutationFn: signup,
     retry: 0,
     onSuccess: (data) => {
-      queryClient.setQueryData(["user"], data);
+      queryClient.setQueryData(["user", data.uid], data);
+      Cookies.set("user", JSON.stringify(data));
       toast.dismiss();
       toast.success("Account created successfully");
       router.push("/");
@@ -75,11 +78,9 @@ export const useAuth = () => {
   const handleSigninWithGoogle = async () => {
     try {
       const user = await signinWithGoogle();
-      queryClient.setQueryData(["user"], user);
+      queryClient.setQueryData(["user", user.uid], user);
       toast.success("Logged in successfully");
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      router.push("/");
     } catch (error) {
       toast.error(DEFAULT_ERROR);
     }
