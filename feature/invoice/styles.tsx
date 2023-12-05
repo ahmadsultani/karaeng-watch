@@ -67,42 +67,6 @@ export const ProductNameContent = styled(Box)({
   gap: "8px",
 });
 
-export const Total = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  gap: "8px",
-  width: "100%",
-  alignItems: "flex-end",
-  "& p": {
-    color: theme.palette.secondary.main,
-    fontWeight: "bold",
-  },
-});
-
-export const TotalContent = styled(Box)({
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "24px",
-  width: "50%",
-  paddingBottom: "8px",
-  ["@media (max-width: 768px)"]: {
-    width: "100%",
-  },
-});
-
-export const TotalContentTitle = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "100%",
-});
-
-export const TotalContentValue = styled(Box)({
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "100%",
-});
-
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     borderBottom: "1px solid",
@@ -125,4 +89,38 @@ export const ProductContent = styled(Box)({
     color: theme.palette.secondary.main,
     alignSelf: "center",
   },
+});
+
+export const TotalPayment = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+});
+
+export const MethodPayment = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  gap: "8px",
+});
+
+export const Payment = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+  "& p": {
+    fontWeight: 600,
+  },
+});
+
+export const PaymentText = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+});
+
+export const Total = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  width: "50%",
+  gap: "8px",
 });
