@@ -8,8 +8,8 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { deleteProduct, getAllProduct } from "..";
-import { Table } from "../components/Table";
+import { deleteProduct, getAllProduct } from ".";
+import { Table } from "./components/Table";
 
 enum EProductStatus {
   LOADING,

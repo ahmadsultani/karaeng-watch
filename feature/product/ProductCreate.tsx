@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { TProductForm, createProduct } from "..";
-import { Form } from "../components/Form";
+import { TProductForm, createProduct } from ".";
+import { Form } from "./components/Form";
 
 export const ProductCreate = () => {
   const queryClient = useQueryClient();

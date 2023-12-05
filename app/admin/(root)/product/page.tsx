@@ -6,9 +6,7 @@ import {
 } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 
-const ProductAdmin = dynamic(
-  () => import("@/feature/product/admin/ProductAdmin"),
-);
+const ProductAdmin = dynamic(() => import("@/feature/product/ProductAdmin"));
 
 export default async function AdminProductPage() {
   const queryClient = new QueryClient();

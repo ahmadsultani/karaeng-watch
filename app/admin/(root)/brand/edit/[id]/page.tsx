@@ -1,16 +1,13 @@
-import { getOneProduct } from "@/feature/product";
+import { getOneBrand } from "@/feature/brand";
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+const BrandEdit = dynamic(() => import("@/feature/brand/BrandEdit"));
 
-const ProductEdit = dynamic(
-  () => import("@/feature/product/admin/ProductEdit"),
-);
-
-export default async function AdminProductEditPage({
+export default async function BrandProductEditPage({
   params,
 }: {
   params: { id: string };
@@ -19,13 +16,13 @@ export default async function AdminProductEditPage({
   const { id } = params;
 
   await queryClient.prefetchQuery({
-    queryKey: ["product", id],
-    queryFn: () => getOneProduct(id),
+    queryKey: ["brand", id],
+    queryFn: () => getOneBrand(id),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductEdit />
+      <BrandEdit />
     </HydrationBoundary>
   );
 }
