@@ -75,7 +75,13 @@ export const ControlButton = styled(Button)({
 export const Total = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
-  gap: "16px",
+  gap: "48px",
+  ["@media (max-width: 840px)"]: {
+    gap: "24px",
+  },
+  ["@media (max-width: 480px)"]: {
+    gap: "16px",
+  },
 });
 
 export const TotalContent = styled(Box)({
@@ -92,6 +98,7 @@ export const CheckoutButton = styled(Button)({
   backgroundColor: theme.palette.secondary.main,
   color: "white",
   width: "100%",
+  fontWeight: "600",
   "&:hover": {
     backgroundColor: COLORS.grey,
     boxShadow: "none",
