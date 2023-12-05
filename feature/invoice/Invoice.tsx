@@ -10,9 +10,11 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import Image from "next/image";
 
 import * as InvoiceCard from "./styles";
 import { formatPrice } from "@/utils/formatter";
+import LogoBCA from "@/public/icons/logo-bca.svg";
 
 export const Invoice = () => {
   const products = [
@@ -148,23 +150,40 @@ export const Invoice = () => {
         </Table>
       </Box>
 
-      <InvoiceCard.Total>
-        {[
-          { title: "Subtotal", value: subtotal },
-          { title: "Tax (35%)", value: tax },
-          { title: "Shipment", value: shipmentCost },
-          { title: "Total", value: total },
-        ].map((item, index) => (
-          <InvoiceCard.TotalContent key={index}>
-            <InvoiceCard.TotalContentTitle>
-              <Typography>{item.title}</Typography>
-            </InvoiceCard.TotalContentTitle>
-            <InvoiceCard.TotalContentValue>
-              <Typography>{formatPrice(item.value)}</Typography>
-            </InvoiceCard.TotalContentValue>
-          </InvoiceCard.TotalContent>
-        ))}
-      </InvoiceCard.Total>
+      <InvoiceCard.TotalPayment>
+        <InvoiceCard.MethodPayment>
+          <Typography fontWeight="600">Virtual Account Billing</Typography>
+          <InvoiceCard.Payment>
+            <Image src={LogoBCA} width={64} alt="logo" />
+            <InvoiceCard.PaymentText>
+              <Typography>Bank BCA</Typography>
+              <Typography>89763023427326</Typography>
+            </InvoiceCard.PaymentText>
+          </InvoiceCard.Payment>
+        </InvoiceCard.MethodPayment>
+        <InvoiceCard.Total>
+          {[
+            { title: "Subtotal", value: subtotal },
+            { title: "Tax (35%)", value: tax },
+            { title: "Shipment", value: shipmentCost },
+            { title: "Grand Total", value: total },
+          ].map((item, index) => (
+            <Grid
+              container
+              justifyContent="space-between"
+              gap="16px"
+              key={index}
+            >
+              <Grid>
+                <Typography fontWeight="600">{item.title}</Typography>
+              </Grid>
+              <Grid>
+                <Typography>{formatPrice(item.value)}</Typography>
+              </Grid>
+            </Grid>
+          ))}
+        </InvoiceCard.Total>
+      </InvoiceCard.TotalPayment>
     </InvoiceCard.Container>
   );
 };
