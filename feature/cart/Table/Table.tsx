@@ -51,51 +51,55 @@ export const CartTable: React.FC<CartProps> = () => {
   );
 
   return (
-    <Box
-      component={Paper}
-      boxShadow="none"
-      width="100%"
-      sx={{ overflowX: "auto" }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow>
-            <CartCard.StyledTableCell>
-              <CartCard.ProductContent>Product</CartCard.ProductContent>
-            </CartCard.StyledTableCell>
-            <CartCard.StyledTableCell align="right">
-              <CartCard.ProductContent>Price</CartCard.ProductContent>
-            </CartCard.StyledTableCell>
-            <CartCard.StyledTableCell>
-              <CartCard.ProductContent>Quantity</CartCard.ProductContent>
-            </CartCard.StyledTableCell>
-            <CartCard.StyledTableCell align="right">
-              <CartCard.ProductContent>Total</CartCard.ProductContent>
-            </CartCard.StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {cartProducts.length === 0 ? (
+    <>
+      <Box
+        component={Paper}
+        boxShadow="none"
+        width="100%"
+        sx={{ overflowX: "auto" }}
+      >
+        <Table>
+          <TableHead>
             <TableRow>
-              <CartCard.TableBorderNone colSpan={4}>
-                <EmptyCart />
-              </CartCard.TableBorderNone>
+              <CartCard.StyledTableCell>
+                <CartCard.ProductContent>Product</CartCard.ProductContent>
+              </CartCard.StyledTableCell>
+              <CartCard.StyledTableCell align="right">
+                <CartCard.ProductContent>Price</CartCard.ProductContent>
+              </CartCard.StyledTableCell>
+              <CartCard.StyledTableCell>
+                <CartCard.ProductContent>Quantity</CartCard.ProductContent>
+              </CartCard.StyledTableCell>
+              <CartCard.StyledTableCell align="right">
+                <CartCard.ProductContent>Total</CartCard.ProductContent>
+              </CartCard.StyledTableCell>
             </TableRow>
-          ) : (
-            cartProducts.map((product, index) => (
-              <CartItem
-                key={index}
-                product={product}
-                onIncrease={() => handleIncrease(index)}
-                onDecrease={() => handleDecrease(index)}
-              />
-            ))
-          )}
-        </TableBody>
+          </TableHead>
+          <TableBody>
+            {cartProducts.length === 0 ? (
+              <TableRow>
+                <CartCard.TableBorderNone colSpan={4}>
+                  <EmptyCart />
+                </CartCard.TableBorderNone>
+              </TableRow>
+            ) : (
+              cartProducts.map((product, index) => (
+                <CartItem
+                  key={index}
+                  product={product}
+                  onIncrease={() => handleIncrease(index)}
+                  onDecrease={() => handleDecrease(index)}
+                />
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </Box>
+      <Box width="100%" display="flex" justifyContent="flex-end">
         <TableBody>
           {cartProducts.length > 0 && <CartTotal totalSum={totalSum} />}
         </TableBody>
-      </Table>
-    </Box>
+      </Box>
+    </>
   );
 };
