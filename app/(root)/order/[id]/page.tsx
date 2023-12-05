@@ -1,5 +1,5 @@
 import { Invoice } from "@/feature/invoice";
 
-export default function OrderDetail() {
+export default function InvoicePage() {
   return <Invoice />;
 }
