@@ -62,7 +62,7 @@ export const login = async (values: TLoginForm, role: TRole = "user") => {
     throw new FirebaseError("auth/user-not-found", USER_NOT_FOUND);
   }
 
-  if (docSnap.data()?.role !== role) {
+  if (role !== "user" && docSnap.data()?.role === "user") {
     signOut(auth);
     throw new FirebaseError(
       "auth/operation-not-allowed",
