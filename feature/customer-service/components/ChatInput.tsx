@@ -1,27 +1,25 @@
-import {
-  Timestamp,
-  arrayUnion,
-  doc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { Timestamp, arrayUnion, doc, setDoc } from "firebase/firestore";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
-import { ChatInputWrapper } from "./styles";
+import { ChatInputWrapper } from "../styles";
 import { useState } from "react";
 import { db } from "@/config/firebase";
 import { IUser } from "@/interfaces/user";
 import { IconButton, TextField } from "@mui/material";
 import { Send } from "@mui/icons-material";
 
-export const ChatInput = () => {
+interface ChatInputProps {
+  chatroomId: string;
+}
+
+export const ChatInput: React.FC<ChatInputProps> = ({ chatroomId }) => {
   const user = JSON.parse(Cookies.get("user") || "{}") as IUser;
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleSend = async () => {
     if (inputValue.trim()) {
       await setDoc(
-        doc(db, "chats", user.uid),
+        doc(db, "chats", chatroomId),
         {
           messages: arrayUnion({
             id: uuidv4(),
@@ -36,10 +34,11 @@ export const ChatInput = () => {
       );
 
       await setDoc(
-        doc(db, "userChats", user.uid),
+        doc(db, "userChats", chatroomId),
         {
           lastMessage: inputValue,
-          date: serverTimestamp(),
+          date: Timestamp.now(),
+          senderId: user.uid,
         },
         {
           merge: true,

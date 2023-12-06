@@ -3,13 +3,16 @@ import { useRouter } from "next/navigation";
 import { BackButton, CSHeader, Wrapper } from "./styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-interface CSNavbarProps {}
+interface CSNavbarProps {
+  prevUrl?: string;
+}
 
-export const CSNavbar: React.FC<CSNavbarProps> = () => {
+export const CSNavbar: React.FC<CSNavbarProps> = ({ prevUrl }) => {
   const router = useRouter();
 
   const goBack = () => {
-    router.back();
+    if (prevUrl) router.push(prevUrl);
+    else router.back();
   };
 
   return (
