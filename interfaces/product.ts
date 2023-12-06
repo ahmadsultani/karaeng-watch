@@ -24,4 +24,5 @@ export interface IProduct {
   description: string;
   createdAt: string;
   updatedAt: string;
+  isFavorited?: boolean;
 }

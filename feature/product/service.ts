@@ -1,11 +1,13 @@
 import {
   DocumentReference,
   addDoc,
+  and,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
+  or,
   query,
   serverTimestamp,
   updateDoc,
@@ -15,6 +17,7 @@ import { db } from "@/config/firebase";
 import { IProduct } from "@/interfaces/product";
 import { IBrand } from "@/interfaces/brand";
 import { TProductForm, TProductParams, TProductUpdateParams } from ".";
+import { checkFavoriteExists } from "../favorite/services";
 
 export const getAllProduct = async () => {
   const querySnapshot = await getDocs(collection(db, "product"));
@@ -26,6 +29,8 @@ export const getAllProduct = async () => {
     const brandSnap = await getDoc(brandRef);
     const brandData = brandSnap.data() as IBrand;
 
+    const isFavorited = await checkFavoriteExists(doc.id);
+
     data.createdAt = data.createdAt.toDate();
     data.updatedAt = data.updatedAt.toDate();
 
@@ -34,7 +39,7 @@ export const getAllProduct = async () => {
       id: brandSnap.id,
     };
 
-    return { ...data, id: doc.id, brand } as IProduct;
+    return { ...data, id: doc.id, brand, isFavorited } as IProduct;
   });
 
   const productResults = await Promise.all(productPromises);
@@ -46,26 +51,30 @@ export const getAllProduct = async () => {
 export const getAllProductByParams = async (params: TProductParams) => {
   const { gender, brandId, price_lte, price_gte, type } = params;
 
-  const queries = [];
+  const andQueries = [];
+  const orQueries = [];
 
   if (gender) {
-    queries.push(where("gender", "==", gender));
+    orQueries.push(
+      where("gender", "==", gender),
+      where("gender", "==", "unisex"),
+    );
   }
 
   if (brandId) {
     const brandRef = (await getDoc(doc(db, "brand", brandId)))
       .ref as DocumentReference;
-    queries.push(where("brand", "==", brandRef));
+    andQueries.push(where("brand", "==", brandRef));
   }
 
-  if (price_lte) queries.push(where("price", "<=", price_lte));
+  if (price_lte) andQueries.push(where("price", "<=", price_lte));
 
-  if (price_gte) queries.push(where("price", ">=", price_gte));
+  if (price_gte) andQueries.push(where("price", ">=", price_gte));
 
-  if (type) queries.push(where("types", "==", type));
+  if (type) andQueries.push(where("types", "==", type));
 
   const querySnapshot = await getDocs(
-    query(collection(db, "product"), ...queries),
+    query(collection(db, "product"), and(...andQueries, or(...orQueries))),
   );
 
   const products: IProduct[] = [];
@@ -76,6 +85,8 @@ export const getAllProductByParams = async (params: TProductParams) => {
     const brandSnap = await getDoc(brandRef);
     const brandData = brandSnap.data() as IBrand;
 
+    const isFavorited = await checkFavoriteExists(doc.id);
+
     data.createdAt = data.createdAt.toDate();
     data.updatedAt = data.updatedAt.toDate();
 
@@ -84,7 +95,7 @@ export const getAllProductByParams = async (params: TProductParams) => {
       id: brandSnap.id,
     };
 
-    return { ...data, id: doc.id, brand } as IProduct;
+    return { ...data, id: doc.id, brand, isFavorited } as IProduct;
   });
 
   const productResults = await Promise.all(productPromises);
@@ -128,6 +139,9 @@ export const createProduct = async (product: TProductForm) => {
   const brandRef = doc(db, "brand", product.brandId);
   const timestamp = serverTimestamp();
 
+  product.price = Number(product.price);
+  product.stock = Number(product.stock);
+
   await addDoc(collection(db, "product"), {
     ...product,
     brand: brandRef,
@@ -139,6 +153,9 @@ export const createProduct = async (product: TProductForm) => {
 export const updateProduct = async ({ id, product }: TProductUpdateParams) => {
   const brandRef = product.brandId && doc(db, "brand", product.brandId);
   const timestamp = serverTimestamp();
+
+  product.price = Number(product.price);
+  product.stock = Number(product.stock);
 
   const docRef = doc(db, "product", id);
   await updateDoc(docRef, {

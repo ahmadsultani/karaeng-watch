@@ -1,11 +1,20 @@
-import { IProduct } from "@/interfaces/product";
-import { formatPrice } from "@/utils/formatter";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { Box, Typography, useMediaQuery } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
+import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+
+import { addFavorite, deleteFavorite } from "@/feature/favorite/services";
+
+import { formatPrice } from "@/utils/formatter";
+import { IProduct } from "@/interfaces/product";
+
 import { FavIcon, ProductCardText, ProductCardsWrapper } from "./styles";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { IUser } from "@/interfaces/user";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export const ProductCard: React.FC<Partial<IProduct>> = ({
   brand,
@@ -14,61 +23,91 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
   price,
   gender,
   types,
+  isFavorited,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [user, setUser] = useState<IUser>();
+
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const small = useMediaQuery("(max-width:768px)");
 
-  const handleFavoriteClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    const userCookies = Cookies.get("user");
+    userCookies && setUser(JSON.parse(userCookies) as IUser);
+  }, []);
+
+  const handleFavoriteClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
+    toast.loading("Adding...");
+    if (isFavorited) {
+      await deleteFavorite(id as string);
+      toast.dismiss();
+      toast.success("Removed from favorite");
+    } else {
+      await addFavorite(id as string);
+      toast.dismiss();
+      toast.success("Added to favorite");
+    }
+    queryClient.invalidateQueries({
+      queryKey: ["favorite"],
+    });
+
+    queryClient.invalidateQueries({
+      queryKey: ["product", {}],
+    });
   };
 
   return (
-    <Link href={`/product/${id}`} passHref>
-      <ProductCardsWrapper title={name}>
-        <Box
-          position={"relative"}
-          height={small ? "100px" : "240px"}
-          width={"100%"}
+    <ProductCardsWrapper
+      onClick={() => router.push(`/product/${id}`)}
+      title={name}
+    >
+      <Box
+        position={"relative"}
+        height={small ? "100px" : "240px"}
+        width={"100%"}
+      >
+        <Image
+          src={"/images/standup.png.transform 2.png"}
+          alt="product-images"
+          fill
+          priority
+          draggable={false}
+          objectFit="contain"
+        />
+      </Box>
+      <ProductCardText fontWeight={700}>{brand?.name}</ProductCardText>
+      <ProductCardText fontWeight={700}>{name}</ProductCardText>
+      <ProductCardText fontWeight={400}>
+        {formatPrice(price || 0)}
+      </ProductCardText>
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        width={"100%"}
+        justifyContent={"space-between"}
+      >
+        <Typography
+          fontSize={small ? "10px" : "16px"}
+          fontWeight={400}
+          textTransform="capitalize"
         >
-          <Image
-            src={"/images/standup.png.transform 2.png"}
-            alt="product-images"
-            fill
-            priority
-            draggable={false}
-            objectFit="contain"
-          />
-        </Box>
-        <ProductCardText fontWeight={700}>{brand?.name}</ProductCardText>
-        <ProductCardText fontWeight={700}>{name}</ProductCardText>
-        <ProductCardText fontWeight={400}>
-          {formatPrice(price || 0)}
-        </ProductCardText>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          width={"100%"}
-          justifyContent={"space-between"}
-        >
-          <Typography
-            fontSize={small ? "10px" : "16px"}
-            fontWeight={400}
-            textTransform="capitalize"
-          >
-            {gender}, {types}
-          </Typography>
+          {gender}, {types}
+        </Typography>
+        {user && pathname !== "/" && (
           <FavIcon title="Favorite" onClick={handleFavoriteClick}>
-            {isFavorite ? (
+            {isFavorited ? (
               <Favorite fontSize="inherit" color="primary" />
             ) : (
               <FavoriteBorder fontSize="inherit" color="primary" />
             )}
           </FavIcon>
-        </Box>
-      </ProductCardsWrapper>
-    </Link>
+        )}
+      </Box>
+    </ProductCardsWrapper>
   );
 };
