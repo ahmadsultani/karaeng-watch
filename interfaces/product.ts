@@ -6,9 +6,8 @@ export interface IProduct {
   id: string;
   name: string;
   price: number;
-  gender?: "Male" | "Female";
+  gender?: "Male" | "Female" | "Unisex";
   brand: IBrand;
-  waterRes?: number;
   types: MovementType;
   rating: number;
   stock: number;
