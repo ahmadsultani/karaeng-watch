@@ -12,16 +12,16 @@ import {
 
 interface ChatBalloonProps {
   children: React.ReactNode;
-  variant: "User" | "Admin";
+  variant: "sender" | "receiver";
   date: string;
 }
 
 export const ChatBalloon: React.FC<ChatBalloonProps> = ({
   children,
-  variant = "User",
+  variant = "sender",
   date,
 }) => {
-  if (variant === "Admin") {
+  if (variant === "receiver") {
     return (
       <BalloonContainer>
         <AdminBalloon bgcolor={"primary.main"}>
@@ -38,10 +38,7 @@ export const ChatBalloon: React.FC<ChatBalloonProps> = ({
         <UserBalloon bgcolor={"secondary.main"}>
           <ChatText color={"white"}>{children}</ChatText>
           <Box display={"flex"} width="100%" justifyContent={"flex-end"}>
-            <DateText color={"white"}>
-              {formatToHour(date)}
-              {/* {second < 10 ? "0" + second : second} */}
-            </DateText>
+            <DateText color={"white"}>{formatToHour(date)}</DateText>
           </Box>
         </UserBalloon>
       </BalloonContainer>

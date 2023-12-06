@@ -34,3 +34,26 @@ export const formatToHour = (date: string) => {
     minute: "numeric",
   }).format(new Date(date));
 };
+
+/**
+ * @param date date string, example: 2021-08-01T00:00:00.000Z or just 2021-08-01
+ * @returns formatted date to hour:minute if today, yesterday if yesterday, else full date
+ */
+export const formatToDay = (date: string) => {
+  const currentDate = new Date();
+  const providedDate = new Date(date);
+
+  currentDate.setHours(0, 0, 0, 0);
+  providedDate.setHours(0, 0, 0, 0);
+
+  const yesterday = new Date(currentDate);
+  yesterday.setDate(currentDate.getDate() - 1);
+
+  if (providedDate.getTime() === currentDate.getTime()) {
+    return formatToHour(date); // Format to hour:minute
+  } else if (providedDate.getTime() === yesterday.getTime()) {
+    return "Yesterday";
+  } else {
+    return formatDate(date, "full");
+  }
+};

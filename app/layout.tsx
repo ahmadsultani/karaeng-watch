@@ -27,16 +27,16 @@ export default function RootLayout({
       <body className={merriweatherSans.className}>
         <Providers>
           {children}
-          <Toaster
-            toastOptions={{
-              duration: 2000,
-            }}
-          />
           <ReactQueryDevtools
             initialIsOpen={false}
             buttonPosition="bottom-left"
           />
         </Providers>
+        <Toaster
+          toastOptions={{
+            duration: 2000,
+          }}
+        />
       </body>
     </html>
   );

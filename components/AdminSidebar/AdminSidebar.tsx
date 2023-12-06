@@ -7,7 +7,13 @@ import { Box, useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import GridViewIcon from "@mui/icons-material/GridView";
 import { SideBarItem } from "./SideBarItem";
-import { Checklist, Inventory, Person, Sell } from "@mui/icons-material";
+import {
+  Checklist,
+  Inventory,
+  Person,
+  Sell,
+  SupportAgent,
+} from "@mui/icons-material";
 import { usePathname, useSearchParams } from "next/navigation";
 import { IUser } from "@/interfaces/user";
 import Cookies from "js-cookie";
@@ -85,6 +91,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         },
       ],
       active: pathname.startsWith("/admin/order"),
+    },
+    {
+      name: "Customer Service",
+      icon: <SupportAgent />,
+      href: "/admin/customer-service",
+      active: pathname.startsWith("/admin/customer-service"),
     },
   ];
   return (

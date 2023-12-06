@@ -1,4 +1,4 @@
-import { styled, Box, Typography } from "@mui/material";
+import { styled, Box, Typography, List } from "@mui/material";
 
 // Customer Service UI
 export const ChatWrapper = styled(Box)({
@@ -15,12 +15,27 @@ export const EmptyChatIcon = styled(Box)({
   position: "relative",
 });
 
-export const ChatContainer = styled(Box)({
+export const ChatContainerWrapper = styled(Box)({
   flex: "1",
   display: "flex",
   flexDirection: "column",
   padding: "16px",
   gap: "16px",
+  overflowY: "auto",
+  height: "100%",
+});
+
+export const CSAdminContainer = styled(Box)({
+  width: "100%",
+  maxHeight: "100%",
+  display: "flex",
+});
+
+export const UserChatLists = styled(List)({
+  padding: "8px",
+  boxShadow: "1px 0 2px 0 rgba(0,0,0,0.4)",
+  width: "360px",
+  height: "calc(100vh - 54px)",
   overflowY: "auto",
 });
 
