@@ -1,12 +1,12 @@
 import { IBrand } from "./brand";
 
 export type MovementType = "quartz" | "manual" | "automatic";
-
+export type TGender = "male" | "female" | "unisex";
 export interface IProduct {
   id: string;
   name: string;
   price: number;
-  gender?: "Male" | "Female" | "Unisex";
+  gender: TGender;
   brand: IBrand;
   types: MovementType;
   rating: number;
