@@ -117,6 +117,7 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                 >
                   <MenuItem value="male">Male</MenuItem>
                   <MenuItem value="female">Female</MenuItem>
+                  <MenuItem value="unisex">Unisex</MenuItem>
                 </TextField>
               )}
             />
@@ -315,7 +316,7 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                   sx={{ flex: 1 }}
                   label="Case Thickness"
                   type="number"
-                  placeholder="5 cm"
+                  placeholder="5 mm"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}
@@ -341,7 +342,7 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                   sx={{ flex: 1 }}
                   label="Height"
                   type="number"
-                  placeholder="5 cm"
+                  placeholder="5 mm"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}
@@ -367,7 +368,7 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                   sx={{ flex: 1 }}
                   label="Width"
                   type="number"
-                  placeholder="10 cm"
+                  placeholder="10 mm"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}
@@ -388,6 +389,8 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
                   color="secondary"
                   sx={{ flex: 1 }}
                   label="Water Resistance"
+                  placeholder="40 m"
+                  type="number"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={onChange}
