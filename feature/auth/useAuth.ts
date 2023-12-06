@@ -74,7 +74,8 @@ export const useAuth = () => {
 
   const handleSigninWithGoogle = async () => {
     try {
-      await signinWithGoogle();
+      const user = await signinWithGoogle();
+      Cookies.set("user", JSON.stringify(user));
       toast.success("Logged in successfully");
       router.push("/");
     } catch (error) {
