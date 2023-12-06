@@ -1,5 +1,6 @@
 import { auth, db } from "@/config/firebase";
 import {
+  DocumentReference,
   addDoc,
   collection,
   deleteDoc,
@@ -12,6 +13,7 @@ import {
 } from "firebase/firestore";
 
 import { IProduct } from "@/interfaces/product";
+import { IBrand } from "@/interfaces/brand";
 
 export const getAllFavoriteProduct = async () => {
   const userId = auth.currentUser?.uid as string;
@@ -28,13 +30,25 @@ export const getAllFavoriteProduct = async () => {
     const productRef = doc(db, "product", productId);
 
     const productSnap = await getDoc(productRef);
-    const productData = productSnap.data() as IProduct;
+    const productData = productSnap.data()!;
+
+    const brandRef = productData.brand as DocumentReference;
+    const brandSnap = await getDoc(brandRef);
+    const brandData = brandSnap.data() as IBrand;
+
+    const brand = {
+      ...brandData,
+      id: brandSnap.id,
+    };
+
     const product = {
       ...productData,
+      brand,
       id: productSnap.id,
-      isFavorited: true,
+      isFavorite: true,
     };
-    return product;
+
+    return product as IProduct;
   });
 
   const productResults = await Promise.all(productPromises);

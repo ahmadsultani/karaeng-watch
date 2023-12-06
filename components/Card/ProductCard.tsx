@@ -23,7 +23,7 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
   price,
   gender,
   types,
-  isFavorited,
+  isFavorite,
 }) => {
   const [user, setUser] = useState<IUser>();
 
@@ -43,7 +43,7 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
   ) => {
     e.stopPropagation();
     toast.loading("Adding...");
-    if (isFavorited) {
+    if (isFavorite) {
       await deleteFavorite(id as string);
       toast.dismiss();
       toast.success("Removed from favorite");
@@ -100,7 +100,7 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
         </Typography>
         {user && pathname !== "/" && (
           <FavIcon title="Favorite" onClick={handleFavoriteClick}>
-            {isFavorited ? (
+            {isFavorite ? (
               <Favorite fontSize="inherit" color="primary" />
             ) : (
               <FavoriteBorder fontSize="inherit" color="primary" />

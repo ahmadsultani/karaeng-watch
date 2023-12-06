@@ -29,7 +29,7 @@ export const getAllProduct = async () => {
     const brandSnap = await getDoc(brandRef);
     const brandData = brandSnap.data() as IBrand;
 
-    const isFavorited = await checkFavoriteExists(doc.id);
+    const isFavorite = await checkFavoriteExists(doc.id);
 
     data.createdAt = data.createdAt.toDate();
     data.updatedAt = data.updatedAt.toDate();
@@ -39,7 +39,7 @@ export const getAllProduct = async () => {
       id: brandSnap.id,
     };
 
-    return { ...data, id: doc.id, brand, isFavorited } as IProduct;
+    return { ...data, id: doc.id, brand, isFavorite } as IProduct;
   });
 
   const productResults = await Promise.all(productPromises);
@@ -85,7 +85,7 @@ export const getAllProductByParams = async (params: TProductParams) => {
     const brandSnap = await getDoc(brandRef);
     const brandData = brandSnap.data() as IBrand;
 
-    const isFavorited = await checkFavoriteExists(doc.id);
+    const isFavorite = await checkFavoriteExists(doc.id);
 
     data.createdAt = data.createdAt.toDate();
     data.updatedAt = data.updatedAt.toDate();
@@ -95,7 +95,7 @@ export const getAllProductByParams = async (params: TProductParams) => {
       id: brandSnap.id,
     };
 
-    return { ...data, id: doc.id, brand, isFavorited } as IProduct;
+    return { ...data, id: doc.id, brand, isFavorite } as IProduct;
   });
 
   const productResults = await Promise.all(productPromises);
