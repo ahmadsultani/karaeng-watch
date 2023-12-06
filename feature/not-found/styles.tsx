@@ -1,6 +1,4 @@
 import { styled, Box, Button } from "@mui/material";
-import { theme } from "@/constants/theme";
-import { COLORS } from "@/constants/colors";
 
 export const Container = styled(Box)({
   display: "flex",
@@ -74,8 +72,6 @@ export const Buttons = styled(Box)({
 
 export const HomeButton = styled(Button)({
   padding: "12px 32px",
-  backgroundColor: theme.palette.secondary.main,
-  color: COLORS.lightGrey,
   fontSize: "20px",
   ["@media (max-width: 840px)"]: {
     fontSize: "16px",

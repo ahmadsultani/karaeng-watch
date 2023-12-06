@@ -22,7 +22,7 @@ export const NotFound = () => {
             alt="NotFound"
             className="image"
             layout="fill"
-            objectFit="contain"
+            priority
           />
         </NotFoundStyles.Wrapper>
       </NotFoundStyles.Image>
@@ -36,7 +36,7 @@ export const NotFound = () => {
         </NotFoundStyles.TextContent>
       </NotFoundStyles.Text>
       <NotFoundStyles.Buttons>
-        <NotFoundStyles.HomeButton onClick={goHome}>
+        <NotFoundStyles.HomeButton color="secondary" onClick={goHome}>
           Take Me Home
         </NotFoundStyles.HomeButton>
       </NotFoundStyles.Buttons>
