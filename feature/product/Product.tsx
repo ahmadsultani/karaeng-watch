@@ -36,6 +36,8 @@ export const Product: React.FC = () => {
   const debouncedSearch = useDebounce(searchValue, 500);
 
   const [filter, setFilter] = useState<TProductParams>({});
+  const debouncePriceLte = useDebounce(filter.price_lte, 500);
+  const debouncePriceGte = useDebounce(filter.price_gte, 500);
 
   const {
     data: products,
@@ -43,7 +45,10 @@ export const Product: React.FC = () => {
     isError: isErrorProducts,
     error,
   } = useQuery({
-    queryKey: ["product", filter],
+    queryKey: [
+      "product",
+      { ...filter, price_lte: debouncePriceLte, price_gte: debouncePriceGte },
+    ],
     queryFn: () => getAllProductByParams(filter),
   });
 
@@ -181,6 +186,8 @@ export const Product: React.FC = () => {
       )}
 
       <SearchDrawer
+        value={searchValue}
+        onSearch={(value) => setSearchValue(value)}
         open={openSearch}
         onClose={() => setOpenSearch(false)}
         inputRef={inputRef}

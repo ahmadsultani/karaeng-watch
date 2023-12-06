@@ -25,11 +25,7 @@ export const ProductWrapper = styled(Box)({
   justifyItems: "center",
   justifyContent: "center",
   ["@media (max-width: 1024px)"]: {
-    padding: " 0",
+    padding: "24px",
     gap: "32px",
-  },
-  ["@media (max-width: 768px)"]: {
-    padding: "0",
-    gap: "8px",
   },
 });

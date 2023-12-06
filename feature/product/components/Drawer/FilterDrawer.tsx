@@ -195,20 +195,28 @@ export const FilterDrawer: React.FC<FilterDrawerProps> = ({
               <TextField
                 type="number"
                 placeholder="Min Price"
+                value={filter.price_gte}
+                onChange={(e) =>
+                  setFilter({ ...filter, price_gte: Number(e.target.value) })
+                }
                 variant="outlined"
                 InputProps={{
                   style: { fontSize: small ? 10 : 14 },
                 }}
-              ></TextField>
+              />
               -
               <TextField
                 type="number"
                 placeholder="Max Price"
+                value={filter.price_lte}
+                onChange={(e) =>
+                  setFilter({ ...filter, price_lte: Number(e.target.value) })
+                }
                 variant="outlined"
                 InputProps={{
                   style: { fontSize: small ? 10 : 14 },
                 }}
-              ></TextField>
+              />
             </Box>
           </Box>
         </DrawerContent>

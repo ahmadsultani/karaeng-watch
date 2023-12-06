@@ -8,12 +8,16 @@ import {
 import Search from "@mui/icons-material/Search";
 
 interface SearchDrawerProps {
+  value: string;
+  onSearch: (value: string) => void;
   open: boolean;
   onClose: (value: boolean) => void;
   inputRef: React.RefObject<HTMLInputElement>;
 }
 
 export const SearchDrawer: React.FC<SearchDrawerProps> = ({
+  value,
+  onSearch,
   open,
   onClose,
   inputRef,
@@ -25,6 +29,8 @@ export const SearchDrawer: React.FC<SearchDrawerProps> = ({
       <TextField
         placeholder="Search"
         type="search"
+        value={value}
+        onChange={(e) => onSearch(e.target.value)}
         inputRef={inputRef}
         InputProps={{
           startAdornment: (

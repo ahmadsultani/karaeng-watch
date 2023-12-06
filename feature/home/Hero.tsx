@@ -25,11 +25,9 @@ export const Hero: React.FC = () => {
             </Typography>
           </Typography>
           <Typography color="white">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptatibus, voluptas, voluptatem, quae quos quia quibusdam
-            voluptatum eum quas fugit consequatur? Quisquam voluptatibus,
-            voluptas, voluptatem, quae quos quia quibusdam voluptatum eum quas
-            fugit consequatur?
+            Step into a world where time isn&apos;t just measured, it&apos;s
+            adorned. Our collection embodies the artistry of luxury, a fusion of
+            precision engineering and timeless elegance.
           </Typography>
         </HeroContentText>
 

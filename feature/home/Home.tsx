@@ -71,8 +71,12 @@ export const Home: React.FC = () => {
           )}
         </ProductWrapper>
 
-        <Button href="/product" sx={{ paddingInline: "32px" }}>
-          <Typography fontSize="24px" color="white" fontWeight={700}>
+        <Button
+          href="/product"
+          sx={{ paddingInline: "32px" }}
+          size={isMobile ? "small" : "medium"}
+        >
+          <Typography color="white" fontWeight={700}>
             See More
           </Typography>
         </Button>
