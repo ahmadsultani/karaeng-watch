@@ -1,10 +1,11 @@
-import { IProduct } from "@/interfaces/product";
+import { IProduct, MovementType } from "@/interfaces/product";
 
-export type TProductParams = Partial<IProduct> & {
-  page?: number;
-  limit?: number;
-  sort?: "asc" | "desc";
-  sortBy?: string;
+export type TProductParams = {
+  type?: MovementType;
+  gender?: "male" | "female";
+  price_lte?: number;
+  price_gte?: number;
+  brandId?: string;
 };
 
 export type TProductForm = Omit<

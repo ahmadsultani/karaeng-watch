@@ -6,17 +6,68 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
-// import { TProductParams } from "./types";
 import { db } from "@/config/firebase";
 import { IProduct } from "@/interfaces/product";
 import { IBrand } from "@/interfaces/brand";
-import { TProductForm, TProductUpdateParams } from ".";
+import { TProductForm, TProductParams, TProductUpdateParams } from ".";
 
 export const getAllProduct = async () => {
   const querySnapshot = await getDocs(collection(db, "product"));
+  const products: IProduct[] = [];
+
+  const productPromises = querySnapshot.docs.map(async (doc) => {
+    const data = doc.data();
+    const brandRef = doc.data().brand as DocumentReference;
+    const brandSnap = await getDoc(brandRef);
+    const brandData = brandSnap.data() as IBrand;
+
+    data.createdAt = data.createdAt.toDate();
+    data.updatedAt = data.updatedAt.toDate();
+
+    const brand = {
+      ...brandData,
+      id: brandSnap.id,
+    };
+
+    return { ...data, id: doc.id, brand } as IProduct;
+  });
+
+  const productResults = await Promise.all(productPromises);
+  products.push(...productResults);
+
+  return products;
+};
+
+export const getAllProductByParams = async (params: TProductParams) => {
+  const { gender, brandId, price_lte, price_gte, type } = params;
+
+  const queries = [];
+
+  if (gender) {
+    queries.push(where("gender", "==", gender));
+  }
+
+  if (brandId) {
+    const brandRef = (await getDoc(doc(db, "brand", brandId)))
+      .ref as DocumentReference;
+    queries.push(where("brand", "==", brandRef));
+  }
+
+  if (price_lte) queries.push(where("price", "<=", price_lte));
+
+  if (price_gte) queries.push(where("price", ">=", price_gte));
+
+  if (type) queries.push(where("types", "==", type));
+
+  const querySnapshot = await getDocs(
+    query(collection(db, "product"), ...queries),
+  );
+
   const products: IProduct[] = [];
 
   const productPromises = querySnapshot.docs.map(async (doc) => {

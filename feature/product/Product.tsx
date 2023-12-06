@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -10,6 +10,7 @@ import { TitleSection } from "@/components/Section/styles";
 
 import {
   Box,
+  Button,
   CircularProgress,
   IconButton,
   InputAdornment,
@@ -21,21 +22,45 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 
-import { getAllProduct } from "./service";
+import { getAllProductByParams } from "./service";
 
 import { FilterDrawer, SearchDrawer } from "./components/Drawer";
 import { ProductPageWrapper } from "./styles";
+import useDebounce from "@/hooks/useDebounce";
+import { TProductParams } from ".";
+import { Close } from "@mui/icons-material";
+import { getAllBrand } from "../brand";
 
 export const Product: React.FC = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue, 500);
+
+  const [filter, setFilter] = useState<TProductParams>({});
+
   const {
     data: products,
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
     error,
   } = useQuery({
-    queryKey: ["product"],
-    queryFn: getAllProduct,
+    queryKey: ["product", filter],
+    queryFn: () => getAllProductByParams(filter),
   });
+
+  const { data: brands, isLoading: isLoadingBrands } = useQuery({
+    queryKey: ["brand"],
+    queryFn: getAllBrand,
+  });
+
+  const filteredProducts = useMemo(
+    () =>
+      products?.filter(
+        (product) =>
+          product.name.toLowerCase().includes(debouncedSearch) ||
+          product.description?.toLowerCase().includes(debouncedSearch),
+      ),
+    [products, debouncedSearch],
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -86,15 +111,31 @@ export const Product: React.FC = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <IconButton onClick={() => setOpen(true)}>
-          <TuneIcon />
-        </IconButton>
+        <Box display="flex" alignItems="center" gap="8px">
+          <IconButton
+            onClick={() => setOpen(true)}
+            disabled={!brands || isLoadingBrands}
+          >
+            <TuneIcon />
+          </IconButton>
+          {Object.keys(filter).length > 0 && (
+            <Button
+              variant="text"
+              onClick={() => setFilter({})}
+              endIcon={<Close />}
+            >
+              Clear Filter
+            </Button>
+          )}
+        </Box>
         {medium ? (
           <IconButton onClick={handleFocus}>
             <SearchIcon />
           </IconButton>
         ) : (
           <TextField
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             placeholder="Search"
             type="search"
             InputProps={{
@@ -118,8 +159,8 @@ export const Product: React.FC = () => {
           <EmptyWrapper>
             <Typography>{error.message}</Typography>
           </EmptyWrapper>
-        ) : products && products.length > 0 ? (
-          products.map((product) => (
+        ) : filteredProducts && filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))
         ) : (
@@ -129,7 +170,15 @@ export const Product: React.FC = () => {
         )}
       </ProductWrapper>
 
-      <FilterDrawer open={open} onClose={() => setOpen(false)} />
+      {brands && (
+        <FilterDrawer
+          brands={brands}
+          filter={filter}
+          setFilter={setFilter}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
 
       <SearchDrawer
         open={openSearch}
