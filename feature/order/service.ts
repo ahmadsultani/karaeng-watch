@@ -6,6 +6,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   serverTimestamp,
@@ -53,6 +54,36 @@ export const getAllOrders = async (
   } catch (error) {
     toast.error("Error fetching orders: ");
     throw new Error("Failed to fetch orders");
+  }
+};
+
+export const getOrderById = async (orderId: string): Promise<IOrder | null> => {
+  try {
+    const orderRef = doc(db, "order", orderId);
+    const docSnapshot = await getDoc(orderRef);
+
+    if (docSnapshot.exists()) {
+      const orderData = docSnapshot.data();
+      const order: IOrder = {
+        id: docSnapshot.id,
+        user: orderData.user,
+        status: orderData.status,
+        isReviewed: orderData.isReviewed,
+        products: orderData.products,
+        createdAt: orderData.createdAt.toDate(),
+        userID: orderData.userID,
+        updatedAt: orderData.updatedAt.toDate(),
+        totalPrice: orderData.totalPrice,
+      };
+
+      return order;
+    } else {
+      toast.error("Order not found");
+      return null;
+    }
+  } catch (error) {
+    toast.error("Error fetching order");
+    throw new Error("Failed to fetch order");
   }
 };
 

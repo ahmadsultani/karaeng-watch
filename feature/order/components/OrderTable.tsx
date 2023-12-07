@@ -64,7 +64,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({
         <Button
           size="small"
           color="primary"
-          onClick={() => router.push(`admin/order/${row.original.id}`)}
+          onClick={() => router.push(`/order/${row.original.id}`)}
         >
           Detail
         </Button>

@@ -26,6 +26,7 @@ import { createOrderFromDetail } from "../order/service";
 import { IUser } from "@/interfaces/user";
 import { addToCart } from "../cart/service";
 import { useRouter } from "next/navigation";
+import { NotFound } from "../not-found";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -120,11 +121,7 @@ export const ProductDetail: React.FC = () => {
     switch (status) {
       case EProductStatus.ERROR:
         toast.error(error?.name || "Unknown Error");
-        return (
-          <EmptyWrapper>
-            <p>{error?.message || "Error Occurred, try to refresh the page"}</p>
-          </EmptyWrapper>
-        );
+        return <NotFound />;
       case EProductStatus.LOADING:
         return (
           <EmptyWrapper>
