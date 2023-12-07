@@ -89,7 +89,7 @@ export const getOrderById = async (orderId: string): Promise<IOrder | null> => {
   }
 };
 
-export const createOrderFromDetail = async (user: IUser, product: IProduct) => 
+export const createOrderFromDetail = async (user: IUser, product: IProduct) => {
   try {
     const timestamp = serverTimestamp();
 
