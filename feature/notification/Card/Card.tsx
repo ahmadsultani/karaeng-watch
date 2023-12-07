@@ -4,6 +4,7 @@ import { Modal } from "@/components/Modal";
 
 import * as NotificationCard from "../styles";
 import { Typography } from "@mui/material";
+import { formatDate, formatToHour } from "@/utils/formatter";
 
 interface CardProps {
   id: string;
@@ -11,7 +12,7 @@ interface CardProps {
   description: string;
   time: string;
   read: boolean;
-  onMarkAsRead: (id: number) => void;
+  onMarkAsRead: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -19,6 +20,7 @@ export const Card: React.FC<CardProps> = ({
   description,
   time,
   read,
+  onMarkAsRead,
 }) => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -28,7 +30,9 @@ export const Card: React.FC<CardProps> = ({
       onClick={() => setIsPopupVisible(true)}
     >
       <NotificationCard.Content>
-        <NotificationCard.ItemDate>{time}</NotificationCard.ItemDate>
+        <NotificationCard.ItemDate>
+          {formatToHour(time)} {formatDate(time, "full")}
+        </NotificationCard.ItemDate>
         <NotificationCard.ItemTitle>{title}</NotificationCard.ItemTitle>
         <NotificationCard.ItemDescription>
           {description}
@@ -41,7 +45,10 @@ export const Card: React.FC<CardProps> = ({
           isOpen={isPopupVisible}
           title={title}
           type="ok"
-          onComplete={() => setIsPopupVisible(false)}
+          onComplete={() => {
+            onMarkAsRead();
+            setIsPopupVisible(false);
+          }}
           onClose={() => setIsPopupVisible(false)}
         >
           <Typography fontSize="12px">{description}</Typography>
