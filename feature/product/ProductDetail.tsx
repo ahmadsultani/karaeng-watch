@@ -43,7 +43,8 @@ export const ProductDetail: React.FC = () => {
           toast.error("You need to verify email first");
           return;
         }
-        await createOrderFromDetail(user, product); // Swapped arguments: user first, then product
+        const id = (await createOrderFromDetail(user, product)) || ""; // Swapped arguments: user first, then product
+        router.push(`/order/${id}`);
         toast.success("Order created successfully!"); // Notify user about successful order creation
       } catch (error) {
         toast.error("Error creating order");

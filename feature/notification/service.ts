@@ -2,10 +2,12 @@ import { db } from "@/config/firebase";
 import { getCurrentUser } from "@/service/user";
 import { FirebaseError } from "firebase/app";
 import {
+  addDoc,
   collection,
   doc,
   getDocs,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -45,14 +47,16 @@ export const createNotification = async (
 ) => {
   const collectionRef = collection(db, "notification");
 
-  await updateDoc(doc(collectionRef), {
+  const timestamp = serverTimestamp();
+
+  await addDoc(collectionRef, {
     title,
     description,
     link,
     isViewed: false,
     userId: uid,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: timestamp,
+    updatedAt: timestamp,
   });
 };
 

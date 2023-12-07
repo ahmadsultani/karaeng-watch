@@ -58,10 +58,7 @@ export const getAllOrders = async (
   }
 };
 
-export const createOrderFromDetail = async (
-  user: IUser,
-  product: IProduct,
-): Promise<void> => {
+export const createOrderFromDetail = async (user: IUser, product: IProduct) => {
   try {
     const timestamp = serverTimestamp();
 
@@ -86,12 +83,14 @@ export const createOrderFromDetail = async (
       `/order`,
     );
 
-    await addDoc(collection(db, "order"), {
+    const docRef = await addDoc(collection(db, "order"), {
       ...orderData,
       createdAt: timestamp,
       updatedAt: timestamp,
       userID: user.uid,
     });
+
+    return docRef.id;
   } catch (error) {
     toast.error("Something went wrong while creating the order.");
   }

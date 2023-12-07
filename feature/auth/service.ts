@@ -105,7 +105,10 @@ export const signinWithGoogle = async () => {
     return user;
   }
 
-  return docSnap.data() as IUser;
+  const user = docSnap.data() as IUser;
+  user.emailVerified = userCredentials.user.emailVerified;
+
+  return user;
 };
 
 export const checkAccountExists = async (email: string) => {
