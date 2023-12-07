@@ -6,7 +6,7 @@ import * as NotificationCard from "../styles";
 import { Typography } from "@mui/material";
 
 interface CardProps {
-  id: number;
+  id: string;
   title: string;
   description: string;
   time: string;

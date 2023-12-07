@@ -13,6 +13,8 @@ import {
   where,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { createNotification } from "../notification/service";
+import { notification_messages } from "@/constants/notification";
 
 export const getAllOrders = async (
   status?: TOrderStatus,
@@ -76,6 +78,13 @@ export const createOrderFromDetail = async (
       ],
       totalPrice: product.price,
     };
+
+    await createNotification(
+      user.uid,
+      notification_messages.order.title,
+      notification_messages.order.description,
+      `/order`,
+    );
 
     await addDoc(collection(db, "order"), {
       ...orderData,
