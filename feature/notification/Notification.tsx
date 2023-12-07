@@ -19,7 +19,7 @@ export const Notification = () => {
 
   return (
     <Container>
-      <Typography ml="16px" textAlign="left" variant="h4">
+      <Typography ml="16px" textAlign="left" fontSize="32px">
         Recent Updates
       </Typography>
       <Wrapper>

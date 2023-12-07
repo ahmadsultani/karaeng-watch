@@ -11,4 +11,8 @@ export const navLinks = [
     name: "About Us",
     href: "/about-us",
   },
+  {
+    name: "Your Order",
+    href: "/order",
+  },
 ];

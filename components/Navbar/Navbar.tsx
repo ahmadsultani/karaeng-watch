@@ -16,10 +16,10 @@ import {
 import { Wrapper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
 
 import {
-  ArticleOutlined,
   Close,
   FavoriteBorder,
   Menu as MenuIcon,
+  NotificationsOutlined,
   PersonOutline,
   ShoppingBasket,
 } from "@mui/icons-material";
@@ -101,10 +101,10 @@ export const Navbar: React.FC = () => {
         </Link>
       )}
       <Box display="flex" justifyContent="flex-end">
-        <IconButton onClick={() => router.push("/order")}>
-          <ArticleOutlined
+        <IconButton onClick={() => router.push("/notification")}>
+          <NotificationsOutlined
             htmlColor={`
-          ${pathname.startsWith("/order") ? COLORS.primary : "white"}
+          ${pathname.startsWith("/notification") ? COLORS.primary : "white"}
           `}
           />
         </IconButton>
