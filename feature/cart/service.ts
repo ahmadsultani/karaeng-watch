@@ -112,6 +112,7 @@ export const getCartById = async (id: string) => {
   return {
     ...data,
     product,
+    price: product.price,
     id: docSnap.id,
   };
 };
@@ -153,7 +154,7 @@ export const checkCartExists = async (productId: string) => {
 
 export const updateCartQuantity = async (
   id: string,
-  type: "increase" | "decrease",
+  type: "increase" | "decrease" | "delete",
 ) => {
   const docRef = doc(db, "cart", id);
   const docSnap = await getDoc(docRef);
@@ -170,6 +171,8 @@ export const updateCartQuantity = async (
     await updateDoc(docRef, {
       quantity: data.quantity - 1,
     });
+  } else if (type === "delete") {
+    await deleteDoc(docRef);
   }
 };
 

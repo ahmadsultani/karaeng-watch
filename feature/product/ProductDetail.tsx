@@ -25,6 +25,7 @@ import { toast } from "react-hot-toast";
 import { createOrderFromDetail } from "../order/service";
 import { IUser } from "@/interfaces/user";
 import { addToCart } from "../cart/service";
+import { useRouter } from "next/navigation";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -32,10 +33,16 @@ export const ProductDetail: React.FC = () => {
   const user = useMemo(() => {
     return JSON.parse(userCookies || "{}") as IUser;
   }, [userCookies]);
+  const router = useRouter();
 
   const handleBuyNow = async () => {
     if (product && user) {
       try {
+        if (!user.emailVerified) {
+          router.push("/setting/profile");
+          toast.error("You need to verify email first");
+          return;
+        }
         await createOrderFromDetail(user, product); // Swapped arguments: user first, then product
         toast.success("Order created successfully!"); // Notify user about successful order creation
       } catch (error) {

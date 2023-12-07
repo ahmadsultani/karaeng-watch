@@ -44,6 +44,7 @@ export const getAllOrders = async (
           ? orderData.updatedAt?.toDate()
           : undefined,
         userID: orderData.userID,
+        totalPrice: orderData.totalPrice,
       };
       orders.push(order);
     });
@@ -70,8 +71,10 @@ export const createOrderFromDetail = async (
         {
           product: product,
           quantity: 1,
+          price: product.price,
         },
       ],
+      totalPrice: product.price,
     };
 
     await addDoc(collection(db, "order"), {
@@ -101,6 +104,33 @@ export const updateOrderStatus = async (
   }
 };
 
+export const checkout = async (
+  order: Omit<IOrder, "id" | "createdAt" | "updatedAt">,
+) => {
+  try {
+    const timestamp = serverTimestamp();
+
+    const orderData: Omit<IOrder, "id" | "createdAt" | "updatedAt"> = {
+      user: order.user,
+      status: "waiting" as TOrderStatus,
+      isReviewed: false,
+      products: order.products,
+      totalPrice: order.totalPrice,
+    };
+
+    const response = await addDoc(collection(db, "order"), {
+      ...orderData,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      userID: order.user.uid,
+    });
+
+    return response.id;
+  } catch (error) {
+    toast.error("Something went wrong while creating the order.");
+  }
+};
+
 export const orderAgain = async (order: IOrder) => {
   try {
     const timestamp = serverTimestamp();
@@ -110,6 +140,7 @@ export const orderAgain = async (order: IOrder) => {
       status: "waiting" as TOrderStatus,
       isReviewed: false,
       products: order.products,
+      totalPrice: order.totalPrice,
     };
 
     const response = await addDoc(collection(db, "order"), {

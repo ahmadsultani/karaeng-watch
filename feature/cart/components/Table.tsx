@@ -24,7 +24,7 @@ export const CartTable: React.FC<CartProps> = ({ data }) => {
   const { mutateAsync } = useMutation<
     void,
     FirebaseError,
-    { id: string; type: "increase" | "decrease" }
+    { id: string; type: "increase" | "decrease" | "delete" }
   >({
     mutationFn: ({ id, type }) => updateCartQuantity(id, type),
     onSuccess: () => {
@@ -39,9 +39,9 @@ export const CartTable: React.FC<CartProps> = ({ data }) => {
     await mutateAsync({ id, type: "increase" });
   };
 
-  const handleDecrease = async (id: string) => {
+  const handleDecrease = async (id: string, quantity: number) => {
     if (!data) return;
-    await mutateAsync({ id, type: "decrease" });
+    await mutateAsync({ id, type: quantity <= 1 ? "delete" : "decrease" });
   };
 
   return (
@@ -76,7 +76,7 @@ export const CartTable: React.FC<CartProps> = ({ data }) => {
                 product={cart.product}
                 quantity={cart.quantity}
                 onIncrease={() => handleIncrease(cart.id)}
-                onDecrease={() => handleDecrease(cart.id)}
+                onDecrease={() => handleDecrease(cart.id, cart.quantity)}
               />
             ))
           ) : (

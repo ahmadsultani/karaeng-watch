@@ -11,7 +11,9 @@ export interface IOrder {
   products: {
     product: IProduct;
     quantity: number;
+    price: number;
   }[];
+  totalPrice: number;
   createdAt: string;
   updatedAt: string;
   userID?: string;

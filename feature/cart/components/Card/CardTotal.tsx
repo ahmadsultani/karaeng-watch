@@ -17,7 +17,6 @@ export const CartTotal: React.FC<CartTotalProps> = ({ totalSum }) => (
           <p>Grand Total:</p>
           <p>{formatPrice(totalSum)}</p>
         </CartCard.Total>
-        <CartCard.CheckoutButton>Checkout</CartCard.CheckoutButton>
       </CartCard.TotalContent>
     </TableBorderNone>
   </TableRow>
