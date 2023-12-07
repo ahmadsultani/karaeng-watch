@@ -17,13 +17,16 @@ import { ReviewCard } from "./components/Card/ReviewCard";
 import * as Styles from "./styles";
 import { useParams } from "next/navigation";
 import { getOneProduct } from ".";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatPrice } from "@/utils/formatter";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
 import { toast } from "react-hot-toast";
+import { addToCart } from "../cart/service";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
+
+  const queryClient = useQueryClient();
 
   const {
     data: product,
@@ -33,6 +36,24 @@ export const ProductDetail: React.FC = () => {
   } = useQuery({
     queryKey: ["product", id],
     queryFn: () => getOneProduct(id as string),
+  });
+
+  const { mutateAsync: mutateCart } = useMutation({
+    mutationKey: ["cart"],
+    mutationFn: addToCart,
+    onMutate: () => {
+      toast.loading("Adding to cart...");
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      queryClient.invalidateQueries({
+        queryKey: ["cart"],
+      });
+      toast.success("Added to cart");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   enum EProductStatus {
@@ -62,6 +83,12 @@ export const ProductDetail: React.FC = () => {
       return;
     }
   };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    mutateCart({ productId: product.id, quantity: 1 });
+  };
+
   const renderContent = (status: EProductStatus) => {
     switch (status) {
       case EProductStatus.ERROR:
@@ -170,7 +197,10 @@ export const ProductDetail: React.FC = () => {
                   </Typography>
                 </Box>
                 <Styles.ProductButtonGroup>
-                  <Styles.ProductButtons color="secondary">
+                  <Styles.ProductButtons
+                    color="secondary"
+                    onClick={handleAddToCart}
+                  >
                     <Typography fontSize={"18px"}>Add To Cart</Typography>
                     <ShoppingCartOutlined />
                   </Styles.ProductButtons>
