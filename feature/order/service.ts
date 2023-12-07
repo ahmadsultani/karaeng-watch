@@ -14,6 +14,8 @@ import {
   where,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { createNotification } from "../notification/service";
+import { notification_messages } from "@/constants/notification";
 
 export const getAllOrders = async (
   status?: TOrderStatus,
@@ -87,10 +89,7 @@ export const getOrderById = async (orderId: string): Promise<IOrder | null> => {
   }
 };
 
-export const createOrderFromDetail = async (
-  user: IUser,
-  product: IProduct,
-): Promise<void> => {
+export const createOrderFromDetail = async (user: IUser, product: IProduct) => 
   try {
     const timestamp = serverTimestamp();
 
@@ -108,12 +107,21 @@ export const createOrderFromDetail = async (
       totalPrice: product.price,
     };
 
-    await addDoc(collection(db, "order"), {
+    await createNotification(
+      user.uid,
+      notification_messages.order.title,
+      notification_messages.order.description,
+      `/order`,
+    );
+
+    const docRef = await addDoc(collection(db, "order"), {
       ...orderData,
       createdAt: timestamp,
       updatedAt: timestamp,
       userID: user.uid,
     });
+
+    return docRef.id;
   } catch (error) {
     toast.error("Something went wrong while creating the order.");
   }
