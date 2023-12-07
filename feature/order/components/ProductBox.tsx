@@ -19,7 +19,10 @@ export const ProductBox: React.FC<ProductBoxProps> = ({ products }) => {
 
         <ProductBoxStyle.ContentProduct>
           <ProductBoxStyle.ContentProductDetails>
-            <Typography>{products[0].product.name}</Typography>
+            <Typography className="productName">
+              {products[0].product.name}
+            </Typography>
+
             <Typography className="productBrand">
               {products[0].product.brand.name}
             </Typography>

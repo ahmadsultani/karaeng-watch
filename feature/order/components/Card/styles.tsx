@@ -93,7 +93,7 @@ export const ContentProductDetails = styled(Box)({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
-  justifyContent: "center",
+  justifyContent: "start",
   width: "fit-content",
   "& .productName": {
     color: theme.palette.secondary.main,

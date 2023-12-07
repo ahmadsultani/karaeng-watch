@@ -100,3 +100,27 @@ export const updateOrderStatus = async (
     throw new Error("Failed to update order status");
   }
 };
+
+export const orderAgain = async (order: IOrder) => {
+  try {
+    const timestamp = serverTimestamp();
+
+    const orderData: Omit<IOrder, "id" | "createdAt" | "updatedAt"> = {
+      user: order.user,
+      status: "waiting" as TOrderStatus,
+      isReviewed: false,
+      products: order.products,
+    };
+
+    const response = await addDoc(collection(db, "order"), {
+      ...orderData,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      userID: order.user.uid,
+    });
+
+    return response.id;
+  } catch (error) {
+    toast.error("Something went wrong while creating the order.");
+  }
+};

@@ -5,32 +5,45 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 import { formatPrice } from "@/utils/formatter";
 import ProductBox from "../ProductBox";
-import { IProduct } from "@/interfaces/product";
+import { useMutation } from "@tanstack/react-query";
+import { orderAgain } from "../../service";
+import { IOrder } from "@/interfaces/order";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-interface CardProps {
-  id: string;
-  status: string;
-  isReviewed?: boolean | undefined;
-  order?: boolean | undefined;
-  products: { product: IProduct; quantity: number }[];
-}
-
-export const Card: React.FC<CardProps> = ({ products, status, isReviewed }) => {
+export const Card: React.FC<IOrder> = ({
+  products,
+  status,
+  isReviewed,
+  ...rest
+}) => {
+  const router = useRouter();
   const total = products.reduce((acc, p) => acc + p.product.price, 0);
 
-  const handleReviewClick = () => {
-    // push to review page
-  };
+  const { mutateAsync: mutateOrderAgain } = useMutation({
+    mutationKey: ["order"],
+    mutationFn: () =>
+      orderAgain({
+        products,
+        status,
+        isReviewed,
+        ...rest,
+      }),
+    onMutate: () => {
+      toast.loading("Ordering again...");
+    },
+    onSuccess: (id) => {
+      toast.dismiss();
+      toast.success("Succeed order again!");
+      router.push(`/order/${id}`);
+    },
+  });
 
-  const handleOrderAgainClick = () => {
-    // push to order page
-  };
+  const handleReviewClick = () => {};
 
   const handleViewDetailsClick = () => {
     // setPopupVisible(true);
   };
-
-  status = status.charAt(0).toUpperCase() + status.slice(1);
 
   return (
     <OrderCard.Item>
@@ -40,7 +53,9 @@ export const Card: React.FC<CardProps> = ({ products, status, isReviewed }) => {
           <Typography className="logo">Belanja</Typography>
         </OrderCard.ItemHeaderLogo>
         <OrderCard.ItemHeaderStatus>
-          <Typography className="status">{status}</Typography>
+          <Typography className="status" textTransform="capitalize">
+            {status}
+          </Typography>
         </OrderCard.ItemHeaderStatus>
       </OrderCard.ItemHeader>
 
@@ -59,17 +74,21 @@ export const Card: React.FC<CardProps> = ({ products, status, isReviewed }) => {
           >
             View Details
           </OrderCard.ButtonDetail>
-          {isReviewed && (
-            <OrderCard.ButtonReview onClick={handleReviewClick}>
-              Review
-            </OrderCard.ButtonReview>
+          {status === "done" && (
+            <>
+              {isReviewed && (
+                <OrderCard.ButtonReview onClick={handleReviewClick}>
+                  Review
+                </OrderCard.ButtonReview>
+              )}
+              <OrderCard.ButtonOrder
+                variant="outlined"
+                onClick={() => mutateOrderAgain()}
+              >
+                Order Again
+              </OrderCard.ButtonOrder>
+            </>
           )}
-          <OrderCard.ButtonOrder
-            variant="outlined"
-            onClick={handleOrderAgainClick}
-          >
-            Order Again
-          </OrderCard.ButtonOrder>
         </OrderCard.ButtonGroup>
       </OrderCard.Details>
     </OrderCard.Item>

@@ -69,15 +69,7 @@ export const Order = () => {
             <Typography>{error.message}</Typography>
           </EmptyWrapper>
         ) : orders && orders.length > 0 ? (
-          orders.map((item) => (
-            <Card
-              key={item.id}
-              id={item.id}
-              status={item.status}
-              isReviewed={item.isReviewed}
-              products={item.products}
-            />
-          ))
+          orders.map((item) => <Card key={item.id} {...item} />)
         ) : (
           <EmptyWrapper>
             <Typography>No order found</Typography>

@@ -24,7 +24,7 @@ export const EmptyCart = () => {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Image src={NoProduct} alt="empty cart" />
       </Box>
-      <AddProductButton>+ Start Shopping</AddProductButton>
+      <AddProductButton href="/product">+ Start Shopping</AddProductButton>
     </Box>
   );
 };
