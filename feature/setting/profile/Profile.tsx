@@ -31,3 +31,5 @@ export const Profile: React.FC = () => {
     </ProfileWrapper>
   );
 };
+
+export default Profile;

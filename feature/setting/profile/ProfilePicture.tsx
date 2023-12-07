@@ -10,7 +10,7 @@ import {
 } from "./styles";
 import { Avatar, Box, Typography } from "@mui/material";
 import { useDropzone } from "react-dropzone";
-import { ProfileSectionProps } from ".";
+import { ProfileSectionProps } from "./Profile";
 import toast from "react-hot-toast";
 import { IUser } from "@/interfaces/user";
 import { uploadAndGetImgUrl } from "@/utils/image";

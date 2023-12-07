@@ -126,6 +126,8 @@ export const Setting: React.FC = () => {
   );
 };
 
+export default Setting;
+
 const settingLists = [
   {
     label: "Profile",

@@ -1,7 +1,5 @@
 import { AboutUs } from "@/feature/about-us";
 
-export const AboutUsPage = () => {
+export default function AboutUsPage() {
   return <AboutUs />;
-};
-
-export default AboutUsPage;
+}

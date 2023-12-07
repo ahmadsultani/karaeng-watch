@@ -11,7 +11,7 @@ import {
   ProfileFormSection,
 } from "./styles";
 import toast from "react-hot-toast";
-import { ProfileSectionProps } from ".";
+import { ProfileSectionProps } from "./Profile";
 import { sendEmailVerification } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { FirebaseError } from "firebase/app";

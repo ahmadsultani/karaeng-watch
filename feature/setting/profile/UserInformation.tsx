@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 import { updateUser } from "@/service/user";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
-import { ProfileSectionProps } from ".";
+import { ProfileSectionProps } from "./Profile";
 
 export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
   const { control, handleSubmit, reset, formState } = useForm<Partial<IUser>>({
