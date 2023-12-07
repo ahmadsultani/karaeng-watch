@@ -1,10 +1,17 @@
 "use client";
 
-import { Box, Paper, Typography, Grid, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Typography,
+  Grid,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
 import * as InvoiceCard from "./styles";
 import { formatDate, formatPrice, formatToHour } from "@/utils/formatter";
 import LogoBCA from "@/public/icons/logo-bca.svg";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getOrderById } from "./service";
 import { getOneUser } from "../user";
 import { InvoiceTable } from "./components/InvoiceTable";
@@ -12,9 +19,11 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
 import { NotFound } from "../not-found";
+import { ArrowBack } from "@mui/icons-material";
 
 export const Invoice = () => {
   const { id } = useParams();
+  const router = useRouter();
 
   const {
     data: order,
@@ -55,6 +64,14 @@ export const Invoice = () => {
 
   return (
     <InvoiceCard.Container>
+      <IconButton
+        onClick={() => router.back()}
+        sx={{
+          width: "max-content",
+        }}
+      >
+        <ArrowBack />
+      </IconButton>
       {/* Head Invoice */}
       <Grid container justifyContent="space-between">
         <Grid>

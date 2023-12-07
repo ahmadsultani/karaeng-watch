@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export const Card: React.FC<IOrder> = ({
+  id,
   products,
   status,
   isReviewed,
@@ -27,6 +28,7 @@ export const Card: React.FC<IOrder> = ({
         products,
         status,
         isReviewed,
+        id,
         ...rest,
       }),
     onMutate: () => {
@@ -40,10 +42,6 @@ export const Card: React.FC<IOrder> = ({
   });
 
   const handleReviewClick = () => {};
-
-  const handleViewDetailsClick = () => {
-    // setPopupVisible(true);
-  };
 
   return (
     <OrderCard.Item>
@@ -70,7 +68,7 @@ export const Card: React.FC<IOrder> = ({
         <OrderCard.ButtonGroup>
           <OrderCard.ButtonDetail
             variant="text"
-            onClick={handleViewDetailsClick}
+            onClick={() => router.push(`/order/${id}`)}
           >
             View Details
           </OrderCard.ButtonDetail>
