@@ -2,6 +2,7 @@
 
 import { ShoppingCartOutlined } from "@mui/icons-material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Cookies from "js-cookie";
 import {
   Box,
   Button,
@@ -12,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ReviewCard } from "./components/Card/ReviewCard";
 import * as Styles from "./styles";
 import { useParams } from "next/navigation";
@@ -21,10 +22,29 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatPrice } from "@/utils/formatter";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
 import { toast } from "react-hot-toast";
+import { createOrderFromDetail } from "../order/service";
+import { IUser } from "@/interfaces/user";
 import { addToCart } from "../cart/service";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
+  const userCookies = Cookies.get("user");
+  const user = useMemo(() => {
+    return JSON.parse(userCookies || "{}") as IUser;
+  }, [userCookies]);
+
+  const handleBuyNow = async () => {
+    if (product && user) {
+      try {
+        await createOrderFromDetail(user, product); // Swapped arguments: user first, then product
+        toast.success("Order created successfully!"); // Notify user about successful order creation
+      } catch (error) {
+        toast.error("Error creating order");
+      }
+    } else {
+      toast.error("User or product information is missing");
+    }
+  };
 
   const queryClient = useQueryClient();
 
@@ -66,7 +86,7 @@ export const ProductDetail: React.FC = () => {
 
   const [carrousel, setCarrousel] = useState(0);
   const [userRating, setUserRating] = useState<number | null>(0);
-  const [isPurchased, setIsPurchased] = useState(false);
+  const [isPurchased] = useState(false);
   const [isReviewing, setIsReviewing] = useState(true);
   const [reviewComment, setReviewComment] = useState("");
   const handleNextButton = () => {
@@ -205,7 +225,7 @@ export const ProductDetail: React.FC = () => {
                     <ShoppingCartOutlined />
                   </Styles.ProductButtons>
                   <Styles.ProductButtons
-                    onClick={() => setIsPurchased(!isPurchased)}
+                    onClick={() => handleBuyNow()}
                     color="primary"
                   >
                     <Typography fontSize={"18px"}>Buy Now</Typography>

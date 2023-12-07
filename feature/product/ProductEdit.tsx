@@ -36,7 +36,7 @@ export const ProductEdit = () => {
       rating: data?.rating || 0,
       stock: data?.stock || 0,
       thumbnail: data?.thumbnail || "",
-      gender: data?.gender || "Male",
+      gender: data?.gender || "male",
       imgGallery: data?.imgGallery || [],
     },
   });
