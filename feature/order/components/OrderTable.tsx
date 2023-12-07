@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, MenuItem, TextField } from "@mui/material";
 import {
   MRT_ColumnDef,
   MaterialReactTable,
@@ -6,24 +6,30 @@ import {
 } from "material-react-table";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { IOrder } from "@/interfaces/order";
+import { IOrder, TOrderStatus } from "@/interfaces/order";
 import { formatDate, formatToHour } from "@/utils/formatter";
 
 interface OrderTableProps {
   data: IOrder[];
+  changeStatus: (id: string, status: TOrderStatus) => void;
 }
 
-export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
+export const OrderTable: React.FC<OrderTableProps> = ({
+  data,
+  changeStatus,
+}) => {
   const searchParams = useSearchParams();
-  const orderFiltered = data.filter(
-    (item) => item.status === searchParams.get("status"),
-  );
 
   const router = useRouter();
 
+  const handleStatusChange = async (id: string, status: TOrderStatus) => {
+    if (!status || status === searchParams.get("status")) return;
+    await changeStatus(id, status);
+  };
+
   const table = useMaterialReactTable({
     columns,
-    data: orderFiltered,
+    data,
     enableEditing: true,
     enableRowActions: true,
     enableRowSelection: false,
@@ -41,6 +47,20 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
         gap="12px"
         flexShrink={0}
       >
+        <TextField
+          size="small"
+          color="primary"
+          value={row.original.status}
+          onChange={(e) =>
+            handleStatusChange(row.original.id, e.target.value as TOrderStatus)
+          }
+          select
+        >
+          <MenuItem value="waiting">Waiting</MenuItem>
+          <MenuItem value="delivered">Delivered</MenuItem>
+          <MenuItem value="done">Done</MenuItem>
+          <MenuItem value="canceled">Canceled</MenuItem>
+        </TextField>
         <Button
           size="small"
           color="primary"
@@ -57,6 +77,18 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
 
 const columns: MRT_ColumnDef<IOrder>[] = [
   {
+    accessorKey: "id",
+    header: "Order ID",
+  },
+  {
+    accessorKey: "user.uid",
+    header: "Customer ID",
+  },
+  {
+    header: "Customer Name",
+    accessorFn: ({ user }) => `${user.firstName} ${user.lastName}`,
+  },
+  {
     accessorKey: "createdAt",
     header: "Order Date",
     accessorFn: ({ createdAt }) => {
@@ -66,22 +98,12 @@ const columns: MRT_ColumnDef<IOrder>[] = [
     },
   },
   {
-    accessorKey: "id",
-    header: "Order ID",
-  },
-  {
-    accessorKey: "userID",
-    header: "Customer ID",
-  },
-  {
-    accessorKey: "user.firstName",
-    header: "Customer Name",
-    accessorFn: (rowData) =>
-      `${rowData.user.firstName} ${rowData.user.lastName}`,
-  },
-
-  {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "updatedAt",
+    header: "Updated At",
+    accessorFn: ({ updatedAt }) => {
+      return updatedAt
+        ? `${formatToHour(updatedAt)} - ${formatDate(updatedAt, "short")}`
+        : "-";
+    },
   },
 ];

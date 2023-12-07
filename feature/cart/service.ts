@@ -13,7 +13,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { TCartForm, TOrderResponse } from "./type";
+import { TCartForm, TCartResponse } from "./type";
 import { ICart } from "@/interfaces/cart";
 import { FirebaseError } from "firebase/app";
 
@@ -38,7 +38,7 @@ export const getAllCart = async () => {
       cart: [],
       totalPrice,
       totalSum,
-    } as TOrderResponse;
+    } as TCartResponse;
   }
 
   const cart = querySnap.docs.map(async (d) => {
@@ -74,7 +74,7 @@ export const getAllCart = async () => {
     cart: cartResult,
     totalPrice,
     totalSum,
-  } as TOrderResponse;
+  } as TCartResponse;
 };
 
 export const getCartById = async (id: string) => {

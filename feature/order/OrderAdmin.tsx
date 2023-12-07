@@ -1,15 +1,14 @@
 "use client";
 
 import { AdminWrapper, EmptyWrapper } from "@/components/Wrapper/styles";
-import { Box, CircularProgress, Modal, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { CircularProgress } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { OrderTable } from "./components/OrderTable";
-import { getAllOrders } from "./service";
+import { getAllOrders, updateOrderStatus } from "./service";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IOrder } from "@/interfaces/order";
-import style from "styled-jsx/style";
+import { useEffect } from "react";
+import { TOrderStatus } from "@/interfaces/order";
 
 enum EOrderStatus {
   LOADING,
@@ -20,11 +19,12 @@ enum EOrderStatus {
 export const OrderAdmin: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [isOpenDetail, setIsOpenDetail] = useState<IOrder>();
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!searchParams.has("status")) {
-      router.push(`?status=delivered`, {
+      router.push(`?status=waiting`, {
         shallow: true,
       });
     }
@@ -36,8 +36,27 @@ export const OrderAdmin: React.FC = () => {
     isError: isErrorOrder,
     error,
   } = useQuery({
-    queryKey: ["order"],
-    queryFn: getAllOrders,
+    queryKey: ["order", searchParams.get("status")],
+    queryFn: () => getAllOrders(searchParams.get("status") as TOrderStatus),
+  });
+
+  const { mutateAsync } = useMutation<
+    void,
+    Error,
+    { id: string; status: TOrderStatus }
+  >({
+    mutationKey: ["order"],
+    mutationFn: ({ id, status }) => updateOrderStatus(id, status),
+    onMutate: () => {
+      toast.loading("Loading...");
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      queryClient.invalidateQueries({
+        queryKey: ["order"],
+      });
+      toast.success("Order status updated");
+    },
   });
 
   const renderContent = (status: EOrderStatus) => {
@@ -60,29 +79,15 @@ export const OrderAdmin: React.FC = () => {
         return (
           <AdminWrapper>
             <OrderTable
-              data={Orders || []}
-              // toggleDetailOpen={(order) => setIsOpenDetail(order)}
+              data={
+                Orders
+                  ? Orders.filter(
+                      (order) => order.status === searchParams.get("status"),
+                    )
+                  : []
+              }
+              changeStatus={(id, status) => mutateAsync({ id, status })}
             />
-            {!!isOpenDetail && (
-              <Modal
-                open={!!isOpenDetail}
-                onClose={() => setIsOpenDetail(undefined)}
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    Text in a modal
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor
-                    ligula.
-                  </Typography>
-                </Box>
-              </Modal>
-            )}
           </AdminWrapper>
         );
     }

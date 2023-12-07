@@ -7,15 +7,28 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 
-export const getAllOrders = async (): Promise<IOrder[]> => {
+export const getAllOrders = async (
+  status?: TOrderStatus,
+  userId?: string,
+): Promise<IOrder[]> => {
   try {
-    const ordersCollection = collection(db, "order");
-    const querySnapshot = await getDocs(ordersCollection);
+    const collectionRef = collection(db, "order");
+
+    const queries = [];
+
+    if (status) queries.push(where("status", "==", status));
+
+    if (userId) queries.push(where("userID", "==", userId));
+
+    const q = query(collectionRef, ...queries);
+    const querySnapshot = await getDocs(q);
 
     const orders: IOrder[] = [];
     querySnapshot.forEach((doc) => {
@@ -27,6 +40,9 @@ export const getAllOrders = async (): Promise<IOrder[]> => {
         isReviewed: orderData.isReviewed,
         products: orderData.products,
         createdAt: orderData.createdAt.toDate(),
+        updatedAt: orderData.updatedAt
+          ? orderData.updatedAt?.toDate()
+          : undefined,
         userID: orderData.userID,
       };
       orders.push(order);
@@ -46,7 +62,7 @@ export const createOrderFromDetail = async (
   try {
     const timestamp = serverTimestamp();
 
-    const orderData: Omit<IOrder, "id" | "createdAt"> = {
+    const orderData: Omit<IOrder, "id" | "createdAt" | "updatedAt"> = {
       user: user,
       status: "waiting" as TOrderStatus,
       isReviewed: false,
@@ -61,6 +77,7 @@ export const createOrderFromDetail = async (
     await addDoc(collection(db, "order"), {
       ...orderData,
       createdAt: timestamp,
+      updatedAt: timestamp,
       userID: user.uid,
     });
   } catch (error) {
@@ -70,14 +87,13 @@ export const createOrderFromDetail = async (
 
 export const updateOrderStatus = async (
   orderId: string,
-  order: IOrder,
   status: string,
 ): Promise<void> => {
   try {
     const orderRef = doc(db, "order", orderId);
     await updateDoc(orderRef, {
-      ...order,
       status: status,
+      updatedAt: serverTimestamp(),
     });
   } catch (error) {
     toast.error("Failed to update order status");

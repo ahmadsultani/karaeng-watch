@@ -6,7 +6,7 @@ import { formatPrice } from "@/utils/formatter";
 import { IProduct } from "@/interfaces/product";
 
 interface ProductBoxProps {
-  products: IProduct[];
+  products: { product: IProduct; quantity: number }[];
 }
 
 export const ProductBox: React.FC<ProductBoxProps> = ({ products }) => {
@@ -19,9 +19,9 @@ export const ProductBox: React.FC<ProductBoxProps> = ({ products }) => {
 
         <ProductBoxStyle.ContentProduct>
           <ProductBoxStyle.ContentProductDetails>
-            <Typography>{products[0].name}</Typography>
+            <Typography>{products[0].product.name}</Typography>
             <Typography className="productBrand">
-              {products[0].brand.name}
+              {products[0].product.brand.name}
             </Typography>
           </ProductBoxStyle.ContentProductDetails>
 
@@ -35,7 +35,7 @@ export const ProductBox: React.FC<ProductBoxProps> = ({ products }) => {
         </ProductBoxStyle.ContentProduct>
 
         <ProductBoxStyle.ContentProductPrice>
-          <Typography>{formatPrice(products[0].price)}</Typography>
+          <Typography>{formatPrice(products[0].product.price)}</Typography>
         </ProductBoxStyle.ContentProductPrice>
       </ProductBoxStyle.Product>
     </ProductBoxStyle.Content>

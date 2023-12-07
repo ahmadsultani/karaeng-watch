@@ -13,5 +13,6 @@ export interface IOrder {
     quantity: number;
   }[];
   createdAt: string;
+  updatedAt: string;
   userID?: string;
 }

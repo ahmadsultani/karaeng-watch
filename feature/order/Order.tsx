@@ -6,9 +6,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { OrderWrapper, OrderContainer, StyledTab } from "./styles";
 import { Card } from "./components/Card";
 
-import { order } from "./fakeOrderData";
-import { Tabs, Typography } from "@mui/material";
+import { CircularProgress, Tabs, Typography } from "@mui/material";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
+import { useQuery } from "@tanstack/react-query";
+import { getAllOrders } from "./service";
+import { TOrderStatus } from "@/interfaces/order";
+import Cookies from "js-cookie";
+import { IUser } from "@/interfaces/user";
 
 enum OrderStatus {
   WAITING = "waiting",
@@ -18,12 +22,21 @@ enum OrderStatus {
 }
 
 export const Order = () => {
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const orderFiltered = order.filter(
-    (item) => item.status === searchParams.get("status"),
-  );
+  const {
+    data: orders,
+    isLoading: isLoadingOrders,
+    isError: isErrorOrders,
+    error,
+  } = useQuery({
+    queryKey: ["order", searchParams.get("status"), user?.uid],
+    queryFn: () =>
+      getAllOrders(searchParams.get("status") as TOrderStatus, user?.uid),
+  });
 
   useEffect(() => {
     if (!searchParams.has("status")) {
@@ -47,8 +60,16 @@ export const Order = () => {
       </Tabs>
 
       <OrderContainer>
-        {orderFiltered.length > 0 ? (
-          orderFiltered.map((item) => (
+        {isLoadingOrders ? (
+          <EmptyWrapper>
+            <CircularProgress />
+          </EmptyWrapper>
+        ) : isErrorOrders ? (
+          <EmptyWrapper>
+            <Typography>{error.message}</Typography>
+          </EmptyWrapper>
+        ) : orders && orders.length > 0 ? (
+          orders.map((item) => (
             <Card
               key={item.id}
               id={item.id}
@@ -59,9 +80,7 @@ export const Order = () => {
           ))
         ) : (
           <EmptyWrapper>
-            <Typography variant="h4" color="secondary">
-              No order found
-            </Typography>
+            <Typography>No order found</Typography>
           </EmptyWrapper>
         )}
       </OrderContainer>

@@ -7,7 +7,7 @@ export type TCartForm = Omit<
   productId: string;
 };
 
-export type TOrderResponse = {
+export type TCartResponse = {
   cart: ICart[];
   totalPrice: number;
   totalSum: number;

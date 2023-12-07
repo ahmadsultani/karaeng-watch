@@ -102,8 +102,8 @@ export const Setting: React.FC = () => {
           onClick={async () => {
             await auth.signOut();
             Cookies.remove("user");
-            toast.success("Logout succeed, see you!");
             router.push("/login");
+            toast.success("Logout succeed, see you!");
           }}
           sx={{
             padding: small ? "0" : medium ? "4px 8px" : "",

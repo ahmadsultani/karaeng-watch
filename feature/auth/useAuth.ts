@@ -31,7 +31,9 @@ export const useAuth = () => {
       Cookies.set("user", JSON.stringify(data));
       toast.dismiss();
       toast.success("Logged in successfully");
-      router.push("/");
+      if (data.role === "admin" || data.role === "super-admin")
+        router.push("/admin");
+      else router.push("/");
     },
     onError: (error) => {
       toast.dismiss();

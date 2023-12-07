@@ -12,11 +12,11 @@ interface CardProps {
   status: string;
   isReviewed?: boolean | undefined;
   order?: boolean | undefined;
-  products: IProduct[];
+  products: { product: IProduct; quantity: number }[];
 }
 
 export const Card: React.FC<CardProps> = ({ products, status, isReviewed }) => {
-  const total = products.reduce((acc, product) => acc + product.price, 0);
+  const total = products.reduce((acc, p) => acc + p.product.price, 0);
 
   const handleReviewClick = () => {
     // push to review page
