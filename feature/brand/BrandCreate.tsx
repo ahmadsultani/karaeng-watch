@@ -9,7 +9,7 @@ import { BrandForm } from "./components/BrandForm";
 
 export const BrandCreate = () => {
   const queryClient = useQueryClient();
-  const { control, handleSubmit } = useForm<TBrandForm>();
+  const { control, handleSubmit, setValue } = useForm<TBrandForm>();
   const router = useRouter();
 
   const { mutateAsync } = useMutation({
@@ -31,7 +31,7 @@ export const BrandCreate = () => {
 
   return (
     <form onSubmit={handleSubmit((data) => mutateAsync(data))} noValidate>
-      <BrandForm control={control} />
+      <BrandForm control={control} setValue={setValue} />
     </form>
   );
 };

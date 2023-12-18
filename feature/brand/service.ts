@@ -12,6 +12,8 @@ import {
 import { db } from "@/config/firebase";
 import { IBrand } from "@/interfaces/brand";
 import { TBrandForm, TBrandUpdateParams } from ".";
+import { uploadAndGetImgUrl } from "@/utils/image";
+import toast from "react-hot-toast";
 
 export const getAllBrand = async () => {
   const querySnapshot = await getDocs(collection(db, "brand"));
@@ -53,11 +55,29 @@ export const getOneBrand = async (id: string) => {
 export const createBrand = async (brand: TBrandForm) => {
   const timestamp = serverTimestamp();
 
-  await addDoc(collection(db, "brand"), {
-    ...brand,
-    createdAt: timestamp,
-    updatedAt: timestamp,
-  });
+  if (brand.image) {
+    try {
+      const brandCollectionRef = collection(db, "brand");
+
+      const newBrandDocRef = await addDoc(brandCollectionRef, {
+        name: brand.name,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      });
+
+      const photoURL = await uploadAndGetImgUrl(
+        brand.image,
+        "brands",
+        newBrandDocRef.id,
+      );
+
+      await updateDoc(newBrandDocRef, { imageURL: photoURL });
+    } catch (error) {
+      toast.error("Error creating brand");
+    }
+  } else {
+    toast.error("No image selected");
+  }
 };
 
 export const updateBrand = async ({ id, brand }: TBrandUpdateParams) => {

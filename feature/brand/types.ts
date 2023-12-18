@@ -9,8 +9,10 @@ export type TBrandParams = Partial<IBrand> & {
 
 export type TBrandForm = Omit<
   IBrand,
-  "id" | "createdAt" | "updatedAt" | "brand"
->;
+  "id" | "createdAt" | "updatedAt" | "brand" | "imageURL"
+> & {
+  image?: File;
+};
 
 export type TBrandUpdateParams = {
   id: string;

@@ -19,9 +19,8 @@ export const BrandEdit = () => {
     enabled: !!id,
   });
 
-  const { control, handleSubmit } = useForm<TBrandForm>({
+  const { control, handleSubmit, setValue } = useForm<TBrandForm>({
     defaultValues: {
-      imageURL: data?.imageURL || "",
       name: data?.name || "",
     },
   });
@@ -48,7 +47,12 @@ export const BrandEdit = () => {
       onSubmit={handleSubmit((data) => mutateAsync({ id, brand: data }))}
       noValidate
     >
-      <BrandForm control={control} type="edit" />
+      <BrandForm
+        control={control}
+        type="edit"
+        setValue={setValue}
+        brand={data}
+      />
     </form>
   );
 };
