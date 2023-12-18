@@ -82,6 +82,9 @@ export const BrandForm: React.FC<BrandFormProps> = ({
                         sx={{
                           width: 200,
                           height: 200,
+                          "& .MuiAvatar-img": {
+                            objectFit: "contain",
+                          },
                         }}
                         variant="square"
                         src={
