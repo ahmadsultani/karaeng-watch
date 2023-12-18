@@ -123,6 +123,7 @@ export const Product: React.FC = () => {
           >
             <TuneIcon />
           </IconButton>
+          <Typography fontSize={small ? "12px" : "16px"}>Category</Typography>
           {Object.keys(filter).length > 0 && (
             <Button
               variant="text"
