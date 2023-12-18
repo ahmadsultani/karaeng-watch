@@ -14,6 +14,7 @@ export interface IOrder {
     price: number;
   }[];
   totalPrice: number;
+  totalProduct: number;
   createdAt: string;
   updatedAt: string;
   userID?: string;

@@ -1,7 +1,5 @@
-import { auth, db } from "@/config/firebase";
+import { db } from "@/config/firebase";
 import {
-  DocumentReference,
-  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -9,16 +7,23 @@ import {
   getDocs,
   query,
   serverTimestamp,
+  setDoc,
   where,
 } from "firebase/firestore";
 
 import { IProduct } from "@/interfaces/product";
-import { IBrand } from "@/interfaces/brand";
+import { IUser } from "@/interfaces/user";
+import Cookies from "js-cookie";
+import { getOneProduct } from "../product";
+import { FirebaseError } from "firebase/app";
 
 export const getAllFavoriteProduct = async () => {
-  const userId = auth.currentUser?.uid as string;
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
 
-  const q = query(collection(db, "favorite"), where("userId", "==", userId));
+  if (!user) return [];
+
+  const q = query(collection(db, "favorite"), where("userId", "==", user.uid));
 
   const { docs } = await getDocs(q);
 
@@ -27,28 +32,10 @@ export const getAllFavoriteProduct = async () => {
   const productPromises = docs.map(async (d) => {
     const favData = d.data();
     const productId = favData.productId;
-    const productRef = doc(db, "product", productId);
 
-    const productSnap = await getDoc(productRef);
-    const productData = productSnap.data()!;
+    const product = await getOneProduct(productId);
 
-    const brandRef = productData.brand as DocumentReference;
-    const brandSnap = await getDoc(brandRef);
-    const brandData = brandSnap.data() as IBrand;
-
-    const brand = {
-      ...brandData,
-      id: brandSnap.id,
-    };
-
-    const product = {
-      ...productData,
-      brand,
-      id: productSnap.id,
-      isFavorite: true,
-    };
-
-    return product as IProduct;
+    return product;
   });
 
   const productResults = await Promise.all(productPromises);
@@ -58,16 +45,22 @@ export const getAllFavoriteProduct = async () => {
 };
 
 export const addFavorite = async (productId: string) => {
-  const userId = auth.currentUser?.uid as string;
-  const favoriteRef = collection(db, "favorite");
-  const isFavorited = await checkFavoriteExists(productId);
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
 
-  if (isFavorited) {
+  if (!user) {
+    throw new FirebaseError("auth/user-not-found", "User not found");
+  }
+
+  const favoriteRef = doc(db, "favorite", `${user.uid}_${productId}`);
+  const isFavorite = await checkFavoriteExists(productId);
+
+  if (isFavorite) {
     return;
   }
 
-  await addDoc(favoriteRef, {
-    userId,
+  await setDoc(favoriteRef, {
+    userId: user.uid,
     productId,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -75,25 +68,23 @@ export const addFavorite = async (productId: string) => {
 };
 
 export const checkFavoriteExists = async (productId: string) => {
-  const userId = auth.currentUser?.uid as string;
-  if (!userId) return false;
-  const q = query(
-    collection(db, "favorite"),
-    where("userId", "==", userId),
-    where("productId", "==", productId),
-  );
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.length > 0;
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
+
+  if (!user) return false;
+
+  const docRef = doc(db, "favorite", `${user.uid}_${productId}`);
+  const querySnapshot = await getDoc(docRef);
+  return querySnapshot.exists();
 };
 
 export const deleteFavorite = async (productTd: string) => {
-  const userId = auth.currentUser?.uid as string;
-  const q = query(
-    collection(db, "favorite"),
-    where("userId", "==", userId),
-    where("productId", "==", productTd),
-  );
-  const querySnapshot = await getDocs(q);
-  const docId = querySnapshot.docs[0].id;
-  await deleteDoc(doc(db, "favorite", docId));
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
+
+  if (!user) {
+    throw new FirebaseError("auth/user-not-found", "User not found");
+  }
+
+  await deleteDoc(doc(db, "favorite", `${user.uid}_${productTd}`));
 };

@@ -1,5 +1,4 @@
 import { db } from "@/config/firebase";
-import { getCurrentUser } from "@/service/user";
 import { FirebaseError } from "firebase/app";
 import {
   addDoc,
@@ -12,15 +11,17 @@ import {
   where,
 } from "firebase/firestore";
 import { INotification } from "./types";
+import { IUser } from "@/interfaces/user";
+import Cookies from "js-cookie";
 
 export const getAllNotification = async () => {
-  const currentUser = await getCurrentUser();
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
 
-  if (!currentUser)
-    throw new FirebaseError("auth/user-not-found", "User not found");
+  if (!user) throw new FirebaseError("auth/user-not-found", "User not found");
 
   const collectionRef = collection(db, "notification");
-  const q = query(collectionRef, where("userId", "==", currentUser.uid));
+  const q = query(collectionRef, where("userId", "==", user.uid));
   const querySnapshot = await getDocs(q);
 
   const notifications: INotification[] = [];
@@ -61,10 +62,10 @@ export const createNotification = async (
 };
 
 export const markNotificationAsViewed = async (id: string) => {
-  const currentUser = await getCurrentUser();
+  const userCookies = Cookies.get("user");
+  const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
 
-  if (!currentUser)
-    throw new FirebaseError("auth/user-not-found", "User not found");
+  if (!user) throw new FirebaseError("auth/user-not-found", "User not found");
 
   const docRef = doc(db, "notification", id);
 

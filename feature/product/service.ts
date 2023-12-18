@@ -151,7 +151,9 @@ export const createProduct = async (product: TProductForm) => {
 };
 
 export const updateProduct = async ({ id, product }: TProductUpdateParams) => {
-  const brandRef = product.brandId && doc(db, "brand", product.brandId);
+  const brandRef = product.brandId
+    ? doc(db, "brand", product.brandId)
+    : undefined;
   const timestamp = serverTimestamp();
 
   product.price = Number(product.price);
