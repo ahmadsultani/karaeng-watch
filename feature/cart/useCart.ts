@@ -22,6 +22,7 @@ export const useCart = () => {
       toast.success("Added to cart");
     },
     onError: (error) => {
+      toast.dismiss();
       toast.error(error.message || DEFAULT_ERROR);
     },
   });

@@ -4,16 +4,16 @@ import { CartTable } from "./components/Table";
 import { CheckoutButton, Container } from "./components/Card/styles";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { CartTotal } from "./components/Card/CardTotal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAllCart } from "./service";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { checkout } from "../order/service";
 import { IUser } from "@/interfaces/user";
 import Cookies from "js-cookie";
 import { Modal } from "@/components/Modal";
 import { useRouter } from "next/navigation";
+import { useOrder } from "../order";
 
 export const Cart = () => {
   const userCookies = Cookies.get("user");
@@ -32,18 +32,7 @@ export const Cart = () => {
     queryFn: getAllCart,
   });
 
-  const { mutateAsync } = useMutation({
-    mutationKey: ["order"],
-    mutationFn: checkout,
-    onMutate: () => {
-      toast.loading("Loading...");
-    },
-    onSuccess: (id) => {
-      toast.dismiss();
-      toast.success("Thanks for your order!");
-      router.push(`order/${id}`);
-    },
-  });
+  const { mutateCheckout } = useOrder();
 
   const handleCheckout = async () => {
     if (!user || !cart) return;
@@ -62,7 +51,7 @@ export const Cart = () => {
       };
     });
 
-    await mutateAsync({
+    await mutateCheckout({
       products: orderProducts,
       totalPrice: cart.totalPrice || 0,
       totalProduct: cart.cart.length,

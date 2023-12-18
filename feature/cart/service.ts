@@ -31,7 +31,7 @@ export const getAllCart = async () => {
   let totalPrice = 0,
     totalSum = 0;
 
-  if (querySnap.empty) {
+  if (querySnap.docs.length === 0) {
     return {
       cart: [],
       totalPrice,
@@ -43,6 +43,8 @@ export const getAllCart = async () => {
     const data = d.data();
 
     const product = await getOneProduct(data.productId);
+
+    if (!product) return null;
 
     data.createdAt = data.createdAt.toDate();
     data.updatedAt = data.updatedAt.toDate();

@@ -9,6 +9,7 @@ import {
   getDocs,
   or,
   query,
+  runTransaction,
   serverTimestamp,
   updateDoc,
   where,
@@ -19,6 +20,7 @@ import { IBrand } from "@/interfaces/brand";
 import { TProductForm, TProductParams, TProductUpdateParams } from ".";
 import { checkFavoriteExists } from "../favorite/services";
 import { uploadAndGetImgUrl } from "@/utils/image";
+import { FirebaseError } from "firebase/app";
 
 export const getAllProduct = async () => {
   const querySnapshot = await getDocs(collection(db, "product"));
@@ -110,7 +112,7 @@ export const getOneProduct = async (id: string) => {
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
-    throw new Error("Product not found!");
+    throw new FirebaseError("product/not-found", "Product not found");
   }
 
   const data = docSnap.data();
@@ -122,7 +124,7 @@ export const getOneProduct = async (id: string) => {
   const brandSnap = await getDoc(brandRef);
 
   if (!brandSnap.exists()) {
-    throw new Error("Brand not found!");
+    throw new FirebaseError("brand/not-found", "Brand not found");
   }
 
   const brandData = brandSnap.data();
@@ -137,33 +139,42 @@ export const getOneProduct = async (id: string) => {
 };
 
 export const createProduct = async (product: TProductForm) => {
-  const brandDocRef = doc(db, "brand", product.brandId); // Fetch brand document reference
-  const timestamp = serverTimestamp();
+  await runTransaction(db, async (transaction) => {
+    const brandDocRef = doc(db, "brand", product.brandId); // Fetch brand document reference
+    const timestamp = serverTimestamp();
 
-  product.price = Number(product.price);
-  product.stock = Number(product.stock);
+    product.price = Number(product.price);
+    product.stock = Number(product.stock);
 
-  const productCollectionRef = collection(db, "product");
+    const productCollectionRef = collection(db, "product");
 
-  const newProductDocRef = await addDoc(productCollectionRef, {
-    ...product,
-    imgGallery: [],
-    sold: 0,
-    createdAt: timestamp,
-    updatedAt: timestamp,
+    const newProductDocRef = await addDoc(productCollectionRef, {
+      ...product,
+      imgGallery: [],
+      sold: 0,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    });
+
+    let imgGallery = [];
+
+    if (product.imgGallery && product.imgGallery.length) {
+      imgGallery = await Promise.all(
+        product.imgGallery.map(async (img, i) => {
+          const photoURL = await uploadAndGetImgUrl(
+            img,
+            `product/${newProductDocRef.id}`,
+            i.toString(),
+          );
+          return photoURL;
+        }),
+      );
+
+      transaction.update(newProductDocRef, { imgGallery });
+    }
+
+    transaction.update(newProductDocRef, { brand: brandDocRef });
   });
-
-  if (product.imgGallery && product.imgGallery[0]) {
-    const photoURL = await uploadAndGetImgUrl(
-      product.imgGallery[0],
-      `product/${newProductDocRef.id}`,
-      "0",
-    );
-
-    await updateDoc(newProductDocRef, { imgGallery: [photoURL] });
-  }
-
-  await updateDoc(newProductDocRef, { brand: brandDocRef });
 };
 
 export const updateProduct = async ({ id, product }: TProductUpdateParams) => {

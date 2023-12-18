@@ -76,10 +76,15 @@ export const Form: React.FC<FormProps> = ({
     index: number,
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (event.target.files) {
-      const file = event.target.files[index];
-      setValue(`imgGallery.${index}`, file);
+    if (!event.target.files) return;
+
+    if (event.target.files.length > 1) {
+      toast.error("Please upload only 1 file");
+      return;
     }
+
+    const file = event.target.files[0];
+    setValue(`imgGallery.${index}`, file);
   };
 
   return (
@@ -245,7 +250,7 @@ export const Form: React.FC<FormProps> = ({
                           </Typography>
                         </Box>
                       </Box>
-                      <input type="file" title="gallery" />
+                      <input type="file" title="gallery" accept="image/*" />
                     </Box>
                   </Box>
                 ) : (

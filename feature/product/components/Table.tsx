@@ -77,10 +77,6 @@ const columns: MRT_ColumnDef<IProduct>[] = [
     header: "Sold",
   },
   {
-    accessorKey: "rating",
-    header: "Rating",
-  },
-  {
     accessorKey: "stock",
     header: "Stock",
   },
