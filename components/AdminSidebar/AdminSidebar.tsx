@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Styles from "./styles";
 import Typography from "@mui/material/Typography/Typography";
 import { Box, useMediaQuery } from "@mui/material";
@@ -25,11 +25,17 @@ interface AdminSidebarProps {
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   ignoreMedia = false,
 }) => {
-  const user = JSON.parse(Cookies.get("user") || "{}") as IUser;
+  const [user, setUser] = useState<IUser>();
+
   const pathname = usePathname();
   const params = useSearchParams();
 
   const medium = useMediaQuery("(max-width:1024px)");
+
+  useEffect(() => {
+    const userCookies = Cookies.get("user");
+    userCookies && setUser(JSON.parse(userCookies) as IUser);
+  }, []);
 
   const SideBarMenuList = [
     {
@@ -133,7 +139,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         }}
       >
         {SideBarMenuList.map((menus, index) => {
-          if (user.role !== "super-admin" && menus.name === "User") {
+          if (user?.role !== "super-admin" && menus.name === "User") {
             return null;
           }
           return (
