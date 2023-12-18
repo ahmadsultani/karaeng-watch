@@ -130,7 +130,9 @@ export const Signup = () => {
             rules={{
               required: "Please input your phone number",
               pattern: {
-                value: /^[0-9-+]+$/,
+                // value: /^(\+?)[0-9-]+$/,
+                // the minus can only written after number
+                value: /^(\+?)[0-9]+(-[0-9]+)*$/,
                 message: "Please input a valid phone number",
               },
             }}
