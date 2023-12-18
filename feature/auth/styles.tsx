@@ -1,4 +1,4 @@
-import { Box, TextField, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 
 export const AuthForm = styled("form")({
   display: "flex",
@@ -22,13 +22,6 @@ export const AuthInputGroup = styled(Box)({
   flexDirection: "column",
   width: "100%",
   gap: "16px",
-});
-
-export const StyledTextField = styled(TextField)({
-  '& input[type="password"]': {
-    "-webkit-text-security": "disc" /* For WebKit (Safari, Chrome) */,
-    "text-security": "disc" /* For Firefox */,
-  },
 });
 
 export const AuthButtonGroup = styled(Box)({
