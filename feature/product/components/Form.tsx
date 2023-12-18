@@ -50,7 +50,7 @@ export const Form: React.FC<FormProps> = ({
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 1) {
       const file = acceptedFiles[0];
-      setValue("imgGallery.0", file);
+      setValue(`imgGallery.0`, file);
     } else {
       toast.error("Please upload only 1 file");
     }
@@ -71,6 +71,16 @@ export const Form: React.FC<FormProps> = ({
   const router = useRouter();
 
   const isMobile = useMediaQuery("(max-width: 768px");
+
+  const handleGalleryInput = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.files) {
+      const file = event.target.files[index];
+      setValue(`imgGallery.${index}`, file);
+    }
+  };
 
   return (
     <AdminWrapper>
@@ -168,6 +178,104 @@ export const Form: React.FC<FormProps> = ({
                       </Box>
                       <input {...getInputProps()} />
                     </DropArea>
+                  </Box>
+                )}
+              </Box>
+            )}
+          />
+        </FormSectionRow>
+      </FormSection>
+      <FormSection>
+        <FormSectionHeader>Gallery</FormSectionHeader>
+        <FormSectionRow>
+          <Controller
+            name="imgGallery.1"
+            control={control}
+            render={({ field: { value } }) => (
+              <Box display="flex" gap="12px" width="100%" alignItems="center">
+                {value || (product && product?.imgGallery[1]) ? (
+                  <Box position={"relative"} height={"200px"} width={"200px"}>
+                    <Avatar
+                      sx={{
+                        width: 200,
+                        height: 200,
+                        "& .MuiAvatar-img": {
+                          objectFit: "contain",
+                        },
+                      }}
+                      variant="square"
+                      src={
+                        value
+                          ? URL.createObjectURL(value)
+                          : product?.imgGallery[1] || ""
+                      }
+                    ></Avatar>
+                    <Box
+                      position={"absolute"}
+                      height={"200px"}
+                      width={"200px"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      top={0}
+                      left={0}
+                      sx={{
+                        opacity: 0,
+                        transition: "200ms",
+                        backgroundColor: "rgba(0,0,0,0.8)",
+                        "&:hover": {
+                          transition: "200ms",
+                          opacity: 1,
+                        },
+                      }}
+                    >
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                      >
+                        <Box p="8px" display="flex" alignItems="center">
+                          <UploadFile
+                            sx={{
+                              color: "white",
+                            }}
+                          />
+                          <Typography color={"white"}>
+                            Change Picture
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <input type="file" title="gallery" />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box display={"flex"} width={"200px"} height={"200px"}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                    >
+                      <Box
+                        p="8px"
+                        display="flex"
+                        alignItems="center"
+                        borderRadius="100%"
+                      >
+                        <UploadFile />
+                      </Box>
+                      <Typography
+                        fontWeight={500}
+                        textAlign="center"
+                        color="gray"
+                      >
+                        Click to Upload
+                      </Typography>
+                    </Box>
+                    <input
+                      type="file"
+                      title="haha"
+                      onChange={(e) => handleGalleryInput(1, e)}
+                    />
                   </Box>
                 )}
               </Box>
