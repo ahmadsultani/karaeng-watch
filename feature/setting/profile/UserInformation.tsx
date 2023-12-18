@@ -130,7 +130,7 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
                 <ProfileContent
                   {...field}
                   inputProps={{
-                    pattern: /^[0-9-+]+$/,
+                    pattern: "^[0-9+\\-]*$",
                     minLength: 12,
                   }}
                 />
