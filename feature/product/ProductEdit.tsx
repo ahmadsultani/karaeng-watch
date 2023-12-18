@@ -20,7 +20,7 @@ export const ProductEdit = () => {
 
   const { mutateUpdateProduct } = useProduct();
 
-  const { control, handleSubmit } = useForm<TProductForm>({
+  const { control, handleSubmit, setValue } = useForm<TProductForm>({
     defaultValues: {
       name: data?.name || "",
       price: data?.price || 0,
@@ -37,9 +37,7 @@ export const ProductEdit = () => {
       powerReserve: data?.powerReserve || 0,
       rating: data?.rating || 0,
       stock: data?.stock || 0,
-      thumbnail: data?.thumbnail || "",
       gender: data?.gender || "male",
-      imgGallery: data?.imgGallery || [],
     },
   });
 
@@ -50,7 +48,7 @@ export const ProductEdit = () => {
       )}
       noValidate
     >
-      <Form control={control} type="edit" />
+      <Form control={control} type="edit" setValue={setValue} product={data} />
     </form>
   );
 };

@@ -19,7 +19,6 @@ export interface IProduct {
   caseThickness: number;
   height: number;
   width: number;
-  thumbnail: string;
   imgGallery: string[];
   description: string;
   createdAt: string;

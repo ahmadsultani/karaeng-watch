@@ -5,7 +5,7 @@ import { TProductForm, useProduct } from ".";
 import { Form } from "./components/Form";
 
 export const ProductCreate = () => {
-  const { control, handleSubmit } = useForm<TProductForm>();
+  const { control, handleSubmit, setValue } = useForm<TProductForm>();
 
   const { mutateCreateProduct } = useProduct();
 
@@ -14,7 +14,7 @@ export const ProductCreate = () => {
       onSubmit={handleSubmit((data) => mutateCreateProduct(data))}
       noValidate
     >
-      <Form control={control} />
+      <Form control={control} setValue={setValue} />
     </form>
   );
 };

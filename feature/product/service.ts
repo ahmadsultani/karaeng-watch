@@ -18,6 +18,7 @@ import { IProduct } from "@/interfaces/product";
 import { IBrand } from "@/interfaces/brand";
 import { TProductForm, TProductParams, TProductUpdateParams } from ".";
 import { checkFavoriteExists } from "../favorite/services";
+import { uploadAndGetImgUrl } from "@/utils/image";
 
 export const getAllProduct = async () => {
   const querySnapshot = await getDocs(collection(db, "product"));
@@ -136,19 +137,33 @@ export const getOneProduct = async (id: string) => {
 };
 
 export const createProduct = async (product: TProductForm) => {
-  const brandRef = doc(db, "brand", product.brandId);
+  const brandDocRef = doc(db, "brand", product.brandId); // Fetch brand document reference
   const timestamp = serverTimestamp();
 
   product.price = Number(product.price);
   product.stock = Number(product.stock);
 
-  await addDoc(collection(db, "product"), {
+  const productCollectionRef = collection(db, "product");
+
+  const newProductDocRef = await addDoc(productCollectionRef, {
     ...product,
+    imgGallery: [],
     sold: 0,
-    brand: brandRef,
     createdAt: timestamp,
     updatedAt: timestamp,
   });
+
+  if (product.imgGallery && product.imgGallery[0]) {
+    const photoURL = await uploadAndGetImgUrl(
+      product.imgGallery[0],
+      `product/${newProductDocRef.id}`,
+      "0",
+    );
+
+    await updateDoc(newProductDocRef, { imgGallery: [photoURL] });
+  }
+
+  await updateDoc(newProductDocRef, { brand: brandDocRef });
 };
 
 export const updateProduct = async ({ id, product }: TProductUpdateParams) => {
