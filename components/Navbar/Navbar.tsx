@@ -16,6 +16,7 @@ import {
 import { Wrapper, Menu, DrawerContainer, DrawerCloseButton } from "./styles";
 
 import {
+  ChatOutlined,
   Close,
   FavoriteBorder,
   Menu as MenuIcon,
@@ -101,11 +102,22 @@ export const Navbar: React.FC = () => {
         </Link>
       )}
       <Box display="flex" justifyContent="flex-end">
+        <IconButton onClick={() => router.push("/customer-service")}>
+          <ChatOutlined
+            htmlColor={`
+                      ${
+                        pathname.startsWith("/customer-service")
+                          ? COLORS.primary
+                          : "white"
+                      }
+                      `}
+          />
+        </IconButton>
         <IconButton onClick={() => router.push("/notification")}>
           <NotificationsOutlined
             htmlColor={`
-          ${pathname.startsWith("/notification") ? COLORS.primary : "white"}
-          `}
+            ${pathname.startsWith("/notification") ? COLORS.primary : "white"}
+            `}
           />
         </IconButton>
         <IconButton onClick={() => router.push("/cart")}>
