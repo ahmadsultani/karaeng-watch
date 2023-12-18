@@ -112,6 +112,31 @@ export const Signup = () => {
             }}
           />
           <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field: { value, onChange }, fieldState }) => (
+              <TextField
+                label="Phone Number"
+                placeholder="Enter your phone number"
+                type="tel"
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                onChange={onChange}
+                value={value || ""}
+                fullWidth
+                required
+              />
+            )}
+            rules={{
+              required: "Please input your phone number",
+              pattern: {
+                value: /^[0-9-+]+$/,
+                message: "Please input a valid phone number",
+              },
+              minLength: 12,
+            }}
+          />
+          <Controller
             name="password"
             control={control}
             render={({ field: { value, onChange }, fieldState }) => (
