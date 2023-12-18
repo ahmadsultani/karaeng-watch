@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, UseFormSetValue } from "react-hook-form";
 
 import { getAllBrand } from "@/service/brand";
 
 import {
+  Avatar,
   Box,
   Button,
   MenuItem,
@@ -22,16 +23,49 @@ import { AdminWrapper } from "@/components/Wrapper/styles";
 
 import { TProductForm } from "..";
 import { useRouter } from "next/navigation";
+import { IProduct } from "@/interfaces/product";
+import toast from "react-hot-toast";
+import { useDropzone } from "react-dropzone";
+import { UploadFile } from "@mui/icons-material";
+import { DropArea } from "@/feature/setting/profile/styles";
 
 interface FormProps {
   control: Control<TProductForm>;
+  setValue: UseFormSetValue<TProductForm>;
   type?: "create" | "edit";
+  product?: IProduct;
 }
 
-export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
+export const Form: React.FC<FormProps> = ({
+  control,
+  setValue,
+  product,
+  type = "create",
+}) => {
   const { data: brands, isLoading: isLoadingBrands } = useQuery({
     queryKey: ["brand"],
     queryFn: getAllBrand,
+  });
+
+  const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length === 1) {
+      const file = acceptedFiles[0];
+      setValue("imgGallery.0", file);
+    } else {
+      toast.error("Please upload only 1 file");
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+      "image/jpg": [],
+      "image/webp": [],
+    },
+    maxFiles: 1,
+    multiple: false,
   });
 
   const router = useRouter();
@@ -40,6 +74,107 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
 
   return (
     <AdminWrapper>
+      <FormSection>
+        <FormSectionHeader>Thumbnail</FormSectionHeader>
+        <FormSectionRow>
+          <Controller
+            name="imgGallery.0"
+            control={control}
+            render={({ field: { value } }) => (
+              <Box display="flex" gap="12px" width="100%" alignItems="center">
+                {value || (product && product?.imgGallery[0]) ? (
+                  <Box position={"relative"} height={"200px"} width={"200px"}>
+                    <Avatar
+                      sx={{
+                        width: 200,
+                        height: 200,
+                        "& .MuiAvatar-img": {
+                          objectFit: "contain",
+                        },
+                      }}
+                      variant="square"
+                      src={
+                        value
+                          ? URL.createObjectURL(value)
+                          : product?.imgGallery[0] || ""
+                      }
+                    ></Avatar>
+                    <Box
+                      position={"absolute"}
+                      height={"200px"}
+                      width={"200px"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      top={0}
+                      left={0}
+                      sx={{
+                        opacity: 0,
+                        transition: "200ms",
+                        backgroundColor: "rgba(0,0,0,0.8)",
+                        "&:hover": {
+                          transition: "200ms",
+                          opacity: 1,
+                        },
+                      }}
+                    >
+                      <DropArea {...getRootProps()}>
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                        >
+                          <Box p="8px" display="flex" alignItems="center">
+                            <UploadFile
+                              sx={{
+                                color: "white",
+                              }}
+                            />
+                            <Typography color={"white"}>
+                              Change Picture
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <input {...getInputProps()} />
+                      </DropArea>
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box display={"flex"} width={"200px"} height={"200px"}>
+                    <DropArea {...getRootProps()}>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                      >
+                        <Box
+                          p="8px"
+                          display="flex"
+                          alignItems="center"
+                          borderRadius="100%"
+                        >
+                          <UploadFile />
+                        </Box>
+                        <Typography
+                          fontWeight={500}
+                          textAlign="center"
+                          color="gray"
+                        >
+                          <Typography component="span" color="black">
+                            Click to Upload
+                          </Typography>{" "}
+                          or Drop your file here
+                        </Typography>
+                      </Box>
+                      <input {...getInputProps()} />
+                    </DropArea>
+                  </Box>
+                )}
+              </Box>
+            )}
+          />
+        </FormSectionRow>
+      </FormSection>
       <FormSection>
         <FormSectionHeader>General</FormSectionHeader>
         <FormSectionBody>

@@ -10,9 +10,10 @@ export type TProductParams = {
 
 export type TProductForm = Omit<
   IProduct,
-  "id" | "createdAt" | "updatedAt" | "brand"
+  "id" | "createdAt" | "updatedAt" | "brand" | "imgGallery"
 > & {
   brandId: string;
+  imgGallery?: File[];
 };
 
 export type TProductUpdateParams = {
