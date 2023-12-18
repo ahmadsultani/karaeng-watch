@@ -39,8 +39,8 @@ export const Invoice = () => {
     isLoading: isLoadingUser,
     isError: isErrorUser,
   } = useQuery({
-    queryKey: ["user", order?.userID],
-    queryFn: () => getOneUser(order?.userID || ""),
+    queryKey: ["user", order?.user.uid],
+    queryFn: () => getOneUser(order?.user.uid || ""),
     enabled: !!order,
   });
 

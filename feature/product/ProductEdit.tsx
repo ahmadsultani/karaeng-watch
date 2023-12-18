@@ -1,15 +1,15 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { TProductForm, getOneProduct, updateProduct } from ".";
+import { useProduct, TProductForm } from ".";
+import { getOneProduct } from "./service";
+
 import { Form } from "./components/Form";
 
 export const ProductEdit = () => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
   const { id } = useParams() as { id: string };
 
   const { data } = useQuery({
@@ -17,6 +17,8 @@ export const ProductEdit = () => {
     queryFn: () => getOneProduct(id),
     enabled: !!id,
   });
+
+  const { mutateUpdateProduct } = useProduct();
 
   const { control, handleSubmit } = useForm<TProductForm>({
     defaultValues: {
@@ -41,26 +43,11 @@ export const ProductEdit = () => {
     },
   });
 
-  const { mutateAsync } = useMutation({
-    mutationKey: ["product"],
-    mutationFn: updateProduct,
-    onSuccess: () => {
-      toast.dismiss();
-      queryClient.invalidateQueries({ queryKey: ["product"] });
-      toast.success("Product edited");
-      router.push("/admin/product");
-    },
-    onError: (error) => {
-      toast.error(error?.message || "Unknown Error");
-    },
-    onMutate: () => {
-      toast.loading("Saving changes...");
-    },
-  });
-
   return (
     <form
-      onSubmit={handleSubmit((data) => mutateAsync({ id, product: data }))}
+      onSubmit={handleSubmit((data) =>
+        mutateUpdateProduct({ id, product: data }),
+      )}
       noValidate
     >
       <Form control={control} type="edit" />

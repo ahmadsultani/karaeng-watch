@@ -65,9 +65,7 @@ export const Cart = () => {
     await mutateAsync({
       products: orderProducts,
       totalPrice: cart.totalPrice || 0,
-      isReviewed: false,
-      status: "waiting",
-      userID: user.uid,
+      totalProduct: cart.cart.length,
       user,
     });
   };

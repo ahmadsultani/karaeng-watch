@@ -14,8 +14,8 @@ import {
 import { IProduct } from "@/interfaces/product";
 import { IUser } from "@/interfaces/user";
 import Cookies from "js-cookie";
-import { getOneProduct } from "../product";
 import { FirebaseError } from "firebase/app";
+import { getOneProduct } from "@/feature/product/service";
 
 export const getAllFavoriteProduct = async () => {
   const userCookies = Cookies.get("user");

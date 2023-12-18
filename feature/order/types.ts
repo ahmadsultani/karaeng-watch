@@ -1,3 +1,6 @@
 import { IOrder } from "@/interfaces/order";
 
-export type TOrderForm = Omit<IOrder, "id" | "createdAt" | "updatedAt">;
+export type TOrderForm = Omit<
+  IOrder,
+  "id" | "createdAt" | "updatedAt" | "isReviewed" | "status"
+>;

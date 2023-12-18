@@ -17,5 +17,4 @@ export interface IOrder {
   totalProduct: number;
   createdAt: string;
   updatedAt: string;
-  userID?: string;
 }

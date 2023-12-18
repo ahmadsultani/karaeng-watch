@@ -1,14 +1,18 @@
 "use client";
 
-import { AdminWrapper, EmptyWrapper } from "@/components/Wrapper/styles";
-import { CircularProgress } from "@mui/material";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { OrderTable } from "./components/OrderTable";
-import { getAllOrders, updateOrderStatus } from "./service";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
+import { CircularProgress } from "@mui/material";
+import { AdminWrapper, EmptyWrapper } from "@/components/Wrapper/styles";
+import { OrderTable } from "./components/OrderTable";
+
+import { getAllOrders } from "./service";
 import { TOrderStatus } from "@/interfaces/order";
+
+import toast from "react-hot-toast";
+import { useOrder } from ".";
 
 enum EOrderStatus {
   LOADING,
@@ -20,7 +24,7 @@ export const OrderAdmin: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const queryClient = useQueryClient();
+  const { mutateUpdateOrderStatus } = useOrder();
 
   useEffect(() => {
     if (!searchParams.has("status")) {
@@ -38,25 +42,6 @@ export const OrderAdmin: React.FC = () => {
   } = useQuery({
     queryKey: ["order", searchParams.get("status")],
     queryFn: () => getAllOrders(searchParams.get("status") as TOrderStatus),
-  });
-
-  const { mutateAsync } = useMutation<
-    void,
-    Error,
-    { id: string; status: TOrderStatus }
-  >({
-    mutationKey: ["order"],
-    mutationFn: ({ id, status }) => updateOrderStatus(id, status),
-    onMutate: () => {
-      toast.loading("Loading...");
-    },
-    onSuccess: () => {
-      toast.dismiss();
-      queryClient.invalidateQueries({
-        queryKey: ["order"],
-      });
-      toast.success("Order status updated");
-    },
   });
 
   const renderContent = (status: EOrderStatus) => {
@@ -86,7 +71,9 @@ export const OrderAdmin: React.FC = () => {
                     )
                   : []
               }
-              changeStatus={(id, status) => mutateAsync({ id, status })}
+              changeStatus={(id, status) =>
+                mutateUpdateOrderStatus({ id, status })
+              }
             />
           </AdminWrapper>
         );

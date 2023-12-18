@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   query,
+  runTransaction,
   serverTimestamp,
   updateDoc,
   where,
@@ -25,7 +26,7 @@ export const getAllOrders = async (status?: TOrderStatus, userId?: string) => {
 
   if (status) queries.push(where("status", "==", status));
 
-  if (userId) queries.push(where("userID", "==", userId));
+  if (userId) queries.push(where("user.uid", "==", userId));
 
   const q = query(collectionRef, ...queries);
   const querySnapshot = await getDocs(q);
@@ -43,14 +44,15 @@ export const getAllOrders = async (status?: TOrderStatus, userId?: string) => {
       updatedAt: orderData.updatedAt
         ? orderData.updatedAt?.toDate()
         : undefined,
-      userID: orderData.userID,
       totalPrice: orderData.totalPrice,
       totalProduct: orderData.totalProduct,
     };
     orders.push(order);
   });
 
-  return orders;
+  return orders.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
 };
 
 export const getOrderById = async (orderId: string) => {
@@ -69,7 +71,6 @@ export const getOrderById = async (orderId: string) => {
     isReviewed: orderData.isReviewed,
     products: orderData.products,
     createdAt: orderData.createdAt.toDate(),
-    userID: orderData.userID,
     updatedAt: orderData.updatedAt.toDate(),
     totalPrice: orderData.totalPrice,
     totalProduct: orderData.totalProduct,
@@ -83,8 +84,6 @@ export const createOrderFromDetail = async (user: IUser, product: IProduct) => {
 
   const orderData: TOrderForm = {
     user: user,
-    status: "waiting" as TOrderStatus,
-    isReviewed: false,
     products: [
       {
         product: product,
@@ -105,6 +104,8 @@ export const createOrderFromDetail = async (user: IUser, product: IProduct) => {
 
   const docRef = await addDoc(collection(db, "order"), {
     ...orderData,
+    isReviewed: false,
+    status: "waiting",
     createdAt: timestamp,
     updatedAt: timestamp,
     userID: user.uid,
@@ -122,44 +123,71 @@ export const updateOrderStatus = async (orderId: string, status: string) => {
 };
 
 export const checkout = async (order: TOrderForm) => {
+  if (!order.user.emailVerified) {
+    throw new FirebaseError(
+      "auth/email-not-verified",
+      "Your email is not verified",
+    );
+  }
+
   const timestamp = serverTimestamp();
 
   const orderData: TOrderForm = {
     user: order.user,
-    status: "waiting" as TOrderStatus,
-    isReviewed: false,
     products: order.products,
     totalPrice: order.totalPrice,
     totalProduct: order.totalProduct,
   };
 
-  const response = await addDoc(collection(db, "order"), {
-    ...orderData,
-    createdAt: timestamp,
-    updatedAt: timestamp,
-    userID: order.user.uid,
-  });
+  const response = await runTransaction(db, async (transaction) => {
+    for (const product of order.products) {
+      const productRef = doc(db, "product", product.product.id);
+      const productSnapshot = await getDoc(productRef);
 
-  return response.id;
-};
+      if (!productSnapshot.exists()) {
+        throw new Error("Product not found");
+      }
 
-export const orderAgain = async (order: TOrderForm) => {
-  const timestamp = serverTimestamp();
+      const productData = productSnapshot.data();
 
-  const orderData: TOrderForm = {
-    user: order.user,
-    status: "waiting" as TOrderStatus,
-    isReviewed: false,
-    products: order.products,
-    totalPrice: order.totalPrice,
-    totalProduct: order.totalProduct,
-  };
+      if (productData.stock < product.quantity) {
+        throw new Error("Product stock is not enough");
+      }
 
-  const response = await addDoc(collection(db, "order"), {
-    ...orderData,
-    createdAt: timestamp,
-    updatedAt: timestamp,
-    userID: order.user.uid,
+      const cartRef = doc(
+        db,
+        "cart",
+        `${order.user.uid}_${product.product.id}`,
+      );
+      const cartSnapshot = await getDoc(cartRef);
+
+      if (cartSnapshot.exists()) {
+        transaction.delete(cartRef);
+      }
+
+      transaction.update(productRef, {
+        stock: productData.stock - product.quantity,
+        sold: productData.sold + product.quantity,
+      });
+    }
+
+    const orderRef = collection(db, "order");
+    const response = await addDoc(orderRef, {
+      ...orderData,
+      isReviewed: false,
+      status: "waiting",
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    });
+
+    await createNotification(
+      orderData.user.uid,
+      notification_messages.order.title,
+      notification_messages.order.description,
+      `/order`,
+    );
+
+    return response;
   });
 
   return response.id;

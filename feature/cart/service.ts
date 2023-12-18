@@ -16,7 +16,7 @@ import { ICart } from "@/interfaces/cart";
 import { FirebaseError } from "firebase/app";
 import Cookies from "js-cookie";
 import { IUser } from "@/interfaces/user";
-import { getOneProduct } from "../product";
+import { getOneProduct } from "@/feature/product/service";
 
 export const getAllCart = async () => {
   const userCookies = Cookies.get("user");

@@ -1,15 +1,18 @@
 "use client";
 
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+
 import { Modal } from "@/components/Modal";
 import { AdminWrapper, EmptyWrapper } from "@/components/Wrapper/styles";
-import { IProduct } from "@/interfaces/product";
-import { Add } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { deleteProduct, getAllProduct } from ".";
 import { Table } from "./components/Table";
+
+import { deleteProduct, getAllProduct } from "./service";
+import { IProduct } from "@/interfaces/product";
 
 enum EProductStatus {
   LOADING,

@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import { getAllProduct } from "@/feature/product";
+import { getAllProduct } from "@/feature/product/service";
 
 import { ProductCard } from "@/components/Card";
 import { EmptyWrapper, ProductWrapper } from "@/components/Wrapper/styles";

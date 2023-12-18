@@ -17,45 +17,26 @@ import { useMemo, useState } from "react";
 import { ReviewCard } from "./components/Card/ReviewCard";
 import * as Styles from "./styles";
 import { useParams } from "next/navigation";
-import { getOneProduct } from ".";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getOneProduct } from "./service";
+import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "@/utils/formatter";
 import { EmptyWrapper } from "@/components/Wrapper/styles";
 import { toast } from "react-hot-toast";
-import { createOrderFromDetail } from "../order/service";
 import { IUser } from "@/interfaces/user";
-import { addToCart } from "../cart/service";
-import { useRouter } from "next/navigation";
-import { NotFound } from "../not-found";
+import { NotFound } from "@/feature/not-found";
+import { useOrder } from "@/feature/order";
+import { useCart } from "@/feature/cart";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const userCookies = Cookies.get("user");
+
   const user = useMemo(() => {
     return JSON.parse(userCookies || "{}") as IUser;
   }, [userCookies]);
-  const router = useRouter();
 
-  const handleBuyNow = async () => {
-    if (product && user) {
-      try {
-        if (!user.emailVerified) {
-          router.push("/setting/profile");
-          toast.error("You need to verify email first");
-          return;
-        }
-        const id = (await createOrderFromDetail(user, product)) || ""; // Swapped arguments: user first, then product
-        router.push(`/order/${id}`);
-        toast.success("Order created successfully!"); // Notify user about successful order creation
-      } catch (error) {
-        toast.error("Error creating order");
-      }
-    } else {
-      toast.error("User or product information is missing");
-    }
-  };
-
-  const queryClient = useQueryClient();
+  const { mutateCheckout } = useOrder();
+  const { mutateCart } = useCart();
 
   const {
     data: product,
@@ -67,23 +48,22 @@ export const ProductDetail: React.FC = () => {
     queryFn: () => getOneProduct(id as string),
   });
 
-  const { mutateAsync: mutateCart } = useMutation({
-    mutationKey: ["cart"],
-    mutationFn: addToCart,
-    onMutate: () => {
-      toast.loading("Adding to cart...");
-    },
-    onSuccess: () => {
-      toast.dismiss();
-      queryClient.invalidateQueries({
-        queryKey: ["cart"],
-      });
-      toast.success("Added to cart");
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const handleBuyNow = async () => {
+    if (!user || !product) return;
+
+    await mutateCheckout({
+      user,
+      totalProduct: 1,
+      totalPrice: product.price,
+      products: [
+        {
+          product,
+          quantity: 1,
+          price: product?.price || 0,
+        },
+      ],
+    });
+  };
 
   enum EProductStatus {
     LOADING,
@@ -98,24 +78,19 @@ export const ProductDetail: React.FC = () => {
   const [isPurchased] = useState(false);
   const [isReviewing, setIsReviewing] = useState(true);
   const [reviewComment, setReviewComment] = useState("");
+
   const handleNextButton = () => {
-    if (carrousel < carrouselList.length - 1) {
-      setCarrousel(carrousel + 1);
-    } else {
-      return;
-    }
+    if (carrousel >= carrouselList.length - 1) return;
+    setCarrousel(carrousel + 1);
   };
   const handlePrevButton = () => {
-    if (carrousel > 0) {
-      setCarrousel(carrousel - 1);
-    } else {
-      return;
-    }
+    if (carrousel <= 0) return;
+    setCarrousel(carrousel - 1);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
-    mutateCart({ productId: product.id, quantity: 1 });
+    await mutateCart({ productId: product.id, quantity: 1 });
   };
 
   const renderContent = (status: EProductStatus) => {

@@ -24,6 +24,7 @@ enum OrderStatus {
 export const Order = () => {
   const userCookies = Cookies.get("user");
   const user = userCookies ? (JSON.parse(userCookies) as IUser) : undefined;
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -40,7 +41,7 @@ export const Order = () => {
 
   useEffect(() => {
     if (!searchParams.has("status")) {
-      router.push(`?status=delivered`, {
+      router.push(`?status=waiting`, {
         shallow: true,
       });
     }
