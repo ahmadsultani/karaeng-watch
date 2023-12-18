@@ -10,7 +10,7 @@ export interface IUser {
   emailVerified: boolean;
   address?: string;
   birthDate?: string;
-  phoneNumber?: number;
+  phoneNumber?: string;
   createdAt: string;
   updatedAt: string;
 }
