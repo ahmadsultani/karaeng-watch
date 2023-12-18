@@ -133,7 +133,6 @@ export const Signup = () => {
                 value: /^[0-9-+]+$/,
                 message: "Please input a valid phone number",
               },
-              minLength: 12,
             }}
           />
           <Controller
