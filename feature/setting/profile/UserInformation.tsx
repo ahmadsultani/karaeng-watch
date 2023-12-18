@@ -26,6 +26,7 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
       uid: user.uid,
       birthDate: user.birthDate,
       address: user.address,
+      phoneNumber: user.phoneNumber,
     },
   });
 
@@ -54,7 +55,7 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
         </Typography>
       </ProfileTextHeader>
       <ProfileItemContainer>
-        <ProfileItems>
+        {/* <ProfileItems>
           <ProfileLabel color="secondary">Account ID</ProfileLabel>
           {user ? (
             <Controller
@@ -65,7 +66,7 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
           ) : (
             <Skeleton variant="text" width="100%" height={30} />
           )}
-        </ProfileItems>
+        </ProfileItems> */}
 
         <ProfileItems>
           <ProfileLabel color="secondary">First Name</ProfileLabel>
@@ -113,6 +114,27 @@ export const UserInformation: React.FC<ProfileSectionProps> = ({ user }) => {
               name="address"
               control={control}
               render={({ field }) => <ProfileContent {...field} />}
+            />
+          ) : (
+            <Skeleton variant="text" width="100%" height={30} />
+          )}
+        </ProfileItems>
+
+        <ProfileItems>
+          <ProfileLabel color="secondary">Phone Number</ProfileLabel>
+          {user ? (
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <ProfileContent
+                  {...field}
+                  inputProps={{
+                    pattern: "[0-9]*",
+                    minLength: 12,
+                  }}
+                />
+              )}
             />
           ) : (
             <Skeleton variant="text" width="100%" height={30} />
