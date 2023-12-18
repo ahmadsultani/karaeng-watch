@@ -5,43 +5,23 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 import { formatPrice } from "@/utils/formatter";
 import ProductBox from "../ProductBox";
-import { useMutation } from "@tanstack/react-query";
-import { orderAgain } from "../../service";
 import { IOrder } from "@/interfaces/order";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useOrder } from "@/feature/order";
 
 export const Card: React.FC<IOrder> = ({
   id,
   products,
   status,
   isReviewed,
-  ...rest
+  totalPrice,
+  totalProduct,
+  user,
 }) => {
   const router = useRouter();
   const total = products.reduce((acc, p) => acc + p.product.price, 0);
 
-  const { mutateAsync: mutateOrderAgain } = useMutation({
-    mutationKey: ["order"],
-    mutationFn: () =>
-      orderAgain({
-        products,
-        status,
-        isReviewed,
-        id,
-        ...rest,
-      }),
-    onMutate: () => {
-      toast.loading("Ordering again...");
-    },
-    onSuccess: (id) => {
-      toast.dismiss();
-      toast.success("Succeed order again!");
-      router.push(`/order/${id}`);
-    },
-  });
-
-  const handleReviewClick = () => {};
+  const { mutateCheckout } = useOrder();
 
   return (
     <OrderCard.Item>
@@ -75,13 +55,18 @@ export const Card: React.FC<IOrder> = ({
           {status === "done" && (
             <>
               {isReviewed && (
-                <OrderCard.ButtonReview onClick={handleReviewClick}>
-                  Review
-                </OrderCard.ButtonReview>
+                <OrderCard.ButtonReview>Review</OrderCard.ButtonReview>
               )}
               <OrderCard.ButtonOrder
                 variant="outlined"
-                onClick={() => mutateOrderAgain()}
+                onClick={() =>
+                  mutateCheckout({
+                    products,
+                    totalPrice,
+                    totalProduct,
+                    user,
+                  })
+                }
               >
                 Order Again
               </OrderCard.ButtonOrder>

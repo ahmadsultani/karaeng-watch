@@ -144,6 +144,7 @@ export const createProduct = async (product: TProductForm) => {
 
   await addDoc(collection(db, "product"), {
     ...product,
+    sold: 0,
     brand: brandRef,
     createdAt: timestamp,
     updatedAt: timestamp,

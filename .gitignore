@@ -37,3 +37,7 @@ next-env.d.ts
 
 # lockfiles
 pnpm-lock.yaml
+
+/.firebase
+
+/.env

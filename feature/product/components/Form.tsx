@@ -423,7 +423,7 @@ export const Form: React.FC<FormProps> = ({ control, type = "create" }) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => router.push("/admin/brand")}
+          onClick={() => router.push("/admin/product")}
           fullWidth={isMobile}
         >
           <Typography color="white" mx={4}>

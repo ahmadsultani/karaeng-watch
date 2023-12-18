@@ -47,8 +47,8 @@ export const Setting: React.FC = () => {
       <SettingProfile>
         {user ? (
           <Avatar sx={{ width: 94, height: 94 }} src={user.photoURL || ""}>
-            {user.firstName[0]}
-            {user.lastName[0]}
+            {user.firstName && user.firstName[0]}
+            {user.lastName && user.lastName[0]}
           </Avatar>
         ) : (
           <Skeleton variant="circular" width={94} height={94} />

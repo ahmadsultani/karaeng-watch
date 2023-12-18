@@ -1,4 +1,4 @@
-import { getOneProduct } from "@/feature/product";
+import { getOneProduct } from "@/feature/product/service";
 import {
   HydrationBoundary,
   QueryClient,
