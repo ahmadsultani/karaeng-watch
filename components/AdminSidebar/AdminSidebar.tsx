@@ -17,6 +17,7 @@ import {
 import { usePathname, useSearchParams } from "next/navigation";
 import { IUser } from "@/interfaces/user";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 interface AdminSidebarProps {
   ignoreMedia?: boolean;
@@ -113,26 +114,28 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       position={"sticky"}
       top={0}
     >
-      <Styles.SidebarHead>
-        <Box height={"36px"} width={"36px"} position={"relative"}>
-          <Image
-            draggable={false}
-            src={"/logos/logo-white.svg"}
-            alt="product-images"
-            fill
-            priority
-            objectFit="contain"
-          />
-        </Box>
-        <Box display={"flex"}>
-          <Typography fontSize={"20px"} color={"white"} fontWeight={"300"}>
-            KARAENG
-          </Typography>
-          <Typography fontSize={"20px"} color={"primary"} fontWeight={"300"}>
-            WATCH
-          </Typography>
-        </Box>
-      </Styles.SidebarHead>
+      <Link href={"/"}>
+        <Styles.SidebarHead>
+          <Box height={"36px"} width={"36px"} position={"relative"}>
+            <Image
+              draggable={false}
+              src={"/logos/logo-white.svg"}
+              alt="product-images"
+              fill
+              priority
+              objectFit="contain"
+            />
+          </Box>
+          <Box display={"flex"}>
+            <Typography fontSize={"20px"} color={"white"} fontWeight={"300"}>
+              KARAENG
+            </Typography>
+            <Typography fontSize={"20px"} color={"primary"} fontWeight={"300"}>
+              WATCH
+            </Typography>
+          </Box>
+        </Styles.SidebarHead>
+      </Link>
       <Styles.SidebarMenus
         sx={{
           overflowY: "auto",

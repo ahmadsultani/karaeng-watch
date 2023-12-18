@@ -43,7 +43,7 @@ export const Hero: React.FC = () => {
 
       {!isMobile && (
         <HeroImage>
-          <Image src="/images/hero.png" alt="hero" fill priority />
+          <Image src="/images/hero.webp" alt="hero" fill priority />
         </HeroImage>
       )}
     </HeroWrapper>
