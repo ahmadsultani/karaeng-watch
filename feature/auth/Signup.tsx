@@ -22,7 +22,7 @@ import { TSignupForm } from "./types";
 import { useAuth } from "./useAuth";
 
 export const Signup = () => {
-  const { control, handleSubmit } = useForm<TSignupForm>();
+  const { control, handleSubmit, getValues } = useForm<TSignupForm>();
 
   const { signup, handleSigninWithGoogle } = useAuth();
 
@@ -151,6 +151,8 @@ export const Signup = () => {
             )}
             rules={{
               required: "Please input your password",
+              validate: (value) =>
+                value === getValues("password") || "Passwords do not match",
             }}
           />
         </AuthInputGroup>
