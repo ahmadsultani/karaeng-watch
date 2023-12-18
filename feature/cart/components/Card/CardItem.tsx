@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import QuantityControl from "./QuantityControl";
-import { TableRow } from "@mui/material";
+import { Box, TableRow } from "@mui/material";
 import { StyledTableCell } from "./styles";
 import * as CartCard from "./styles";
 import { formatPrice } from "@/utils/formatter";
@@ -29,14 +29,18 @@ export const CartItem: React.FC<CartItemProps> = ({
       <TableRow>
         <StyledTableCell>
           <CartCard.ProductNameContent>
-            <Image
-              src={product.thumbnail}
-              alt={product.name}
-              draggable={false}
-              objectFit="contain"
-              width={48}
-              height={48}
-            />
+            <Box width={48} height={48} position={"relative"}>
+              <Image
+                loader={() => product.imgGallery[0]}
+                src={
+                  (product?.imgGallery?.length && product.imgGallery[0]) || ""
+                }
+                alt={product.name}
+                draggable={false}
+                objectFit="contain"
+                fill
+              />
+            </Box>
             <CartCard.ProductNameContentDetails>
               <p>{product.name}</p>
               <p>{product.brand.name}</p>
