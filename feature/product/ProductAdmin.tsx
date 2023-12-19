@@ -20,7 +20,13 @@ enum EProductStatus {
   SUCCESS,
 }
 
-export const ProductAdmin: React.FC = () => {
+interface ProductAdminProps {
+  isDashboard?: boolean;
+}
+
+export const ProductAdmin: React.FC<ProductAdminProps> = ({
+  isDashboard = false,
+}) => {
   const queryClient = useQueryClient();
 
   const {
@@ -67,17 +73,21 @@ export const ProductAdmin: React.FC = () => {
       case EProductStatus.SUCCESS:
         return (
           <AdminWrapper>
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button
-                href="/admin/product/create"
-                startIcon={<Add />}
-                size="large"
-              >
-                <Typography ml={1} mr={2}>
-                  Create
-                </Typography>
-              </Button>
-            </Box>
+            {isDashboard ? (
+              ""
+            ) : (
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  href="/admin/product/create"
+                  startIcon={<Add />}
+                  size="large"
+                >
+                  <Typography ml={1} mr={2}>
+                    Create
+                  </Typography>
+                </Button>
+              </Box>
+            )}
             <Table data={products || []} toggleDeleteOpen={setIsOpenDelete} />
             {!!isOpenDelete && (
               <Modal

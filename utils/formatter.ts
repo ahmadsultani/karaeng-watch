@@ -13,6 +13,21 @@ export const formatPrice = (price: number) => {
 };
 
 /**
+ * @param num number
+ * @returns return shorter number
+ */
+export const formatNumber = (num: number) => {
+  if (num < 1000) {
+    return num.toString();
+  } else if (num < 1000000) {
+    return (num / 1000).toFixed(1) + "k";
+  } else if (num < 1000000000) {
+    return (num / 1000000).toFixed(1) + "M";
+  } else {
+    return (num / 1000000000).toFixed(1) + "B";
+  }
+};
+/**
  * @brief format date to "nice" string
  * @param date date string, example: 2021-08-01T00:00:00.000Z or just 2021-08-01
  * @param variant variant of date,  example: short, medium, long, full

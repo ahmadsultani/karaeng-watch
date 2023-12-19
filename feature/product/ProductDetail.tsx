@@ -1,20 +1,26 @@
 "use client";
 
-import { ShoppingCartOutlined } from "@mui/icons-material";
+import {
+  ChargingStationOutlined,
+  FemaleOutlined,
+  MaleOutlined,
+  QueryBuilderOutlined,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Cookies from "js-cookie";
 import {
   Box,
-  Button,
+  // Button,
   CircularProgress,
-  Rating,
-  TextField,
+  // Rating,
+  // TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ReviewCard } from "./components/Card/ReviewCard";
+// import { ReviewCard } from "./components/Card/ReviewCard";
 import * as Styles from "./styles";
 import { useParams } from "next/navigation";
 import { getOneProduct } from "./service";
@@ -74,17 +80,17 @@ export const ProductDetail: React.FC = () => {
   const small = useMediaQuery("(max-width:768px)");
 
   const [carrousel, setCarrousel] = useState(0);
-  const [userRating, setUserRating] = useState<number | null>(0);
-  const [isPurchased] = useState(false);
-  const [isReviewing, setIsReviewing] = useState(true);
-  const [reviewComment, setReviewComment] = useState("");
+  // const [userRating, setUserRating] = useState<number | null>(0);
+  // const [isPurchased] = useState(false);
+  // const [isReviewing, setIsReviewing] = useState(true);
+  // const [reviewComment, setReviewComment] = useState("");
 
   const handleNextButton = () => {
-    if (carrousel >= carrouselList.length - 1) return;
+    if (product && carrousel >= product?.imgGallery.length - 1) return;
     setCarrousel(carrousel + 1);
   };
   const handlePrevButton = () => {
-    if (carrousel <= 0) return;
+    if (product && carrousel <= 0) return;
     setCarrousel(carrousel - 1);
   };
 
@@ -119,14 +125,20 @@ export const ProductDetail: React.FC = () => {
                       style={{ transform: "rotate(180deg)" }}
                     ></ArrowForwardIosIcon>
                   </Styles.ArrowButton>
-                  {carrouselList.map(
-                    (map, index) =>
+                  {product?.imgGallery.map(
+                    (gallery, index) =>
                       index === carrousel && (
-                        <Styles.ImgCont key={index} title={map.title}>
+                        <Styles.ImgCont key={index}>
                           <Image
+                            loader={() => gallery}
                             draggable={false}
-                            src={map.source}
+                            src={gallery}
                             alt="product-images"
+                            title={
+                              index === 0
+                                ? "Main Perspective"
+                                : `Perspective ${index + 1}`
+                            }
                             fill
                             priority
                             objectFit="contain"
@@ -135,7 +147,9 @@ export const ProductDetail: React.FC = () => {
                       ),
                   )}
                   <Styles.ArrowButton
-                    disabled={carrousel === carrouselList.length - 1}
+                    disabled={
+                      product && carrousel === product?.imgGallery.length - 1
+                    }
                     title="Next"
                     onClick={handleNextButton}
                   >
@@ -143,19 +157,24 @@ export const ProductDetail: React.FC = () => {
                   </Styles.ArrowButton>
                 </Styles.Gallery>
                 <Styles.MiniGalleryContainer>
-                  {carrouselList.map(
+                  {product?.imgGallery.map(
                     (map, index) =>
                       index !== carrousel && (
                         <Styles.MiniGallery
                           onClick={() => setCarrousel(index)}
                           key={index}
-                          title={map.title}
                         >
                           <Styles.ImgCont>
                             <Image
-                              src={map.source}
+                              loader={() => map}
+                              src={map}
                               alt="product-images"
                               fill
+                              title={
+                                index === 0
+                                  ? "Main Perspective"
+                                  : `Perspective ${index + 1}`
+                              }
                               priority
                               objectFit="contain"
                             />
@@ -179,7 +198,7 @@ export const ProductDetail: React.FC = () => {
                   >
                     {formatPrice(product?.price || 0)}
                   </Typography>
-                  <Styles.RatingContainer>
+                  {/* <Styles.RatingContainer>
                     <Styles.RatingContainer>
                       <Rating name="Rating" readOnly value={userRating} />
                     </Styles.RatingContainer>
@@ -189,11 +208,14 @@ export const ProductDetail: React.FC = () => {
                     <Typography color={"primary"} fontSize={"18px"}>
                       (4582)
                     </Typography>
-                  </Styles.RatingContainer>
+                  </Styles.RatingContainer> */}
                   <Typography color={"gray"} fontSize={"18px"}>
                     {product?.stock
                       ? `${product?.stock} Product Left`
                       : "Out of Stock"}
+                  </Typography>
+                  <Typography color={"gray"} fontSize={"18px"}>
+                    {product?.sold ? `Sold : ${product?.sold} ` : "Sold : -"}
                   </Typography>
                 </Box>
                 <Styles.ProductButtonGroup>
@@ -211,6 +233,148 @@ export const ProductDetail: React.FC = () => {
                     <Typography fontSize={"18px"}>Buy Now</Typography>
                   </Styles.ProductButtons>
                 </Styles.ProductButtonGroup>
+                <Styles.FeatureGroup>
+                  <Styles.FeatureBox title="Brand">
+                    <Box position={"relative"} flex={1} width={"100%"}>
+                      {product && product?.brand.imageURL ? (
+                        <Image
+                          alt="Brand"
+                          loader={() => product?.brand.imageURL}
+                          src={product?.brand.imageURL}
+                          fill
+                          objectFit="contain"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </Box>
+                    <Typography
+                      width={"100%"}
+                      fontSize={"14px"}
+                      fontWeight={300}
+                      textAlign={"center"}
+                    >
+                      {product?.brand.name}
+                    </Typography>
+                  </Styles.FeatureBox>
+                  <Styles.FeatureBox justifyContent={"space-evenly"}>
+                    <Box width={"100%"} fontSize={"48px"}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        height={"100%"}
+                      >
+                        {product && product?.gender ? (
+                          product.gender === "female" ? (
+                            <FemaleOutlined fontSize="inherit" />
+                          ) : product.gender === "male" ? (
+                            <MaleOutlined fontSize="inherit" />
+                          ) : (
+                            <Box display={"flex"}>
+                              <Box>
+                                <FemaleOutlined fontSize="inherit" />
+                              </Box>
+                              <Box>
+                                <MaleOutlined fontSize="inherit" />
+                              </Box>
+                            </Box>
+                          )
+                        ) : (
+                          ""
+                        )}
+                      </Box>
+                    </Box>
+                    <Typography
+                      width={"100%"}
+                      fontSize={"14px"}
+                      fontWeight={300}
+                      textAlign={"center"}
+                      textTransform={"capitalize"}
+                    >
+                      {product?.gender}
+                    </Typography>
+                  </Styles.FeatureBox>
+                  <Styles.FeatureBox
+                    justifyContent={"space-evenly"}
+                    title="Movement Type"
+                  >
+                    <Box width={"100%"} fontSize={"48px"}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        height={"100%"}
+                      >
+                        <QueryBuilderOutlined fontSize="inherit" />
+                      </Box>
+                    </Box>
+                    <Typography
+                      width={"100%"}
+                      fontSize={"14px"}
+                      fontWeight={300}
+                      textAlign={"center"}
+                      textTransform={"capitalize"}
+                    >
+                      {product?.types}
+                    </Typography>
+                  </Styles.FeatureBox>
+
+                  {product?.types !== "quartz" ? (
+                    <Styles.FeatureBox
+                      justifyContent={"space-evenly"}
+                      title="Power Reserve"
+                    >
+                      <Box width={"100%"} fontSize={"48px"}>
+                        <Box
+                          display={"flex"}
+                          justifyContent={"center"}
+                          alignContent={"center"}
+                          height={"100%"}
+                        >
+                          <ChargingStationOutlined fontSize="inherit" />
+                        </Box>
+                      </Box>
+                      <Typography
+                        width={"100%"}
+                        fontSize={"14px"}
+                        fontWeight={300}
+                        textAlign={"center"}
+                        textTransform={"capitalize"}
+                      >
+                        {product?.powerReserve} Hours
+                      </Typography>
+                    </Styles.FeatureBox>
+                  ) : (
+                    ""
+                  )}
+                  <Styles.FeatureBox
+                    justifyContent={"space-evenly"}
+                    title="Movement Type"
+                  >
+                    <Box width={"100%"} fontSize={"48px"}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        height={"100%"}
+                      >
+                        <QueryBuilderOutlined fontSize="inherit" />
+                      </Box>
+                    </Box>
+                    <Typography
+                      width={"100%"}
+                      fontSize={"14px"}
+                      fontWeight={300}
+                      textAlign={"center"}
+                      textTransform={"capitalize"}
+                    >
+                      {product?.waterResistance
+                        ? `${product.waterResistance}m`
+                        : ""}
+                    </Typography>
+                  </Styles.FeatureBox>
+                </Styles.FeatureGroup>
               </Styles.ProductOverviews>
             </Styles.ProductOverviewsWrapper>
             <Styles.ProductSpecsWrapper>
@@ -308,7 +472,8 @@ export const ProductDetail: React.FC = () => {
                 </Styles.SpecsSection>
               </Styles.SpecsGrid>
             </Styles.ProductSpecsWrapper>
-            <Styles.ReviewsWrapper>
+
+            {/* <Styles.ReviewsWrapper display={"none"}>
               <Box display="flex" alignItems="center" width="100%" gap="8px">
                 <Styles.DividerLine bgcolor={"secondary.main"} />
                 <Typography
@@ -320,7 +485,6 @@ export const ProductDetail: React.FC = () => {
                 </Typography>
                 <Styles.DividerLine bgcolor={"secondary.main"} />
               </Box>
-              {/* Current User Review */}
               {isPurchased ? (
                 <Styles.UsersReviewsWrapper>
                   {isReviewing ? (
@@ -416,7 +580,7 @@ export const ProductDetail: React.FC = () => {
                   comment="adukasdjaksd asdnasd"
                 />
               </Styles.UsersReviewsWrapper>
-            </Styles.ReviewsWrapper>
+            </Styles.ReviewsWrapper> */}
           </Styles.ProductDetailWrapper>
         );
     }
@@ -430,28 +594,5 @@ export const ProductDetail: React.FC = () => {
       : EProductStatus.SUCCESS,
   );
 };
-
-const carrouselList = [
-  {
-    source: "/images/Perspective main.png",
-    title: "Main Perspective",
-  },
-  {
-    source: "/images/Perspective 2.png",
-    title: "Perspective 2",
-  },
-  {
-    source: "/images/Perspective 3.png",
-    title: "Perspective 3",
-  },
-  {
-    source: "/images/Perspective 4.png",
-    title: "Perspective 4",
-  },
-  {
-    source: "/images/Perspective 5.png",
-    title: "Perspective 5",
-  },
-];
 
 export default ProductDetail;

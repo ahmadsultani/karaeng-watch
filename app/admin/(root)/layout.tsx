@@ -1,10 +1,10 @@
 "use client";
 
 import { AdminSidebar } from "@/components/AdminSidebar";
+import { IUser } from "@/interfaces/user";
 import { Menu } from "@mui/icons-material";
 import {
   AppBar,
-  Avatar,
   Box,
   Drawer,
   IconButton,
@@ -12,13 +12,21 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    const userCookies = Cookies.get("user");
+    userCookies && setUser(JSON.parse(userCookies) as IUser);
+  }, []);
+
   const small = useMediaQuery("(max-width:768px)");
   const medium = useMediaQuery("(max-width:1024px)");
 
@@ -69,8 +77,9 @@ export default function MainLayout({
                 }}
               >
                 <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                  <Avatar />
-                  <Typography>Admin 1</Typography>
+                  <Typography>
+                    {user?.role === "admin" ? "Hi Admin!" : "Hi Super Admin!"}
+                  </Typography>
                 </Box>
               </Box>
             </Toolbar>

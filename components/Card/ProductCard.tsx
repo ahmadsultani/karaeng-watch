@@ -24,6 +24,7 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
   gender,
   types,
   isFavorite,
+  imgGallery,
 }) => {
   const [user, setUser] = useState<IUser>();
 
@@ -72,7 +73,10 @@ export const ProductCard: React.FC<Partial<IProduct>> = ({
         width={"100%"}
       >
         <Image
-          src={"/images/standup.png.transform 2.png"}
+          src={imgGallery ? imgGallery[0] : "/logos/logo-primary.svg"}
+          loader={() =>
+            imgGallery ? imgGallery[0] : "/logos/logo-primary.svg"
+          }
           alt="product-images"
           fill
           priority
