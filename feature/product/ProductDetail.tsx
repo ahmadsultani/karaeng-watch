@@ -2,6 +2,7 @@
 
 import {
   ChargingStationOutlined,
+  Chat,
   FemaleOutlined,
   MaleOutlined,
   QueryBuilderOutlined,
@@ -13,8 +14,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Cookies from "js-cookie";
 import {
   Box,
-  // Button,
+  Button,
   CircularProgress,
+  Tooltip,
   // Rating,
   // TextField,
   Typography,
@@ -24,7 +26,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 // import { ReviewCard } from "./components/Card/ReviewCard";
 import * as Styles from "./styles";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getOneProduct } from "./service";
 import { useQuery } from "@tanstack/react-query";
 import { formatPrice } from "@/utils/formatter";
@@ -37,6 +39,8 @@ import { useCart } from "@/feature/cart";
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
+  const router = useRouter();
+
   const userCookies = Cookies.get("user");
 
   const user = useMemo(() => {
@@ -101,6 +105,18 @@ export const ProductDetail: React.FC = () => {
   const handleAddToCart = async () => {
     if (!product) return;
     await mutateCart({ productId: product.id, quantity: 1 });
+  };
+
+  const handleChatProduct = () => {
+    if (!user || !product) return;
+
+    const stringifiedProduct = JSON.stringify({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+    });
+
+    router.push("/customer-service?product=" + stringifiedProduct);
   };
 
   const renderContent = (status: EProductStatus) => {
@@ -270,6 +286,15 @@ export const ProductDetail: React.FC = () => {
                   >
                     <Typography fontSize={"18px"}>Buy Now</Typography>
                   </Styles.ProductButtons>
+                  <Tooltip title={"Chat with seller"}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleChatProduct}
+                    >
+                      <Chat />
+                    </Button>
+                  </Tooltip>
                 </Styles.ProductButtonGroup>
                 <Styles.FeatureGroup>
                   <Styles.FeatureBox title="Brand">

@@ -2,11 +2,12 @@ import { Timestamp, arrayUnion, doc, setDoc } from "firebase/firestore";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
 import { ChatInputWrapper } from "../styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "@/config/firebase";
 import { IUser } from "@/interfaces/user";
 import { IconButton, TextField } from "@mui/material";
 import { Send } from "@mui/icons-material";
+import { useSearchParams } from "next/navigation";
 
 interface ChatInputProps {
   chatroomId: string;
@@ -15,6 +16,18 @@ interface ChatInputProps {
 export const ChatInput: React.FC<ChatInputProps> = ({ chatroomId }) => {
   const user = JSON.parse(Cookies.get("user") || "{}") as IUser;
   const [inputValue, setInputValue] = useState<string>("");
+  const query = useSearchParams();
+
+  useEffect(() => {
+    const productJSON = query.get("product");
+    if (productJSON) {
+      const product = JSON.parse(productJSON);
+      const baseUrl = window.location.origin;
+      setInputValue(
+        `Hi, I want to ask about "${product.name}" with id "${product.id} and link "${baseUrl}/product/${product.id}"`,
+      );
+    }
+  }, [query]);
 
   const handleSend = async () => {
     if (inputValue.trim()) {

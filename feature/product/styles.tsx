@@ -49,13 +49,14 @@ export const ProductOverviewsWrapper = styled(Box)({
   height: "100%",
   flexDirection: "row",
   ["@media (max-width: 1024px)"]: {
-    flexDirection: "column-reverse",
+    flexDirection: "column",
     alignItems: "center",
+    gap: "32px",
     padding: "16px",
   },
   ["@media (max-width: 768px)"]: {
-    flexDirection: "column-reverse",
     alignItems: "center",
+    gap: "16px",
   },
 });
 
@@ -72,7 +73,7 @@ export const ProductOverviews = styled(Box)({
   display: "flex",
   padding: "32px 0px ",
   flexDirection: "column",
-  gap: "64px",
+  gap: "inherit",
   width: "100%",
   ["@media (max-width: 1024px)"]: {
     padding: "0",
