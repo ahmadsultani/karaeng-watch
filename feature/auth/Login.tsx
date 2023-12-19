@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Divider,
-  InputBase,
   Link,
   TextField,
   Typography,
@@ -102,16 +101,10 @@ export const Login = () => {
           />
           <Box
             display="flex"
-            justifyContent="space-between"
+            justifyContent="end"
             alignItems="center"
             gap="12px"
           >
-            <Box display="flex" alignItems="center" gap="8px">
-              <InputBase type="checkbox" />
-              <Typography fontSize="12px" color="grey">
-                Remember me
-              </Typography>
-            </Box>
             <Link
               underline="hover"
               fontSize="12px"
