@@ -450,7 +450,7 @@ export const ProductDetail: React.FC = () => {
               <Box display="flex" alignItems="center" width="100%" gap="8px">
                 <Styles.DividerLine bgcolor={"white"} />
                 <Typography fontSize="14px" color="white">
-                  Spesification
+                  Specification
                 </Typography>
                 <Styles.DividerLine bgcolor={"white"} />
               </Box>
