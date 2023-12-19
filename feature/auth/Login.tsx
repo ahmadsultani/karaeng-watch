@@ -19,11 +19,21 @@ import { AuthButtonGroup, AuthForm, AuthInputGroup } from "./styles";
 
 import { TLoginForm } from "./types";
 import { useAuth } from "./useAuth";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useState } from "react";
 
 export const Login = () => {
-  const { control, handleSubmit } = useForm<TLoginForm>();
-
+  const { control, handleSubmit, setValue, formState } = useForm<TLoginForm>({
+    mode: "onChange",
+  });
   const { login, handleSigninWithGoogle } = useAuth();
+
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+  const handleCaptchaChange = (token: string | null) => {
+    setValue("captcha", token || "");
+    setIsCaptchaVerified(!!token);
+  };
 
   return (
     <AuthLayout>
@@ -113,12 +123,19 @@ export const Login = () => {
           </Box>
         </AuthInputGroup>
 
+        <ReCAPTCHA
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={handleCaptchaChange}
+        />
+
         <AuthButtonGroup>
           <Button
             variant="contained"
             color="secondary"
             type="submit"
-            disabled={login.isLoading}
+            disabled={
+              !formState.isValid || login.isLoading || !isCaptchaVerified
+            }
             fullWidth
           >
             Sign In

@@ -36,6 +36,7 @@ export const signup = async (values: TSignupForm) => {
     firstName: values.firstName,
     lastName: values.lastName,
     email: values.email,
+    phoneNumber: values.phoneNumber,
     photoURL: userCredentials.user.photoURL,
     emailVerified: userCredentials.user.emailVerified,
     role: "user",

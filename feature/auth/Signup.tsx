@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import ReCAPTCHA from "react-google-recaptcha";
+
 import { ImageContainer } from "@/components/ImageContainer";
 
 import { AuthLayout } from "./layout";
@@ -20,11 +22,22 @@ import { AuthButtonGroup, AuthForm, AuthInputGroup } from "./styles";
 
 import { TSignupForm } from "./types";
 import { useAuth } from "./useAuth";
+import { useState } from "react";
 
 export const Signup = () => {
-  const { control, handleSubmit, getValues } = useForm<TSignupForm>();
+  const { control, handleSubmit, getValues, setValue, formState } =
+    useForm<TSignupForm>({
+      mode: "onChange",
+    });
 
   const { signup, handleSigninWithGoogle } = useAuth();
+
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+  const handleCaptchaChange = (token: string | null) => {
+    setValue("captcha", token || "");
+    setIsCaptchaVerified(!!token);
+  };
 
   return (
     <AuthLayout>
@@ -183,12 +196,19 @@ export const Signup = () => {
           />
         </AuthInputGroup>
 
+        <ReCAPTCHA
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+          onChange={handleCaptchaChange}
+        />
+
         <AuthButtonGroup>
           <Button
             variant="contained"
             color="secondary"
             type="submit"
-            disabled={signup.isLoading}
+            disabled={
+              !formState.isValid || signup.isLoading || !isCaptchaVerified
+            }
             fullWidth
           >
             Sign Up
