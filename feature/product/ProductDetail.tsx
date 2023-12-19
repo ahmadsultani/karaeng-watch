@@ -5,7 +5,9 @@ import {
   FemaleOutlined,
   MaleOutlined,
   QueryBuilderOutlined,
+  SettingsEthernetOutlined,
   ShoppingCartOutlined,
+  WaterDropOutlined,
 } from "@mui/icons-material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Cookies from "js-cookie";
@@ -79,6 +81,8 @@ export const ProductDetail: React.FC = () => {
 
   const small = useMediaQuery("(max-width:768px)");
 
+  const medium = useMediaQuery("(max-width:1240px)");
+
   const [carrousel, setCarrousel] = useState(0);
   // const [userRating, setUserRating] = useState<number | null>(0);
   // const [isPurchased] = useState(false);
@@ -115,72 +119,106 @@ export const ProductDetail: React.FC = () => {
           <Styles.ProductDetailWrapper>
             <Styles.ProductOverviewsWrapper>
               <Styles.GalleryContainer>
-                <Styles.Gallery>
-                  <Styles.ArrowButton
-                    disabled={carrousel === 0}
-                    title="Previous"
-                    onClick={handlePrevButton}
-                  >
-                    <ArrowForwardIosIcon
-                      style={{ transform: "rotate(180deg)" }}
-                    ></ArrowForwardIosIcon>
-                  </Styles.ArrowButton>
-                  {product?.imgGallery.map(
-                    (gallery, index) =>
-                      index === carrousel && (
-                        <Styles.ImgCont key={index}>
-                          <Image
-                            loader={() => gallery}
-                            draggable={false}
-                            src={gallery}
-                            alt="product-images"
-                            title={
-                              index === 0
-                                ? "Main Perspective"
-                                : `Perspective ${index + 1}`
-                            }
-                            fill
-                            priority
-                            objectFit="contain"
-                          />
-                        </Styles.ImgCont>
-                      ),
-                  )}
-                  <Styles.ArrowButton
-                    disabled={
-                      product && carrousel === product?.imgGallery.length - 1
-                    }
-                    title="Next"
-                    onClick={handleNextButton}
-                  >
-                    <ArrowForwardIosIcon></ArrowForwardIosIcon>
-                  </Styles.ArrowButton>
-                </Styles.Gallery>
-                <Styles.MiniGalleryContainer>
-                  {product?.imgGallery.map(
-                    (map, index) =>
-                      index !== carrousel && (
-                        <Styles.MiniGallery
-                          onClick={() => setCarrousel(index)}
-                          key={index}
-                        >
-                          <Styles.ImgCont>
+                {product &&
+                product.imgGallery &&
+                product.imgGallery.length > 0 ? (
+                  <Styles.Gallery>
+                    <Styles.ArrowButton
+                      disabled={carrousel === 0}
+                      title="Previous"
+                      onClick={handlePrevButton}
+                    >
+                      <ArrowForwardIosIcon
+                        style={{ transform: "rotate(180deg)" }}
+                      />
+                    </Styles.ArrowButton>
+                    {product.imgGallery.map(
+                      (gallery, index) =>
+                        index === carrousel && (
+                          <Styles.ImgCont key={index}>
                             <Image
-                              loader={() => map}
-                              src={map}
+                              loader={() => gallery}
+                              draggable={false}
+                              src={gallery}
                               alt="product-images"
-                              fill
                               title={
                                 index === 0
                                   ? "Main Perspective"
                                   : `Perspective ${index + 1}`
                               }
+                              fill
                               priority
                               objectFit="contain"
                             />
                           </Styles.ImgCont>
-                        </Styles.MiniGallery>
-                      ),
+                        ),
+                    )}
+                    <Styles.ArrowButton
+                      disabled={
+                        carrousel ===
+                        (product.imgGallery.length
+                          ? product.imgGallery.length - 1
+                          : 0)
+                      }
+                      title="Next"
+                      onClick={handleNextButton}
+                    >
+                      <ArrowForwardIosIcon />
+                    </Styles.ArrowButton>
+                  </Styles.Gallery>
+                ) : (
+                  <Styles.Gallery>
+                    <Styles.ImgCont>
+                      <Image
+                        src="/logos/logo-primary.svg"
+                        alt="default-image"
+                        fill
+                        priority
+                        objectFit="contain"
+                      />
+                    </Styles.ImgCont>
+                  </Styles.Gallery>
+                )}
+
+                <Styles.MiniGalleryContainer>
+                  {product && product.imgGallery ? (
+                    product.imgGallery.map(
+                      (map, index) =>
+                        index !== carrousel && (
+                          <Styles.MiniGallery
+                            onClick={() => setCarrousel(index)}
+                            key={index}
+                          >
+                            <Styles.ImgCont>
+                              <Image
+                                loader={() => map}
+                                src={map}
+                                alt="product-images"
+                                fill
+                                title={
+                                  index === 0
+                                    ? "Main Perspective"
+                                    : `Perspective ${index + 1}`
+                                }
+                                priority
+                                objectFit="contain"
+                              />
+                            </Styles.ImgCont>
+                          </Styles.MiniGallery>
+                        ),
+                    )
+                  ) : (
+                    <Styles.MiniGallery>
+                      <Styles.ImgCont>
+                        <Image
+                          src="/logos/logo-primary.svg"
+                          alt="default-image"
+                          fill
+                          priority
+                          objectFit="contain"
+                        />
+                      </Styles.ImgCont>
+                    </Styles.MiniGallery>
                   )}
                 </Styles.MiniGalleryContainer>
               </Styles.GalleryContainer>
@@ -245,7 +283,12 @@ export const ProductDetail: React.FC = () => {
                           objectFit="contain"
                         />
                       ) : (
-                        ""
+                        <Image
+                          alt="Default Brand"
+                          src="/logos/logo-primary.svg"
+                          fill
+                          objectFit="contain"
+                        />
                       )}
                     </Box>
                     <Typography
@@ -258,7 +301,7 @@ export const ProductDetail: React.FC = () => {
                     </Typography>
                   </Styles.FeatureBox>
                   <Styles.FeatureBox justifyContent={"space-evenly"}>
-                    <Box width={"100%"} fontSize={"48px"}>
+                    <Box width={"100%"} fontSize={medium ? "32px" : "48px"}>
                       <Box
                         display={"flex"}
                         justifyContent={"center"}
@@ -299,7 +342,7 @@ export const ProductDetail: React.FC = () => {
                     justifyContent={"space-evenly"}
                     title="Movement Type"
                   >
-                    <Box width={"100%"} fontSize={"48px"}>
+                    <Box width={"100%"} fontSize={medium ? "32px" : "48px"}>
                       <Box
                         display={"flex"}
                         justifyContent={"center"}
@@ -325,7 +368,7 @@ export const ProductDetail: React.FC = () => {
                       justifyContent={"space-evenly"}
                       title="Power Reserve"
                     >
-                      <Box width={"100%"} fontSize={"48px"}>
+                      <Box width={"100%"} fontSize={medium ? "32px" : "48px"}>
                         <Box
                           display={"flex"}
                           justifyContent={"center"}
@@ -350,16 +393,16 @@ export const ProductDetail: React.FC = () => {
                   )}
                   <Styles.FeatureBox
                     justifyContent={"space-evenly"}
-                    title="Movement Type"
+                    title="Water Resistance"
                   >
-                    <Box width={"100%"} fontSize={"48px"}>
+                    <Box width={"100%"} fontSize={medium ? "32px" : "48px"}>
                       <Box
                         display={"flex"}
                         justifyContent={"center"}
                         alignContent={"center"}
                         height={"100%"}
                       >
-                        <QueryBuilderOutlined fontSize="inherit" />
+                        <WaterDropOutlined fontSize="inherit" />
                       </Box>
                     </Box>
                     <Typography
@@ -369,9 +412,35 @@ export const ProductDetail: React.FC = () => {
                       textAlign={"center"}
                       textTransform={"capitalize"}
                     >
-                      {product?.waterResistance
+                      {product?.waterResistance ||
+                      product?.waterResistance === 0
                         ? `${product.waterResistance}m`
-                        : ""}
+                        : "No"}
+                    </Typography>
+                  </Styles.FeatureBox>
+                  <Styles.FeatureBox
+                    justifyContent={"space-evenly"}
+                    title="Case Dimension"
+                  >
+                    <Box width={"100%"} fontSize={medium ? "32px" : "48px"}>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        height={"100%"}
+                      >
+                        <SettingsEthernetOutlined fontSize="inherit" />
+                      </Box>
+                    </Box>
+                    <Typography
+                      width={"100%"}
+                      fontSize={"14px"}
+                      fontWeight={300}
+                      textAlign={"center"}
+                    >
+                      {product?.width !== product?.height
+                        ? `${product?.width} mm x ${product?.height} mm`
+                        : `${product?.width} mm`}
                     </Typography>
                   </Styles.FeatureBox>
                 </Styles.FeatureGroup>

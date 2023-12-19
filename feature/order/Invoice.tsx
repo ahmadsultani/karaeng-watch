@@ -56,11 +56,7 @@ export const Invoice = () => {
     return <NotFound />;
   }
 
-  const tax = order.totalPrice ? order.totalPrice * 0.15 : 0;
   const shipmentCost = 0;
-  const grandTotal = order.totalPrice
-    ? order.totalPrice + tax + shipmentCost
-    : 0;
 
   return (
     <InvoiceCard.Container>
@@ -142,9 +138,8 @@ export const Invoice = () => {
         <InvoiceCard.Total>
           {[
             { title: "Subtotal", value: order.totalPrice },
-            { title: "Tax (15%)", value: tax },
             { title: "Shipment", value: shipmentCost },
-            { title: "Grand Total", value: grandTotal ?? 0 },
+            { title: "Total", value: order.totalPrice + shipmentCost },
           ].map((item, index) => (
             <Grid
               container

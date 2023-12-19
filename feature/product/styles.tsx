@@ -170,9 +170,12 @@ export const RatingContainer = styled(Box)({
 export const ProductButtonGroup = styled(Box)({
   display: "flex",
   gap: "36px",
+  flexDirection: "row",
   minWidth: "200px",
-  flexWrap: "wrap",
   ["@media (max-width: 1024px)"]: {
+    flexDirection: "column",
+    gap: "18px",
+
     flexWrap: "nowrap",
   },
   ["@media (max-width: 768px)"]: {
@@ -183,7 +186,6 @@ export const ProductButtonGroup = styled(Box)({
 
 export const ProductButtons = styled(Button)({
   padding: "16px",
-  maxWidth: "346px",
   width: "100%",
   fontWeight: "300",
   display: "flex",
@@ -201,6 +203,10 @@ export const FeatureGroup = styled(Box)({
   gap: "12px",
   width: "100%",
   flexWrap: "wrap",
+  ["@media (max-width: 1240px)"]: {
+    justifyContent: "center",
+  },
+  ["@media (max-width: 768px)"]: {},
 });
 
 export const FeatureBox = styled(Box)({
@@ -212,6 +218,12 @@ export const FeatureBox = styled(Box)({
   boxShadow: "0 0 1px 0 rgba(0,0,0,0.4)",
   justifyContent: "flex-end",
   gap: "12px",
+
+  ["@media (max-width: 1240px)"]: {},
+  ["@media (max-width: 768px)"]: {
+    height: "108px",
+    width: "144px",
+  },
 });
 
 //ProductSpecs
