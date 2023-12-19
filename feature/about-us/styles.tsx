@@ -69,7 +69,7 @@ export const Frames = styled(Box)({
   },
   ["@media (max-width: 480px)"]: {
     gridTemplateColumns: "repeat(1, 1fr)",
-    gridGap: "12px",
+    gridGap: "24px",
   },
 });
 
