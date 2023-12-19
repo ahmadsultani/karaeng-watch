@@ -192,101 +192,151 @@ export const Form: React.FC<FormProps> = ({
       </FormSection>
       <FormSection>
         <FormSectionHeader>Gallery</FormSectionHeader>
-        <FormSectionRow>
-          <Controller
-            name="imgGallery.1"
-            control={control}
-            render={({ field: { value } }) => (
-              <Box display="flex" gap="12px" width="100%" alignItems="center">
-                {value || (product && product?.imgGallery[1]) ? (
-                  <Box position={"relative"} height={"200px"} width={"200px"}>
-                    <Avatar
-                      sx={{
-                        width: 200,
-                        height: 200,
-                        "& .MuiAvatar-img": {
-                          objectFit: "contain",
-                        },
-                      }}
-                      variant="square"
-                      src={
-                        value
-                          ? URL.createObjectURL(value)
-                          : product?.imgGallery[1] || ""
-                      }
-                    ></Avatar>
-                    <Box
-                      position={"absolute"}
-                      height={"200px"}
-                      width={"200px"}
-                      display={"flex"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      top={0}
-                      left={0}
-                      sx={{
-                        opacity: 0,
-                        transition: "200ms",
-                        backgroundColor: "rgba(0,0,0,0.8)",
-                        "&:hover": {
-                          transition: "200ms",
-                          opacity: 1,
-                        },
-                      }}
-                    >
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                      >
-                        <Box p="8px" display="flex" alignItems="center">
-                          <UploadFile
+        <Box display={"flex"} gap={"12px"}>
+          {[...Array(5)].map((_, index) => {
+            if (index !== 0) {
+              return (
+                <Controller
+                  key={index}
+                  name={`imgGallery.${index}`}
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <Box display="flex" alignItems="center">
+                      {value || (product && product?.imgGallery[1]) ? (
+                        <Box
+                          position={"relative"}
+                          height={"200px"}
+                          width={"200px"}
+                          boxShadow={"0 0 2px 0 rgba(0,0,0,0.4)"}
+                        >
+                          <Avatar
                             sx={{
-                              color: "white",
+                              width: 200,
+                              height: 200,
+                              "& .MuiAvatar-img": {
+                                objectFit: "contain",
+                              },
                             }}
+                            variant="square"
+                            src={
+                              value
+                                ? URL.createObjectURL(value)
+                                : product?.imgGallery[index] || ""
+                            }
+                          ></Avatar>
+                          <label htmlFor={`fileChange-${index}`}>
+                            <Box
+                              position={"absolute"}
+                              height={"200px"}
+                              width={"200px"}
+                              display={"flex"}
+                              justifyContent={"center"}
+                              alignItems={"center"}
+                              top={0}
+                              left={0}
+                              sx={{
+                                opacity: 0,
+                                transition: "200ms",
+                                backgroundColor: "rgba(0,0,0,0.8)",
+                                cursor: "pointer",
+                                "&:hover": {
+                                  transition: "200ms",
+                                  opacity: 1,
+                                },
+                              }}
+                            >
+                              <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
+                                onClick={() => {
+                                  const fileInput = document.getElementById(
+                                    `fileInput-${index}`,
+                                  );
+                                  if (fileInput) fileInput.click();
+                                }}
+                              >
+                                <Box p="8px" display="flex" alignItems="center">
+                                  <UploadFile
+                                    sx={{
+                                      color: "white",
+                                    }}
+                                  />
+                                  <Typography color={"white"}>
+                                    Change Picture
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </Box>
+                          </label>
+                          <input
+                            id={`fileChange-${index}`}
+                            type="file"
+                            style={{ display: "none" }}
+                            onChange={(e) => handleGalleryInput(index, e)}
                           />
-                          <Typography color={"white"}>
-                            Change Picture
-                          </Typography>
                         </Box>
-                      </Box>
-                      <input type="file" title="gallery" accept="image/*" />
+                      ) : (
+                        <>
+                          <label htmlFor={`fileInput-${index}`}>
+                            <Box
+                              display={"flex"}
+                              alignItems={"center"}
+                              justifyContent={"center"}
+                              width={"200px"}
+                              height={"200px"}
+                              sx={{
+                                cursor: "pointer",
+                                transition: "200ms",
+                                "&:hover": {
+                                  backgroundColor: "rgba(0,0,0,0.2)",
+                                  transition: "200ms",
+                                },
+                                boxShadow: "0 0 2px 0 rgba(0,0,0,0.4)",
+                              }}
+                            >
+                              <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
+                                padding={"12px"}
+                              >
+                                <Box
+                                  p="8px"
+                                  display="flex"
+                                  alignItems="center"
+                                  borderRadius="100%"
+                                >
+                                  <UploadFile />
+                                </Box>
+                                <Typography
+                                  fontWeight={300}
+                                  textAlign="center"
+                                  color="gray"
+                                  fontSize={"12px"}
+                                >
+                                  Click to Upload Gallery {index}&apos;s image
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </label>
+
+                          <input
+                            id={`fileInput-${index}`}
+                            type="file"
+                            style={{ display: "none" }}
+                            onChange={(e) => handleGalleryInput(index, e)}
+                          />
+                        </>
+                      )}
                     </Box>
-                  </Box>
-                ) : (
-                  <Box display={"flex"} width={"200px"} height={"200px"}>
-                    <Box
-                      display="flex"
-                      flexDirection="column"
-                      alignItems="center"
-                    >
-                      <Box
-                        p="8px"
-                        display="flex"
-                        alignItems="center"
-                        borderRadius="100%"
-                      >
-                        <UploadFile />
-                      </Box>
-                      <Typography
-                        fontWeight={500}
-                        textAlign="center"
-                        color="gray"
-                      >
-                        Click to Upload
-                      </Typography>
-                    </Box>
-                    <input
-                      type="file"
-                      title="haha"
-                      onChange={(e) => handleGalleryInput(1, e)}
-                    />
-                  </Box>
-                )}
-              </Box>
-            )}
-          />
-        </FormSectionRow>
+                  )}
+                />
+              );
+            }
+            return null;
+          })}
+        </Box>
       </FormSection>
       <FormSection>
         <FormSectionHeader>General</FormSectionHeader>
