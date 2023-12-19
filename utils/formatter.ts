@@ -2,7 +2,7 @@ type TDateVariant = "short" | "medium" | "long" | "full";
 
 /**
  * @param price price number
- * @returns formatted price with Rp. prefix
+ * @returns formatted price with IDR prefix
  */
 export const formatPrice = (price: number) => {
   return new Intl.NumberFormat("id-ID", {
