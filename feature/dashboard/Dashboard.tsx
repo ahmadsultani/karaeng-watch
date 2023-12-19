@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { DashboardWrapper, StatCardsWrapper, TableContainer } from "./styles";
-import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { db } from "@/config/firebase";
 import { StatsCard } from "./components/StatsCard";
 import {
   InventoryOutlined,
@@ -15,6 +13,8 @@ import {
 import { formatNumber } from "@/utils/formatter";
 import { Box, Typography } from "@mui/material";
 import ProductAdmin from "../product/ProductAdmin";
+import { getCollectionSize, getTotalRevenue } from "./service";
+import { OrderChart } from "./components/OrderChart";
 
 interface DashboardProps {}
 
@@ -51,45 +51,30 @@ export const Dashboard: React.FC<DashboardProps> = () => {
   useEffect(() => {
     const fetchCollectionCount = async () => {
       try {
-        const BrandRef = collection(db, "brand");
-        const ProductRef = collection(db, "product");
-        const OrderRef = collection(db, "order");
-
-        const BrandSnapshot = await getDocs(BrandRef);
-        const BrandDoccount = BrandSnapshot.size;
-        const ProductSnapshot = await getDocs(ProductRef);
-        const ProductDoccount = ProductSnapshot.size;
-        const OrderSnapshot = await getDocs(OrderRef);
-        const OrderDocs = OrderSnapshot.docs;
-
-        let orderTotalPrice = 0;
-
-        OrderDocs.forEach((doc) => {
-          const orderData = doc.data();
-          if (orderData.status === "done" || orderData.status === "delivered") {
-            orderTotalPrice += orderData.totalPrice;
-          }
-        });
+        const brandCount = await getCollectionSize("brand");
+        const productCount = await getCollectionSize("product");
+        const orderCount = await getCollectionSize("order");
+        const orderTotalPrice = await getTotalRevenue();
 
         setCounts([
           {
             label: "Brand",
-            value: BrandDoccount,
+            value: brandCount,
             icon: <SellOutlined fontSize="inherit" />,
           },
           {
             label: "Product",
-            value: ProductDoccount,
+            value: productCount,
             icon: <InventoryOutlined fontSize="inherit" />,
           },
           {
             label: "Order",
-            value: OrderDocs.length,
+            value: orderCount,
             icon: <ShoppingCartOutlined fontSize="inherit" />,
           },
           {
             label: "Total Earnings",
-            value: `IDR ${formatNumber(orderTotalPrice)}`,
+            value: `${formatNumber(orderTotalPrice)}`,
             icon: <PaidOutlined fontSize="inherit" />,
           },
         ]);
@@ -114,22 +99,27 @@ export const Dashboard: React.FC<DashboardProps> = () => {
         ))}
       </StatCardsWrapper>
       <TableContainer>
-        <Box boxShadow={"0 0 1px 0 rgba(0,0,0,0.4)"}>Graphic Here</Box>
+        <Box boxShadow={"0 0 1px 0 rgba(0,0,0,0.4)"} padding="12px">
+          <Typography variant="h6">Daily Order Count</Typography>
+          <Box
+            height="100%"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <OrderChart />
+          </Box>
+        </Box>
         <Box
           boxShadow={"0 0 1px 0 rgba(0,0,0,0.4)"}
-          overflow={"hidden"}
-          position={"relative"}
+          padding="12px"
+          height="100%"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          overflow="hidden"
         >
-          <Typography
-            position={"absolute"}
-            top={"20px"}
-            left={"12px"}
-            fontSize={"12px"}
-            fontWeight={"300"}
-            zIndex={1000000}
-          >
-            Product Table
-          </Typography>
+          <Typography variant="h6">Product List</Typography>
           <ProductAdmin isDashboard />
         </Box>
       </TableContainer>

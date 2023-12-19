@@ -23,16 +23,17 @@ export const useOrder = () => {
     onSuccess: (id) => {
       toast.dismiss();
       toast.success("Thanks for your order!");
+      router.push(`/order/${id}`);
       queryClient.invalidateQueries({
         predicate: (query) => {
           return (
             query.queryKey[0] === "cart" ||
             query.queryKey[0] === "order" ||
-            query.queryKey[0] === "product"
+            query.queryKey[0] === "product" ||
+            query.queryKey[0] === "order-chart"
           );
         },
       });
-      router.push(`/order/${id}`);
     },
   });
 
@@ -49,7 +50,11 @@ export const useOrder = () => {
     onSuccess: () => {
       toast.dismiss();
       queryClient.invalidateQueries({
-        queryKey: ["order"],
+        predicate: (query) => {
+          return (
+            query.queryKey[0] === "order" || query.queryKey[0] === "order-chart"
+          );
+        },
       });
       toast.success("Order status updated");
     },

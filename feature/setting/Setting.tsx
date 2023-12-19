@@ -29,10 +29,13 @@ import {
 import { IUser } from "@/interfaces/user";
 import toast from "react-hot-toast";
 import { auth } from "@/config/firebase";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Setting: React.FC = () => {
   const [user, setUser] = useState<IUser>();
   const router = useRouter();
+
+  const queryClient = useQueryClient();
 
   const small = useMediaQuery("(max-width:768px)");
   const medium = useMediaQuery("(max-width:1024px)");
@@ -102,6 +105,7 @@ export const Setting: React.FC = () => {
           onClick={async () => {
             await auth.signOut();
             Cookies.remove("user");
+            queryClient.clear();
             router.push("/login");
             toast.success("Logout succeed, see you!");
           }}

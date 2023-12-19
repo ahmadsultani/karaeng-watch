@@ -21,6 +21,7 @@ export const StatCardsWrapper = styled(Box)({
 
 export const TableContainer = styled(Box)({
   display: "grid",
+  height: "100%",
   gridTemplateColumns: "1fr 1fr",
   gap: "12px",
 
