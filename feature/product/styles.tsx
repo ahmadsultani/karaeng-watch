@@ -196,6 +196,24 @@ export const ProductButtons = styled(Button)({
   },
 });
 
+export const FeatureGroup = styled(Box)({
+  display: "flex",
+  gap: "12px",
+  width: "100%",
+  flexWrap: "wrap",
+});
+
+export const FeatureBox = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  padding: "12px",
+  height: "120px",
+  width: "160px",
+  boxShadow: "0 0 1px 0 rgba(0,0,0,0.4)",
+  justifyContent: "flex-end",
+  gap: "12px",
+});
+
 //ProductSpecs
 export const ProductSpecsWrapper = styled(Box)({
   padding: "32px 64px",
